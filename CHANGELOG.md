@@ -1,4 +1,5 @@
 [0.1.2] - Before The Year 2022 End (31 Dec 2022)
+- Kind of Smoother Health Bar
 - Better Accuracy System (Previously Hold Note Doesn't Affect Accuracy)
 - osu!mania Hold Note System (If Player hold their keys before note & long note appear It will disappear then count as miss , This prevent player cheat hold note to heal...)
 - Somewhat Bug Fixes
