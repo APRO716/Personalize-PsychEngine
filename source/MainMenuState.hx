@@ -25,9 +25,9 @@ using StringTools;
 
 class MainMenuState extends MusicBeatState
 {
-	public static var apEditionVer:String = '0.1.2';
+	public static var apEditionVer:String = '0.1.3';
 	public static var psychEngineVersion:String = '0.6.3'; //This is also used for Discord RPC
-	public static var gitBuild:String = 'e009694'; //This is also used for Discord RPC
+	public static var gitBuild:String = 'd3e95b9'; //This is also used for Discord RPC
 	public static var curSelected:Int = 0;
 
 	var menuItems:FlxTypedGroup<FlxSprite>;

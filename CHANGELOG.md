@@ -1,3 +1,8 @@
+[0.1.3] - 2023 Update (2 Jan 2023)
+- Update Psych Engine Engine to Build d3e95b9
+- Remove hold before note appear because It's Dumb
+- Optimize Some Code
+
 [0.1.2] - Before The Year 2022 End (31 Dec 2022)
 - Kind of Smoother Health Bar
 - Better Accuracy System (Previously Hold Note Doesn't Affect Accuracy)

@@ -4626,18 +4626,7 @@ class PlayState extends MusicBeatState
 
 	function goodNoteHit(note:Note):Void
 	{
-		var parent = note.parent;
-		if(note.mustPress && note.isSustainNote && !note.prevNote.wasGoodHit){ // Make Hold Note Unholdable if don't hit note while holding Like Osu!mania Steal form FPS Plus then ModifiedLol
-			// noteMiss(note); It's already count miss Mannnn... (100 Misses!!!)
-			note.prevNote.tooLate = true;
-			for (note in parent.tail){
-				note.exists = false;
-				note.active = false;
-				vocals.volume = 0;
-			}
-		}
-
-		else if (!note.wasGoodHit)
+		if (!note.wasGoodHit)
 		{
 			if(cpuControlled && (note.ignoreNote || note.hitCausesMiss)) return;
 
