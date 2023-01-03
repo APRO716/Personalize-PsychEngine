@@ -4514,6 +4514,8 @@ class PlayState extends MusicBeatState
 		else if (daNote.nextNote != null) daNote.nextNote.countmiss = true;
 
 		if(daNote.countmiss) { // FUCKKKKKKK
+			if(!practiceMode) songScore -= 10;
+
 			songMisses++;
 			totalPlayed++;
 			vocals.volume = 0;
