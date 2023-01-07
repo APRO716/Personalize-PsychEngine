@@ -2,7 +2,7 @@
 <project>
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="Friday Night Funkin': Psych Engine Apro Edition" file="PEAproEdition" packageName="com.apro716.peaproedition" package="com.apro716.peaproedition" main="Main" version="0.2.8" company="Apro716" />
+	<app title="Friday Night Funkin': Psych Engine" file="PsychEngine" packageName="com.apro716.psychengine" package="com.apro716.psychengine" main="Main" version="0.2.8" company="Apro716" />
 
 	<!--Switch Export with Unique ApplicationID and Icon-->
 	<set name="APP_ID" value="0x0100f6c013bbc000" />
