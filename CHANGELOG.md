@@ -2,6 +2,8 @@
 - Flixel Save Files fix Credit : BeastlyGabi AKA BeastlyGhost [RESET GAME DATA!!!]
 - Accuracy & Rank is Seperated in ScoreTxt
 - Change Title to Normal Because Cringe
+- Fixed Hold Note Length CR https://github.com/Raltyro/FNF-PsikeEngine
+- Fixed Font weird in DialogueCharacterEditorState
 - Softcoded Achievement CR https://github.com/ShadowMario/FNF-PsychEngine/pull/11651
 - add mod folders to lua require paths https://github.com/ShadowMario/FNF-PsychEngine/pull/11489
 - Ctrl+Mouse Click its go to the line when crash CR https://github.com/ShadowMario/FNF-PsychEngine/pull/11128

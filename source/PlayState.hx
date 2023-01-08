@@ -2397,7 +2397,7 @@ class PlayState extends MusicBeatState
 		{
 			tempScore += scoreSeparator + "Misses: " + songMisses;
 			tempScore += scoreSeparator + "Accuracy: " + '${Highscore.floorDecimal(ratingPercent * 100, 2)}%';
-			tempScore += scoreSeparator + '$ratingName';
+			tempScore += scoreSeparator + ratingName;
 			tempScore += (ratingFC != null && ratingFC != '' ? ' [$ratingFC]' : '');
 		}
 		tempScore += '\n';
@@ -2578,9 +2578,7 @@ class PlayState extends MusicBeatState
 				var gottaHitNote:Bool = section.mustHitSection;
 
 				if (songNotes[1] > 3)
-				{
 					gottaHitNote = !section.mustHitSection;
-				}
 
 				var oldNote:Note;
 				if (unspawnNotes.length > 0)
@@ -2588,9 +2586,11 @@ class PlayState extends MusicBeatState
 				else
 					oldNote = null;
 
+				var fixedSus:Int = Math.round(songNotes[2] / Conductor.stepCrochet);
+
 				var swagNote:Note = new Note(daStrumTime, daNoteData, oldNote);
 				swagNote.mustPress = gottaHitNote;
-				swagNote.sustainLength = songNotes[2];
+				swagNote.sustainLength = fixedSus * Conductor.stepCrochet;
 				swagNote.gfNote = (section.gfSection && (songNotes[1]<4));
 				swagNote.noteType = songNotes[3];
 				if(!Std.isOfType(songNotes[3], String)) swagNote.noteType = editors.ChartingState.noteTypeList[songNotes[3]]; //Backward compatibility + compatibility with Week 7 charts
@@ -2602,9 +2602,8 @@ class PlayState extends MusicBeatState
 				susLength = susLength / Conductor.stepCrochet;
 				unspawnNotes.push(swagNote);
 
-				var floorSus:Int = Math.floor(susLength);
-				if(floorSus > 0) {
-					for (susNote in 0...floorSus+1)
+				if(fixedSus > 0) {
+					for (susNote in 0...Math.floor(Math.max(fixedSus, 2)))
 					{
 						oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
 
