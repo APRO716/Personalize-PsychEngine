@@ -3,6 +3,7 @@ This Engine is Based on Psych Engine 0.6.3 & Fix Somebug
 Feature:
 * Added Many Cool Pull Request in Psych Engine!
 * Qol Change
+* Fixed Sustain (Hold Note) Too Long CR https://github.com/Raltyro/FNF-PsikeEngine
 * Softcoded Achievement CR https://github.com/ShadowMario/FNF-PsychEngine/pull/11651
 * Fixed Timebar for Playbackrate
 * Fixed Slow Playbackrate , Week 7 Playbackrate Higher than 1 Not Loading Inst && Storymode Crash
