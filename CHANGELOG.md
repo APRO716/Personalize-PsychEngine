@@ -1,16 +1,22 @@
-[Unreleased] - Patch
-- Flixel Save Files fix Credit : BeastlyGabi AKA BeastlyGhost
-**NOTE THIS IS BETA THAT NOT INCLUDE MUCH BECAUSE OF SCHOOL WORKSHIT & I'M LAZY AF**
+[0.2] - Many Inspiration Lol (8 Jan 2023)
+- Flixel Save Files fix Credit : BeastlyGabi AKA BeastlyGhost [RESET GAME DATA!!!]
+- Accuracy & Rank is Seperated in ScoreTxt
+- Change Title to Normal Because Cringe
+- Softcoded Achievement CR https://github.com/ShadowMario/FNF-PsychEngine/pull/11651
+- add mod folders to lua require paths https://github.com/ShadowMario/FNF-PsychEngine/pull/11489
+- Ctrl+Mouse Click its go to the line when crash CR https://github.com/ShadowMario/FNF-PsychEngine/pull/11128
+- Cool Thing https://github.com/ShadowMario/FNF-PsychEngine/pull/11456
 
 [0.1.3] - 2023 Update (2 Jan 2023)
 - Update Psych Engine Engine to Build d3e95b9
+- Hold Note Animation Kind of Cleaner
 - Remove hold before note appear because It's Dumb
 - Optimize Some Code
 
 [0.1.2] - Before The Year 2022 End (31 Dec 2022)
 - Kind of Smoother Health Bar
 - Better Accuracy System (Previously Hold Note Doesn't Affect Accuracy)
-- osu!mania Hold Note System (If Player hold their keys before note & long note appear It will disappear then count as miss , This prevent player cheat hold note to heal...)
+- osu!mania Hold Note System (If Player hold their keys before note & long note appear It will disappear then count as miss , This prevent player cheat hold note to heal...) THIS REMOVED IN 0.1.3 because hold note late problem
 - Somewhat Bug Fixes
 
 [0.1.1] - YEET (29 Dec 2022)
@@ -38,4 +44,4 @@
 - Pause Menu , Discord Show Current Playbackrate
 - Fixed Timebar for Playbackrate
 - Full Mouse Support
-- Press ESC in TitleState to Close Game (Beastlyghost)
+- Press ESC in TitleState to Close Game (BeastlyGhost)

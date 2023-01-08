@@ -20,6 +20,7 @@ import sys.FileSystem;
 import flixel.graphics.FlxGraphic;
 import openfl.display.BitmapData;
 import haxe.Json;
+import haxe.io.Path;
 
 import flash.media.Sound;
 
@@ -289,7 +290,7 @@ class Paths
 	inline static public function fileExists(key:String, type:AssetType, ?ignoreMods:Bool = false, ?isPath:Bool = false, ?library:String)
 	{
 		#if MODS_ALLOWED
-		if(!ignoreMods && (FileSystem.exists(mods(currentModDirectory + '/' + key)) || FileSystem.exists(mods(key)))) {
+		if(!ignoreMods && (FileSystem.exists(mods('$currentModDirectory/$key')) || FileSystem.exists(mods(key)))) {
 			return true;
 		}
 		#end
@@ -389,7 +390,7 @@ class Paths
 		// trace(gottenPath);
 		if(!currentTrackedSounds.exists(gottenPath))
 		#if MODS_ALLOWED
-			currentTrackedSounds.set(gottenPath, Sound.fromFile('./' + gottenPath));
+			currentTrackedSounds.set(gottenPath, Sound.fromFile('./$gottenPath'));
 		#else
 		{
 			var folder:String = '';
@@ -404,66 +405,52 @@ class Paths
 
 	#if MODS_ALLOWED
 	inline static public function mods(key:String = '') {
-		return 'mods/' + key;
+		return 'mods/$key';
 	}
 
 	inline static public function modsFont(key:String) {
-		return modFolders('fonts/' + key);
+		return modFolders('fonts/$key');
 	}
 
 	inline static public function modsJson(key:String) {
-		return modFolders('data/' + key + '.json');
+		return modFolders('data/$key.json');
 	}
 
 	inline static public function modsVideo(key:String) {
-		return modFolders('videos/' + key + '.' + VIDEO_EXT);
+		return modFolders('videos/$key.$VIDEO_EXT');
 	}
 
 	inline static public function modsSounds(path:String, key:String) {
-		return modFolders(path + '/' + key + '.' + SOUND_EXT);
+		return modFolders('$path/$key.$SOUND_EXT');
 	}
 
 	inline static public function modsImages(key:String) {
-		return modFolders('images/' + key + '.png');
+		return modFolders('images/$key.png');
 	}
 
 	inline static public function modsXml(key:String) {
-		return modFolders('images/' + key + '.xml');
+		return modFolders('images/$key.xml');
 	}
 
 	inline static public function modsTxt(key:String) {
-		return modFolders('images/' + key + '.txt');
+		return modFolders('images/$key.txt');
 	}
-
-	/* Goes unused for now
-
-	inline static public function modsShaderFragment(key:String, ?library:String)
-	{
-		return modFolders('shaders/'+key+'.frag');
-	}
-	inline static public function modsShaderVertex(key:String, ?library:String)
-	{
-		return modFolders('shaders/'+key+'.vert');
-	}
-	inline static public function modsAchievements(key:String) {
-		return modFolders('achievements/' + key + '.json');
-	}*/
 
 	static public function modFolders(key:String) {
 		if(currentModDirectory != null && currentModDirectory.length > 0) {
-			var fileToCheck:String = mods(currentModDirectory + '/' + key);
+			var fileToCheck:String = mods('$currentModDirectory/$key');
 			if(FileSystem.exists(fileToCheck)) {
 				return fileToCheck;
 			}
 		}
 
 		for(mod in getGlobalMods()){
-			var fileToCheck:String = mods(mod + '/' + key);
+			var fileToCheck:String = mods('$mod/$key');
 			if(FileSystem.exists(fileToCheck))
 				return fileToCheck;
 
 		}
-		return 'mods/' + key;
+		return 'mods/$key';
 	}
 
 	public static var globalMods:Array<String> = [];
@@ -484,7 +471,7 @@ class Paths
 				if (dat[1] == "1")
 				{
 					var folder = dat[0];
-					var path = Paths.mods(folder + '/pack.json');
+					var path = Paths.mods('$folder/pack.json');
 					if(FileSystem.exists(path)) {
 						try{
 							var rawJson:String = File.getContent(path);
@@ -508,13 +495,36 @@ class Paths
 		var modsFolder:String = mods();
 		if(FileSystem.exists(modsFolder)) {
 			for (folder in FileSystem.readDirectory(modsFolder)) {
-				var path = haxe.io.Path.join([modsFolder, folder]);
+				var path = Path.join([modsFolder, folder]);
 				if (sys.FileSystem.isDirectory(path) && !ignoreModFolders.contains(folder) && !list.contains(folder)) {
 					list.push(folder);
 				}
 			}
 		}
 		return list;
+	}
+	#end
+
+	#if LUA_ALLOWED
+	static public function getLuaPackagePath():String {
+		var toAdd:Array<String> = ['.'];
+		#if MODS_ALLOWED
+		toAdd.push('./mods');
+		if (currentModDirectory != null && currentModDirectory.length > 0)
+			toAdd.push('./mods/$currentModDirectory');
+		for (mod in getGlobalMods())
+			toAdd.push('./mods/$mod');
+		#end
+		toAdd.push('./assets');
+		var paths:Array<String> = [];
+		for (path in toAdd) {
+			#if sys
+			path = FileSystem.absolutePath(path);
+			#end
+			paths.push(Path.join([path, '?.lua']));
+			paths.push(Path.join([path, '?', 'init.lua']));
+		}
+		return paths.join(';');
 	}
 	#end
 }
