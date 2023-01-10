@@ -73,7 +73,7 @@ class StrumNote extends FlxSprite
 				case 2:
 					animation.add('static', [2]);
 					animation.add('pressed', [6, 10], 12, false);
-					animation.add('confirm', [14, 18], 12, false);
+					animation.add('confirm', [14, 18], 24, false);
 				case 3:
 					animation.add('static', [3]);
 					animation.add('pressed', [7, 11], 12, false);
