@@ -2388,18 +2388,18 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	public var tempScore:String = "";
+	public var tempScore:String = '';
 	public var scoreSeparator:String = ' // ';
 	public var displayRatings:Bool = true;
 
 	public function updateScore(miss:Bool = false)
 	{
-		tempScore = "Score: " + songScore; // Code From BeastlyGhost Again Lmao
+		tempScore = 'Score: $songScore'; // Code From BeastlyGhost Again Lmao
 
 		if (displayRatings)
 		{
-			tempScore += scoreSeparator + "Misses: " + songMisses;
-			tempScore += scoreSeparator + "Accuracy: " + '${Highscore.floorDecimal(ratingPercent * 100, 2)}%';
+			tempScore += scoreSeparator + 'Misses: $songMisses';
+			tempScore += scoreSeparator + 'Accuracy: ${Highscore.floorDecimal(ratingPercent * 100, 2)}%';
 			tempScore += scoreSeparator + ratingName;
 			tempScore += (ratingFC != null && ratingFC != '' ? ' [$ratingFC]' : '');
 		}
@@ -4574,8 +4574,6 @@ class PlayState extends MusicBeatState
 				note.destroy();
 			}
 		});
-		combo = 0;
-		//health -= daNote.missHealth * healthLoss;
 
 		if(instakillOnMiss)
 		{
@@ -4589,13 +4587,13 @@ class PlayState extends MusicBeatState
 		if(daNote.countMiss) { // FUCKKKKKKK
 			if(!practiceMode) songScore -= 10;
 
+			combo = 0;
 			songMisses++;
 			totalPlayed++;
 			vocals.volume = 0;
 			health -= daNote.missHealth * healthLoss;
+			RecalculateRating(true);
 		}
-
-		RecalculateRating(true);
 
 		var char:Character = boyfriend;
 		if(daNote.gfNote) {
