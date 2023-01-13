@@ -27,7 +27,7 @@ class Note extends FlxSprite
 	public var canBeHit:Bool = false;
 	public var tooLate:Bool = false;
 	public var wthMan:Bool = false;
-	public var countmiss:Bool = true;
+	public var countMiss:Bool = true;
 	public var wasGoodHit:Bool = false;
 	public var ignoreNote:Bool = false;
 	public var hitByOpponent:Bool = false;

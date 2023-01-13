@@ -4583,10 +4583,10 @@ class PlayState extends MusicBeatState
 			doDeathCheck(true);
 		}
 
-		if(!daNote.isSustainNote && daNote.nextNote.isSustainNote) daNote.nextNote.countmiss = false; // Null Object Reference Fixed!
-		else if (daNote.nextNote != null) daNote.nextNote.countmiss = true;
+		if(!daNote.isSustainNote && daNote.nextNote.isSustainNote) daNote.nextNote.countMiss = false; // Null Object Reference Fixed!
+		else if (daNote.nextNote != null) daNote.nextNote.countMiss = true;
 
-		if(daNote.countmiss) { // FUCKKKKKKK
+		if(daNote.countMiss) { // FUCKKKKKKK
 			if(!practiceMode) songScore -= 10;
 
 			songMisses++;
