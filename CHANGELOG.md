@@ -1,4 +1,4 @@
-[0.2.1] - (14 Jan 2023)
+[0.2.1] - Shit Update (14 Jan 2023)
 - Fixed Something in StrumNote.hx?
 - Fixed some variable
 - Fixed Code
