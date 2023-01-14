@@ -2,6 +2,7 @@
 - Fixed Something in StrumNote.hx?
 - Fixed some variable
 - Fixed Code
+- Deleted Unused Code
 - New Better Hold Note System like [0.1.2] but It's Actually Better & Bug Fixed
 
 [0.2] - Many Inspiration Lol (8 Jan 2023)
