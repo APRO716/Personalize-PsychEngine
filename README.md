@@ -2,7 +2,7 @@
 Based on Psych Engine 0.6.3 & Fix Somebug
 ---------------------------------------------------------------------------
 [Download Latest Build Here](https://github.com/APRO716/Personalize-PsychEngine/actions)
-or
+---------------------------------------------------------------------------
 [Download Official Release (Little bit More Stable)](https://github.com/APRO716/Personalize-PsychEngine/releases)
 ---------------------------------------------------------------------------
 Feature:
