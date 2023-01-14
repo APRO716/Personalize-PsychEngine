@@ -1,3 +1,9 @@
+[0.2.1] - (14 Jan 2023)
+- Fixed Something in StrumNote.hx?
+- Fixed some variable
+- Fixed Code
+- New Better Hold Note System like [0.1.2] but It's Actually Better & Bug Fixed
+
 [0.2] - Many Inspiration Lol (8 Jan 2023)
 - Flixel Save Files fix Credit : BeastlyGabi AKA BeastlyGhost [RESET GAME DATA!!!]
 - Accuracy & Rank is Seperated in ScoreTxt

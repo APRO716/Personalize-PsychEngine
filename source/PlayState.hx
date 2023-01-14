@@ -4401,18 +4401,18 @@ class PlayState extends MusicBeatState
 					for (epicNote in sortedNotesList)
 					{
 						for (doubleNote in pressNotes) {
-							if (Math.abs(doubleNote.strumTime - epicNote.strumTime) < 1) {
-								doubleNote.kill();
-								notes.remove(doubleNote, true);
-								doubleNote.destroy();
-							} else
+							if (Math.abs(doubleNote.strumTime - epicNote.strumTime) > 3)
 								notesStopped = true;
 						}
 
 						// eee jack detection before was not super good
 						if (!notesStopped) {
-							goodNoteHit(epicNote);
+							if (epicNote.isSustainNote) {
+								StrumPlayAnim(false, key);
+								continue;
+							}
 							pressNotes.push(epicNote);
+							goodNoteHit(epicNote);
 						}
 					}
 				}
@@ -4517,7 +4517,8 @@ class PlayState extends MusicBeatState
 			notes.forEachAlive(function(daNote:Note)
 			{
 				// hold note functions
-				if (strumsBlocked[daNote.noteData] != true && daNote.isSustainNote && parsedHoldArray[daNote.noteData] && daNote.canBeHit
+				if (strumsBlocked[daNote.noteData] != true && daNote.isSustainNote && (daNote.parent == null
+					|| daNote.parent.wasGoodHit) && parsedHoldArray[daNote.noteData] && daNote.canBeHit
 					&& daNote.mustPress && !daNote.tooLate && !daNote.wasGoodHit && !daNote.blockHit) {
 					goodNoteHit(daNote);
 				}
