@@ -483,7 +483,7 @@ class EditorPlayState extends MusicBeatState
 							});
 
 							if(!daNote.ignoreNote) {
-								songMisses++;
+								noteMiss();
 								vocals.volume = 0;
 							}
 						}
@@ -500,10 +500,10 @@ class EditorPlayState extends MusicBeatState
 		}
 
 		keyShit();
-		scoreTxt.text = 'Hits: ' + songHits + ' | Misses: ' + songMisses;
-		sectionTxt.text = 'Beat: ' + curSection;
-		beatTxt.text = 'Beat: ' + curBeat;
-		stepTxt.text = 'Step: ' + curStep;
+		scoreTxt.text = 'Hits: $songHits | Misses: $songMisses';
+		sectionTxt.text = 'Beat: $curSection';
+		beatTxt.text = 'Beat: $curBeat';
+		stepTxt.text = 'Step: $curStep';
 		super.update(elapsed);
 	}
 	
@@ -549,6 +549,8 @@ class EditorPlayState extends MusicBeatState
 		vocals.time = Conductor.songPosition;
 		vocals.play();
 	}
+
+	public var strumsBlocked:Array<Bool> = [];
 	private function onKeyPress(event:KeyboardEvent):Void
 	{
 		var eventKey:FlxKey = event.keyCode;
@@ -574,7 +576,7 @@ class EditorPlayState extends MusicBeatState
 				var sortedNotesList:Array<Note> = [];
 				notes.forEachAlive(function(daNote:Note)
 				{
-					if (daNote.canBeHit && daNote.mustPress && !daNote.tooLate && !daNote.wasGoodHit && !daNote.isSustainNote)
+					if (strumsBlocked[daNote.noteData] != true && daNote.canBeHit && daNote.mustPress && !daNote.tooLate && !daNote.wasGoodHit && !daNote.isSustainNote && !daNote.blockHit)
 					{
 						if(daNote.noteData == key)
 						{
@@ -590,20 +592,19 @@ class EditorPlayState extends MusicBeatState
 					for (epicNote in sortedNotesList)
 					{
 						for (doubleNote in pressNotes) {
-							if (Math.abs(doubleNote.strumTime - epicNote.strumTime) < 1) {
-								doubleNote.kill();
-								notes.remove(doubleNote, true);
-								doubleNote.destroy();
-							} else
+							if (Math.abs(doubleNote.strumTime - epicNote.strumTime) > 3)
 								notesStopped = true;
 						}
 
 						// eee jack detection before was not super good
 						if (!notesStopped) {
-							goodNoteHit(epicNote);
+							if (epicNote.isSustainNote) {
+								StrumPlayAnim(false, key);
+								continue;
+							}
 							pressNotes.push(epicNote);
+							goodNoteHit(epicNote);
 						}
-
 					}
 				}
 				else if (canMiss && !ClientPrefs.ghostTapping) {
@@ -615,7 +616,7 @@ class EditorPlayState extends MusicBeatState
 			}
 
 			var spr:StrumNote = playerStrums.members[key];
-			if(spr != null && spr.animation.curAnim.name != 'confirm')
+			if(strumsBlocked[key] != true && spr != null && spr.animation.curAnim.name != 'confirm')
 			{
 				spr.playAnim('pressed');
 				spr.resetAnim = 0;
@@ -697,22 +698,22 @@ class EditorPlayState extends MusicBeatState
 			notes.forEachAlive(function(daNote:Note)
 			{
 				// hold note functions
-				if (daNote.isSustainNote && controlHoldArray[daNote.noteData] && daNote.canBeHit 
-				&& daNote.mustPress && !daNote.tooLate && !daNote.wasGoodHit) {
+				if (strumsBlocked[daNote.noteData] != true && daNote.isSustainNote && controlHoldArray[daNote.noteData] && daNote.canBeHit 
+				&& daNote.mustPress && !daNote.tooLate && !daNote.wasGoodHit && !daNote.blockHit) {
 					goodNoteHit(daNote);
 				}
 			});
 		}
 
 		// TO DO: Find a better way to handle controller inputs, this should work for now
-		if(ClientPrefs.controllerMode)
+		if(ClientPrefs.controllerMode || strumsBlocked.contains(true))
 		{
 			var controlArray:Array<Bool> = [controls.NOTE_LEFT_R, controls.NOTE_DOWN_R, controls.NOTE_UP_R, controls.NOTE_RIGHT_R];
 			if(controlArray.contains(true))
 			{
 				for (i in 0...controlArray.length)
 				{
-					if(controlArray[i])
+					if(controlArray[i] || strumsBlocked[i] == true)
 						onKeyRelease(new KeyboardEvent(KeyboardEvent.KEY_UP, true, true, -1, keysArray[i][0]));
 				}
 			}
@@ -748,8 +749,7 @@ class EditorPlayState extends MusicBeatState
 
 			if (!note.isSustainNote)
 			{
-				combo += 1;
-				if(combo > 9999) combo = 9999;
+				combo++;
 				popUpScore(note);
 				songHits++;
 			}
@@ -777,10 +777,7 @@ class EditorPlayState extends MusicBeatState
 	function noteMiss():Void
 	{
 		combo = 0;
-
 		songMisses++;
-
-		FlxG.sound.play(Paths.soundRandom('missnote', 1, 3), FlxG.random.float(0.1, 0.2));
 		vocals.volume = 0;
 	}
 
@@ -992,20 +989,15 @@ class EditorPlayState extends MusicBeatState
 
 
 	// For Opponent's notes glow
-	function StrumPlayAnim(isDad:Bool, id:Int, time:Float) {
-		var spr:StrumNote = null;
-		if(isDad) {
-			spr = strumLineNotes.members[id];
-		} else {
-			spr = playerStrums.members[id];
-		}
+	function StrumPlayAnim(isDad:Bool, id:Int, time:Float = 0) {
+		var grp = isDad ? strumLineNotes : playerStrums;
+		var spr:StrumNote = grp.members[id];
 
-		if(spr != null) {
+		if (spr != null) {
 			spr.playAnim('confirm', true);
-			spr.resetAnim = time;
+			if (time > 0) spr.resetAnim = time;
 		}
 	}
-
 
 	// Note splash shit, duh
 	function spawnNoteSplashOnNote(note:Note) {

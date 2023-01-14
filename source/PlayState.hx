@@ -4627,9 +4627,9 @@ class PlayState extends MusicBeatState
 			combo = 0;
 
 			if(!practiceMode) songScore -= 10;
-			if(!endingSong) {
-				songMisses++;
-			}
+
+			if(!endingSong) songMisses++;
+	
 			totalPlayed++;
 			RecalculateRating(true);
 
