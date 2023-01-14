@@ -690,7 +690,6 @@ class FunkinLua {
 						var tableIdx = Lua.gettop(lua);
 
 						Lua.pushvalue(luaInstance.lua, Lua.LUA_GLOBALSINDEX);
-						Lua.pushnil(luaInstance.lua);
 						while(Lua.next(luaInstance.lua, -2) != 0) {
 							// key = -2
 							// value = -1
@@ -736,7 +735,6 @@ class FunkinLua {
 
 				}
 			}
-			Lua.pushnil(lua);
 		});*/
 		Lua_helper.add_callback(lua, "isRunning", function(luaFile:String){
 			var cervix = luaFile + ".lua";

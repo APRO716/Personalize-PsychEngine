@@ -4682,7 +4682,7 @@ class PlayState extends MusicBeatState
 		if(note.isSustainNote && !note.animation.curAnim.name.endsWith('end')) {
 			time += 0.15;
 		}
-		StrumPlayAnim(true, Std.int(Math.abs(note.noteData)), time);
+		StrumPlayAnim(true, Std.int(Math.abs(note.noteData)), time / playbackRate);
 		note.hitByOpponent = true;
 
 		callOnLuas('opponentNoteHit', [notes.members.indexOf(note), Math.abs(note.noteData), note.noteType, note.isSustainNote]);
@@ -4777,7 +4777,7 @@ class PlayState extends MusicBeatState
 				if(note.isSustainNote && !note.animation.curAnim.name.endsWith('end')) {
 					time += 0.15;
 				}
-				StrumPlayAnim(false, Std.int(Math.abs(note.noteData)), time);
+				StrumPlayAnim(false, Std.int(Math.abs(note.noteData)), time / playbackRate);
 			} else {
 				var spr = playerStrums.members[note.noteData];
 				if(spr != null)
