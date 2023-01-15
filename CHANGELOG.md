@@ -1,3 +1,11 @@
+[0.2.1h] - Patch (15 Jan 2023)
+- Update PE to build 5d7a915
+- Better README.MD
+- **REMOVED SOFTCODED ACHIEVEMENT BECAUSE LUA MODCHART BROKEN :( SORRY**
+- Increase FPS Cap to 600 FPS & Minimum FPS to 30 FPS
+- Extendable Timing Window & lowest Timing Window for Sick is 5ms (Already have but more Extendable Lol)
+I'm Bad At Coding Lol
+
 [0.2.1] - Shit Update (14 Jan 2023)
 - Fixed Something in StrumNote.hx?
 - Fixed some variable

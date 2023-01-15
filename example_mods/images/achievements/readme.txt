@@ -1,1 +1,0 @@
-Put your achievement icons here. It's name must be same as it's achievement's save tag.

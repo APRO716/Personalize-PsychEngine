@@ -75,10 +75,8 @@ class FunkinLua {
 	#if hscript
 	public static var hscript:HScript = null;
 	#end
-
-	public var scriptCode:String;
 	
-	public function new(script:String, ?scriptCode:String) {
+	public function new(script:String) {
 		#if LUA_ALLOWED
 		lua = LuaL.newstate();
 		LuaL.openlibs(lua);
@@ -93,11 +91,7 @@ class FunkinLua {
 			Lua.pushstring(lua, Paths.getLuaPackagePath());
 			Lua.setfield(lua, -2, "path");
 			Lua.pop(lua, 1);
-			var result;
-			if(scriptCode != null) 
-				result = LuaL.dostring(lua, scriptCode);
-			else
-				result = LuaL.dofile(lua, script);
+			var result:Dynamic = LuaL.dofile(lua, script);
 			var resultStr:String = Lua.tostring(lua, result);
 			if(resultStr != null && result != 0) {
 				trace('Error on lua script! ' + resultStr);
@@ -113,8 +107,6 @@ class FunkinLua {
 			trace(e);
 			return;
 		}
-		if (scriptCode != null) 
-			this.scriptCode = scriptCode;
 		scriptName = script;
 		initHaxeModule();
 
