@@ -13,6 +13,7 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.FlxCamera;
+import flixel.util.FlxTimer;
 import flixel.util.FlxStringUtil;
 
 class PauseSubState extends MusicBeatSubstate
@@ -24,15 +25,21 @@ class PauseSubState extends MusicBeatSubstate
 	var difficultyChoices = [];
 	var curSelected:Int = 0;
 
+	var startedCountdown:Bool = false;
+
 	var pauseMusic:FlxSound;
 
 	public static var pausetooptions:Bool;
 
 	var practiceText:FlxText;
 	var skipTimeText:FlxText;
+	var chartingText:FlxText;
+	var bg:FlxSprite;
 	var skipTimeTracker:Alphabet;
+	var levelInfo:FlxText;
+	var levelDifficulty:FlxText;
+	var blueballedTxt:FlxText;
 	var curTime:Float = Math.max(0, Conductor.songPosition);
-	//var botplayText:FlxText;
 
 	public static var songName:String = '';
 
@@ -75,26 +82,26 @@ class PauseSubState extends MusicBeatSubstate
 
 		FlxG.sound.list.add(pauseMusic);
 
-		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+		bg = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		bg.alpha = 0;
 		bg.scrollFactor.set();
 		add(bg);
 
-		var levelInfo:FlxText = new FlxText(20, 15, 0, "", 32);
+		levelInfo = new FlxText(20, 15, 0, "", 32);
 		levelInfo.text += PlayState.SONG.song + " " + PlayState.instance.playbackRate + "x";
 		levelInfo.scrollFactor.set();
 		levelInfo.setFormat(Paths.font("font.ttf"), 32);
 		levelInfo.updateHitbox();
 		add(levelInfo);
 
-		var levelDifficulty:FlxText = new FlxText(20, 15 + 32, 0, "", 32);
+		levelDifficulty = new FlxText(20, 15 + 32, 0, "", 32);
 		levelDifficulty.text += CoolUtil.difficultyString();
 		levelDifficulty.scrollFactor.set();
 		levelDifficulty.setFormat(Paths.font('font.ttf'), 32);
 		levelDifficulty.updateHitbox();
 		add(levelDifficulty);
 
-		var blueballedTxt:FlxText = new FlxText(20, 15 + 64, 0, "", 32);
+		blueballedTxt = new FlxText(20, 15 + 64, 0, "", 32);
 		blueballedTxt.text = "Blueballed: " + PlayState.deathCounter;
 		blueballedTxt.scrollFactor.set();
 		blueballedTxt.setFormat(Paths.font('font.ttf'), 32);
@@ -109,7 +116,7 @@ class PauseSubState extends MusicBeatSubstate
 		practiceText.visible = PlayState.instance.practiceMode;
 		add(practiceText);
 
-		var chartingText:FlxText = new FlxText(20, 15 + 101, 0, "CHARTING MODE", 32);
+		chartingText = new FlxText(20, 15 + 101, 0, "CHARTING MODE", 32);
 		chartingText.scrollFactor.set();
 		chartingText.setFormat(Paths.font('font.ttf'), 32);
 		chartingText.x = FlxG.width - (chartingText.width + 20);
@@ -153,17 +160,17 @@ class PauseSubState extends MusicBeatSubstate
 		var downP = controls.UI_DOWN_P;
 		var accepted = controls.ACCEPT;
 
-		if (upP)
+		if (upP && !startedCountdown)
 		{
 			changeSelection(-1);
 		}
-		if (downP)
+		if (downP && !startedCountdown)
 		{
 			changeSelection(1);
 		}
 
 		#if !mobile
-		if (FlxG.mouse.wheel != 0)
+		if (FlxG.mouse.wheel != 0 && !startedCountdown)
 			#if desktop
 			changeSelection(-FlxG.mouse.wheel);
 			#else
@@ -205,7 +212,7 @@ class PauseSubState extends MusicBeatSubstate
 				}
 		}
 
-		if (accepted || FlxG.mouse.justPressed && (cantUnpause <= 0 || !ClientPrefs.controllerMode))
+		if (accepted || FlxG.mouse.justPressed && (cantUnpause <= 0 || !ClientPrefs.controllerMode) && !startedCountdown)
 		{
 			if (menuItems == difficultyChoices)
 			{
@@ -229,7 +236,12 @@ class PauseSubState extends MusicBeatSubstate
 			{
 				case "Resume":
 					FlxG.mouse.visible = false;
-					close();
+					if(PlayState.chartingMode) close();
+					else
+					{
+						startedCountdown = true;
+						startCountdown();
+					}
 				case 'Change Difficulty':
 					menuItems = difficultyChoices;
 					deleteSkipTimeText();
@@ -403,5 +415,104 @@ class PauseSubState extends MusicBeatSubstate
 	function updateSkipTimeText()
 	{
 		skipTimeText.text = FlxStringUtil.formatTime(Math.max(0, Math.floor(curTime / 1000)), false) + ' / ' + FlxStringUtil.formatTime(Math.max(0, Math.floor(FlxG.sound.music.length / 1000)), false);
+	}
+
+	public var countdownReady:FlxSprite;
+	public var countdownSet:FlxSprite;
+	public var countdownGo:FlxSprite;
+	var startTimer:FlxTimer;
+
+	public function startCountdown():Void
+	{
+		var swagCounter:Int = 0;
+		bg.destroy();
+		levelInfo.destroy();
+		levelDifficulty.destroy();
+		blueballedTxt.destroy();
+		grpMenuShit.destroy();
+		practiceText.destroy();
+		chartingText.destroy();
+		FlxG.sound.play(Paths.sound('intro3' + PlayState.instance.introSoundsSuffix), 0.6);
+
+		startTimer = new FlxTimer().start(Conductor.crochet / 1000, function(tmr:FlxTimer)
+		{
+			var introAssets:Map<String, Array<String>> = new Map<String, Array<String>>();
+			introAssets.set('default', ['ready', 'set', 'go']);
+			introAssets.set('pixel', ['pixelUI/ready-pixel', 'pixelUI/set-pixel', 'pixelUI/date-pixel']);
+			var introAlts:Array<String> = introAssets.get('default');
+			var antialias:Bool = ClientPrefs.globalAntialiasing;
+			if(PlayState.isPixelStage) {
+				introAlts = introAssets.get('pixel');
+				antialias = false;
+			}
+			switch (swagCounter)
+			{
+				case 0:
+					countdownReady = new FlxSprite().loadGraphic(Paths.image(introAlts[0]));
+					countdownReady.cameras = [PlayState.instance.camHUD];
+					countdownReady.scrollFactor.set();
+					countdownReady.updateHitbox();
+
+					if (PlayState.isPixelStage)
+						countdownReady.setGraphicSize(Std.int(countdownReady.width * PlayState.daPixelZoom));
+
+					countdownReady.screenCenter();
+					countdownReady.antialiasing = antialias;
+					add(countdownReady);
+					FlxTween.tween(countdownReady, {alpha: 0}, Conductor.crochet / 1000, {
+						ease: FlxEase.cubeInOut,
+						onComplete: function(twn:FlxTween)
+						{
+							remove(countdownReady);
+							countdownReady.destroy();
+						}
+					});
+					FlxG.sound.play(Paths.sound('intro2' + PlayState.instance.introSoundsSuffix), 0.6);
+				case 1:
+					countdownSet = new FlxSprite().loadGraphic(Paths.image(introAlts[1]));
+					countdownSet.cameras = [PlayState.instance.camHUD];
+					countdownSet.scrollFactor.set();
+
+					if (PlayState.isPixelStage) countdownSet.setGraphicSize(Std.int(countdownSet.width * PlayState.daPixelZoom));
+
+					countdownSet.screenCenter();
+					countdownSet.antialiasing = antialias;
+					add(countdownSet);
+					FlxTween.tween(countdownSet, {alpha: 0}, Conductor.crochet / 1000, {
+						ease: FlxEase.cubeInOut,
+						onComplete: function(twn:FlxTween)
+						{
+							remove(countdownSet);
+							countdownSet.destroy();
+						}
+					});
+					FlxG.sound.play(Paths.sound('intro1' + PlayState.instance.introSoundsSuffix), 0.6);
+				case 2:
+					countdownGo = new FlxSprite().loadGraphic(Paths.image(introAlts[2]));
+					countdownGo.cameras = [PlayState.instance.camHUD];
+					countdownGo.scrollFactor.set();
+
+					if (PlayState.isPixelStage)
+						countdownGo.setGraphicSize(Std.int(countdownGo.width * PlayState.daPixelZoom));
+
+					countdownGo.updateHitbox();
+
+					countdownGo.screenCenter();
+					countdownGo.antialiasing = antialias;
+					add(countdownGo);
+					FlxTween.tween(countdownGo, {alpha: 0}, Conductor.crochet / 1000, {
+						ease: FlxEase.cubeInOut,
+						onComplete: function(twn:FlxTween)
+						{
+							remove(countdownGo);
+							countdownGo.destroy();
+						}
+					});
+					FlxG.sound.play(Paths.sound('introGo' + PlayState.instance.introSoundsSuffix), 0.6);
+				case 3:
+					close();
+				}
+				swagCounter++;
+			}, 4);
 	}
 }
