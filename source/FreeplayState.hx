@@ -201,7 +201,6 @@ class FreeplayState extends MusicBeatState
 		{
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
 		}
-		if(controls.ACCEPT) FlxG.sound.music.volume = 0;
 
 		lerpScore = Math.floor(FlxMath.lerp(lerpScore, intendedScore, CoolUtil.boundTo(elapsed * 24, 0, 1)));
 		lerpRating = FlxMath.lerp(lerpRating, intendedRating, CoolUtil.boundTo(elapsed * 12, 0, 1));
@@ -220,7 +219,9 @@ class FreeplayState extends MusicBeatState
 			ratingSplit[1] += '0';
 		}
 
-		scoreText.text = 'PERSONAL BEST: ' + lerpScore + ' (' + ratingSplit.join('.') + '%)';
+		var ratingPercent = ratingSplit.join('.');
+
+		scoreText.text = 'PERSONAL BEST: $lerpScore [$ratingPercent%]';
 		positionHighscore();
 
 		var upP = controls.UI_UP_P;
