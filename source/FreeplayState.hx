@@ -271,7 +271,7 @@ class FreeplayState extends MusicBeatState
 					lol = bruh;
 					if (FlxG.mouse.justPressed)
 					{
-						if (curSelected == lol){
+						if (curSelected == bruh){
 							accepted = true;
 							FlxG.sound.music.volume = 0;
 						}else
