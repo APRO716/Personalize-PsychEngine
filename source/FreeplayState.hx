@@ -201,7 +201,6 @@ class FreeplayState extends MusicBeatState
 		{
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
 		}
-		if(controls.ACCEPT) FlxG.sound.music.volume = 0;
 
 		lerpScore = Math.floor(FlxMath.lerp(lerpScore, intendedScore, CoolUtil.boundTo(elapsed * 24, 0, 1)));
 		lerpRating = FlxMath.lerp(lerpRating, intendedRating, CoolUtil.boundTo(elapsed * 12, 0, 1));
@@ -272,9 +271,10 @@ class FreeplayState extends MusicBeatState
 					lol = bruh;
 					if (FlxG.mouse.justPressed)
 					{
-						if (curSelected == bruh)
+						if (curSelected == lol){
 							accepted = true;
-						else
+							FlxG.sound.music.volume = 0;
+						}else
 							changeSelection(bruh - curSelected);
 					}
 				}
@@ -290,9 +290,10 @@ class FreeplayState extends MusicBeatState
 					lol = i;
 					if (FlxG.mouse.justPressed)
 					{
-						if (curSelected == lol)
+						if (curSelected == lol){
 							accepted = true;
-						else
+							FlxG.sound.music.volume = 0;
+						}else
 							changeSelection(i - curSelected);
 					}
 				}
