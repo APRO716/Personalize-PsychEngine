@@ -201,6 +201,7 @@ class FreeplayState extends MusicBeatState
 		{
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
 		}
+		if(controls.ACCEPT) FlxG.sound.music.volume = 0;
 
 		lerpScore = Math.floor(FlxMath.lerp(lerpScore, intendedScore, CoolUtil.boundTo(elapsed * 24, 0, 1)));
 		lerpRating = FlxMath.lerp(lerpRating, intendedRating, CoolUtil.boundTo(elapsed * 12, 0, 1));
@@ -360,7 +361,7 @@ class FreeplayState extends MusicBeatState
 						vocals = new FlxSound().loadEmbedded(Paths.voices(PlayState.SONG.song));
 					else
 						vocals = new FlxSound();
-	
+
 					FlxG.sound.list.add(vocals);
 					FlxG.sound.playMusic(Paths.inst(PlayState.SONG.song), 0.7);
 					vocals.play();
@@ -375,9 +376,8 @@ class FreeplayState extends MusicBeatState
 				#end
 			}
 		}
-		else if (accepted && !stopspamming)
+		else if (accepted)
 		{
-			stopspamming = true;
 			var songFolder:String = Paths.formatToSongPath(songs[curSelected].songName);
 			var songLowercase:String = Highscore.formatSong(songFolder, curDifficulty);
 
@@ -385,13 +385,14 @@ class FreeplayState extends MusicBeatState
 
 			if (PlayState.SONG != null) {
 				persistentUpdate = false;
-				
+
 				PlayState.isStoryMode = false;
 				PlayState.storyDifficulty = curDifficulty;
 
 				trace('CURRENT WEEK: ' + WeekData.getWeekFileName());
 
-				FlxG.sound.play(Paths.sound('confirmMenu'));
+				playConfirmSound(); // Fix When Errordisplay can't enter another song??? && Fix EARRAPE CONFIRM SOUND.EXE???
+
 				FlxTween.tween(scoreText, {alpha: 0}, 0.5);
 				FlxTween.tween(diffText, {alpha: 0}, 0.5);
 
@@ -406,7 +407,7 @@ class FreeplayState extends MusicBeatState
 				FlxTween.tween(FlxG.camera, {zoom: 2}, 1.2, {ease: FlxEase.quadInOut, startDelay: 0.75});
 
 				if(colorTween != null) colorTween.cancel();
-				
+
 				if (FlxG.keys.pressed.SHIFT){
 					LoadingState.loadAndSwitchState(new ChartingState());
 				}else{
@@ -414,7 +415,7 @@ class FreeplayState extends MusicBeatState
 				}
 
 				FlxG.sound.music.volume = 0;
-						
+
 				destroyFreeplayVocals();
 			} else {
 				errorDisplay.text = getErrorMessage(missChart, 'cannot play song, $missFile', songFolder, songLowercase);
@@ -423,12 +424,16 @@ class FreeplayState extends MusicBeatState
 		}
 		else if(controls.RESET && !stopspamming)
 		{
+			stopspamming = true;
 			persistentUpdate = false;
 			openSubState(new ResetScoreSubState(songs[curSelected].songName, curDifficulty, songs[curSelected].songCharacter));
 			FlxG.sound.play(Paths.sound('scrollMenu'));
-			stopspamming = true;
 		}
 		super.update(elapsed);
+	}
+
+	public static function playConfirmSound() {
+		FlxG.sound.play(Paths.sound('confirmMenu'), 0.8);
 	}
 
 	public static function destroyFreeplayVocals() {

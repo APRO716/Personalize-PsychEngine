@@ -23,9 +23,9 @@ class LoadingState extends MusicBeatState
 	// Browsers will load create(), you can make your song load a custom directory there
 	// If you're compiling to desktop (or something that doesn't use NO_PRELOAD_ALL), search for getNextState instead
 	// I'd recommend doing it on both actually lol
-	
+
 	// TO DO: Make this easier
-	
+
 	var target:FlxState;
 	var stopMusic = false;
 	var directory:String;
