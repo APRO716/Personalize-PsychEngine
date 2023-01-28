@@ -180,7 +180,7 @@ class DialogueBox extends FlxSpriteGroup
 			dialogueStarted = true;
 		}
 
-		if(Controls.instance.ACCEPT)
+		if(Controls.instance.ACCEPT || FlxG.mouse.justPressed)
 		{
 			if (dialogueEnded)
 			{
