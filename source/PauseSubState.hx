@@ -1,6 +1,5 @@
 package;
 
-import Controls.Control;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxSubState;
@@ -212,7 +211,7 @@ class PauseSubState extends MusicBeatSubstate
 				}
 		}
 
-		if (accepted || FlxG.mouse.justPressed && (cantUnpause <= 0 || !ClientPrefs.controllerMode) && !startedCountdown)
+		if (accepted && (cantUnpause <= 0 || !controls.controllerMode))
 		{
 			if (menuItems == difficultyChoices)
 			{

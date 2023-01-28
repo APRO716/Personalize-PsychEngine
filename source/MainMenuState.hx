@@ -25,9 +25,9 @@ using StringTools;
 
 class MainMenuState extends MusicBeatState
 {
-	public static var editVer:String = '0.2.1h';
+	public static var editVer:String = '0.2.2';
 	public static var psychEngineVersion:String = '0.6.3'; //This is also used for Discord RPC
-	public static var gitBuild:String = '5d7a915'; //This is also used for Discord RPC
+	public static var gitBuild:String = '571190b'; //This is also used for Discord RPC
 	public static var curSelected:Int = 0;
 
 	var menuItems:FlxTypedGroup<FlxSprite>;
@@ -61,7 +61,7 @@ class MainMenuState extends MusicBeatState
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("In the Menus", null);
 		#end
-		debugKeys = ClientPrefs.copyKey(ClientPrefs.keyBinds.get('debug_1'));
+		debugKeys = ClientPrefs.keyBinds.get('debug_1').copy();
 
 		camGame = new FlxCamera();
 		camAchievement = new FlxCamera();

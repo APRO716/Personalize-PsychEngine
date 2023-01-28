@@ -1,4 +1,10 @@
-[0.2.1h] - Patch (15 Jan 2023)
+[0.2.2] - E (28 Jan 2023)
+- Update PE to Experimental build
+- Gamepad Support
+- Fixed Many Code I Forgor :skull:
+-use splice parameter in remove(); and remove splashes when they are killed CR https://github.com/ShadowMario/FNF-PsychEngine/pull/11752 BIG W
+
+[0.2.1h]
 - Update PE to build 5d7a915
 - Better README.MD
 - **REMOVED SOFTCODED ACHIEVEMENT BECAUSE LUA MODCHART BROKEN :( SORRY**
