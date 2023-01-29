@@ -390,6 +390,8 @@ class FreeplayState extends MusicBeatState
 				PlayState.isStoryMode = false;
 				PlayState.storyDifficulty = curDifficulty;
 
+				playConfirmSound(); // Fix When Errordisplay can't enter another song??? && Fix EARRAPE CONFIRM SOUND.EXE???
+
 				trace('CURRENT WEEK: ' + WeekData.getWeekFileName());
 
 				FlxTween.tween(scoreText, {alpha: 0}, 0.5);
@@ -436,6 +438,10 @@ class FreeplayState extends MusicBeatState
 			vocals.destroy();
 		}
 		vocals = null;
+	}
+
+	public static function playConfirmSound() {
+		FlxG.sound.play(Paths.sound('confirmMenu'), 0.8);
 	}
 
 	function changeDiff(change:Int = 0)
