@@ -212,21 +212,21 @@ class MainMenuState extends MusicBeatState
 		var lerpVal:Float = CoolUtil.boundTo(elapsed * 7.5, 0, 1);
 		camFollowPos.setPosition(FlxMath.lerp(camFollowPos.x, camFollow.x, lerpVal), FlxMath.lerp(camFollowPos.y, camFollow.y, lerpVal));
 
-		if (FlxG.mouse.wheel != 0)
-		{
-			FlxG.sound.play(Paths.sound('scrollMenu'));
-			#if desktop
-			changeItem(-FlxG.mouse.wheel);
-			#else
-			if (FlxG.mouse.wheel < 0)
-				changeItem(1);
-			else if (FlxG.mouse.wheel > 0)
-				changeItem(-1);
-			#end
-		}
-
 		if (!selectedSomethin)
 		{
+			if (FlxG.mouse.wheel != 0)
+			{
+				FlxG.sound.play(Paths.sound('scrollMenu'));
+				#if desktop
+				changeItem(-FlxG.mouse.wheel);
+				#else
+				if (FlxG.mouse.wheel < 0)
+					changeItem(1);
+				else if (FlxG.mouse.wheel > 0)
+					changeItem(-1);
+				#end
+			}
+
 			if (controls.UI_UP_P)
 			{
 				FlxG.sound.play(Paths.sound('scrollMenu'));
