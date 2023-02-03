@@ -10,7 +10,7 @@ Feature:
 * Qol Change
 * Fixed Sustain (Hold Note) Too Long CR https://github.com/Raltyro/FNF-PsikeEngine
 * Fixed Timebar for Playbackrate
-* Fixed Slow Playbackrate , Week 7 Playbackrate Higher than 1 Not Loading Inst && Storymode Crash
+* Fixed Slow Playbackrate , Week 7 Playbackrate Higher than 1 Not Loading Inst & Storymode Crash
 * Fixed EditorPlayState Weird Input
 * Better Hold Note System (Used to have this since 0.1.2 then removed in 0.1.3 but It's back & better...)
 * Full Mouse Support
