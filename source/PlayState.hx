@@ -4457,7 +4457,7 @@ class PlayState extends MusicBeatState
 		if(daNote.countMiss) { // FUCKKKKKKK
 			if(!practiceMode) songScore -= 10;
 
-			combo = 0;
+			if (combo != 0) combo = 0;
 			songMisses++;
 			totalPlayed++;
 			vocals.volume = 0;
@@ -4494,7 +4494,7 @@ class PlayState extends MusicBeatState
 			{
 				gf.playAnim('sad');
 			}
-			combo = 0;
+			if (combo != 0) combo = 0;
 
 			if(!practiceMode) songScore -= 10;
 
