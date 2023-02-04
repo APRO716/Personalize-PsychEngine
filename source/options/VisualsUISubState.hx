@@ -115,6 +115,13 @@ class VisualsUISubState extends BaseOptionsMenu
 			true);
 		addOption(option);
 
+		var option:Option = new Option('Show Combo Sprite',
+			"If unchecked, Combo Sprite won't show",
+			'showCombo',
+			'bool',
+			true);
+		addOption(option);
+
 		super();
 	}
 

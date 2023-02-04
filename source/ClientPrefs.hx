@@ -32,6 +32,7 @@ class ClientPrefs {
 	public static var hitsoundVolume:Float = 0;
 	public static var pauseMusic:String = 'Tea Time';
 	public static var comboStacking = true;
+	public static var showCombo = true;
 	public static var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
 		'scrolltype' => 'multiplicative', 
@@ -143,6 +144,7 @@ class ClientPrefs {
 		FlxG.save.data.hitsoundVolume = hitsoundVolume;
 		FlxG.save.data.pauseMusic = pauseMusic;
 		FlxG.save.data.comboStacking = comboStacking;
+		FlxG.save.data.showCombo = showCombo;
 	
 		FlxG.save.flush();
 
@@ -271,7 +273,11 @@ class ClientPrefs {
 			FlxG.sound.muted = FlxG.save.data.mute;
 		}
 		if (FlxG.save.data.comboStacking != null)
+		{
 			comboStacking = FlxG.save.data.comboStacking;
+		}
+		if (FlxG.save.data.showCombo != null)
+			showCombo = FlxG.save.data.showCombo;
 
 		var save:FlxSave = new FlxSave();
 		save.bind('controls_v3', CoolUtil.getSavePath());

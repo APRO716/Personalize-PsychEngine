@@ -91,9 +91,11 @@ class NoteOffsetState extends MusicBeatState
 		gf.x += gf.positionArray[0];
 		gf.y += gf.positionArray[1];
 		gf.scrollFactor.set(0.95, 0.95);
+		gf.antialiasing = ClientPrefs.globalAntialiasing;
 		boyfriend = new Character(770, 100, 'bf', true);
 		boyfriend.x += boyfriend.positionArray[0];
 		boyfriend.y += boyfriend.positionArray[1];
+		boyfriend.antialiasing = ClientPrefs.globalAntialiasing;
 		add(gf);
 		add(boyfriend);
 
@@ -357,7 +359,6 @@ class NoteOffsetState extends MusicBeatState
 			CustomFadeTransition.nextCamera = camOther;
 			MusicBeatState.switchState(new options.OptionsState());
 			FlxG.sound.playMusic(Paths.music('freakyMenu'), 1, true);
-			FlxG.mouse.visible = false;
 		}
 
 		Conductor.songPosition = FlxG.sound.music.time;
