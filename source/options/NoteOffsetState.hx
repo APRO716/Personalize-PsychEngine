@@ -115,6 +115,7 @@ class NoteOffsetState extends MusicBeatState
 
 		comboNums = new FlxSpriteGroup();
 		comboNums.cameras = [camHUD];
+		comboNums.antialiasing = ClientPrefs.globalAntialiasing;
 		add(comboNums);
 
 		var seperatedScore:Array<Int> = [];

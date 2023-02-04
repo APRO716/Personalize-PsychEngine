@@ -1,3 +1,11 @@
+[0.2.3] - Many Thing (4 Feb 2023)
+- In Title Menu Close Sound is Quieter
+- Fix Mainmenu Mouse Scroll when accept it
+- Week 7 NoteSplash
+- Some Week 7 Code
+- Show Combo sprite Option
+- Fix Hurt note & Custom note Null Object Reference
+
 [0.2.2] - E (28 Jan 2023)
 - Update PE to Experimental build
 - Gamepad Support
