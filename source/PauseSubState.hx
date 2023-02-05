@@ -40,6 +40,10 @@ class PauseSubState extends MusicBeatSubstate
 	var blueballedTxt:FlxText;
 	var curTime:Float = Math.max(0, Conductor.songPosition);
 
+	var playingSongName = PlayState.SONG.song;
+	var setPlayBack = PlayState.instance.playbackRate + 'x';
+	var deathCounter = PlayState.deathCounter;
+
 	public static var songName:String = '';
 
 	public function new(x:Float, y:Float)
@@ -87,7 +91,7 @@ class PauseSubState extends MusicBeatSubstate
 		add(bg);
 
 		levelInfo = new FlxText(20, 15, 0, "", 32);
-		levelInfo.text += PlayState.SONG.song + " " + PlayState.instance.playbackRate + "x";
+		levelInfo.text += '$playingSongName $setPlayBack';
 		levelInfo.scrollFactor.set();
 		levelInfo.setFormat(Paths.font("font.ttf"), 32);
 		levelInfo.updateHitbox();
@@ -101,7 +105,7 @@ class PauseSubState extends MusicBeatSubstate
 		add(levelDifficulty);
 
 		blueballedTxt = new FlxText(20, 15 + 64, 0, "", 32);
-		blueballedTxt.text = "Blueballed: " + PlayState.deathCounter;
+		blueballedTxt.text = 'Blueballed: $deathCounter';
 		blueballedTxt.scrollFactor.set();
 		blueballedTxt.setFormat(Paths.font('font.ttf'), 32);
 		blueballedTxt.updateHitbox();
@@ -433,7 +437,7 @@ class PauseSubState extends MusicBeatSubstate
 		chartingText.destroy();
 		FlxG.sound.play(Paths.sound('intro3' + PlayState.instance.introSoundsSuffix), 0.6);
 
-		startTimer = new FlxTimer().start(Conductor.crochet / 1000, function(tmr:FlxTimer)
+		startTimer = new FlxTimer().start(Conductor.crochet / 1000, function(tmr:FlxTimer) // playbackRate is not necessary because we give lil bit time for prepare
 		{
 			var introAssets:Map<String, Array<String>> = new Map<String, Array<String>>();
 			introAssets.set('default', ['ready', 'set', 'go']);
