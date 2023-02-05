@@ -2150,8 +2150,6 @@ class PlayState extends MusicBeatState
 						FlxG.sound.play(Paths.sound('intro2' + introSoundsSuffix), 0.6);
 						FlxG.sound.music.pitch = playbackRate;
 					case 2:
-						iconP1.scale.set(1.3, 1.3);
-						iconP2.scale.set(1.3, 1.3);
 						countdownSet = new FlxSprite().loadGraphic(Paths.image(introAlts[1]));
 						countdownSet.cameras = [camHUD];
 						countdownSet.scrollFactor.set();
@@ -2170,11 +2168,11 @@ class PlayState extends MusicBeatState
 								countdownSet.destroy();
 							}
 						});
+						iconP1.scale.set(1.3, 1.3);
+						iconP2.scale.set(1.3, 1.3);
 						FlxG.sound.play(Paths.sound('intro1' + introSoundsSuffix), 0.6);
 						FlxG.sound.music.pitch = playbackRate;
 					case 3:
-						iconP1.scale.set(1.3, 1.3);
-						iconP2.scale.set(1.3, 1.3);
 						countdownGo = new FlxSprite().loadGraphic(Paths.image(introAlts[2]));
 						countdownGo.cameras = [camHUD];
 						countdownGo.scrollFactor.set();
@@ -2195,6 +2193,8 @@ class PlayState extends MusicBeatState
 								countdownGo.destroy();
 							}
 						});
+						iconP1.scale.set(1.3, 1.3);
+						iconP2.scale.set(1.3, 1.3);
 						FlxG.sound.play(Paths.sound('introGo' + introSoundsSuffix), 0.6);
 						FlxG.sound.music.pitch = playbackRate;
 					case 4:
