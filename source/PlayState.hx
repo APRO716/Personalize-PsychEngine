@@ -2283,7 +2283,7 @@ class PlayState extends MusicBeatState
 
 		scoreTxt.text = tempScore;
 
-		if(ClientPrefs.scoreZoom && !miss)
+		if(ClientPrefs.scoreZoom && !miss && !cpuControlled)
 		{
 			if(scoreTxtTween != null) {
 				scoreTxtTween.cancel();
@@ -4070,7 +4070,7 @@ class PlayState extends MusicBeatState
 			spawnNoteSplashOnNote(note);
 		}
 
-		if(!practiceMode) {
+		if(!practiceMode && !cpuControlled) {
 			songScore += score;
 			if(!note.ratingDisabled)
 			{
