@@ -359,19 +359,19 @@ class PlayState extends MusicBeatState
 		ratingsData.push(new Rating('sick')); //default rating
 
 		var rating:Rating = new Rating('good');
-		rating.ratingMod = 2/3; // 66.66...%
+		rating.ratingMod = 0.8;
 		rating.score = 200;
 		rating.noteSplash = false;
 		ratingsData.push(rating);
 
 		var rating:Rating = new Rating('bad');
-		rating.ratingMod = 1/3; // 33.33...%
+		rating.ratingMod = 0.2;
 		rating.score = 100;
 		rating.noteSplash = false;
 		ratingsData.push(rating);
 
 		var rating:Rating = new Rating('shit');
-		rating.ratingMod = 1/6; // 16.66...%
+		rating.ratingMod = 0;
 		rating.score = 50;
 		rating.noteSplash = false;
 		ratingsData.push(rating);
