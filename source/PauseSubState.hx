@@ -41,7 +41,7 @@ class PauseSubState extends MusicBeatSubstate
 	var curTime:Float = Math.max(0, Conductor.songPosition);
 
 	var playingSongName = PlayState.SONG.song;
-	var setPlayBack = PlayState.instance.playbackRate;
+	var setPlayback = PlayState.instance.playbackRate;
 	var deathCounter = PlayState.deathCounter;
 
 	public static var songName:String = '';
@@ -91,7 +91,7 @@ class PauseSubState extends MusicBeatSubstate
 		add(bg);
 
 		levelInfo = new FlxText(20, 15, 0, "", 32);
-		levelInfo.text += '$playingSongName ${setPlayBack}x';
+		levelInfo.text += '$playingSongName ${setPlayback}x';
 		levelInfo.scrollFactor.set();
 		levelInfo.setFormat(Paths.font("font.ttf"), 32);
 		levelInfo.updateHitbox();
