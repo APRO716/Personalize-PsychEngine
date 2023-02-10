@@ -83,8 +83,8 @@ class PlayState extends MusicBeatState
 	public static var STRUM_X_MIDDLESCROLL = -278;
 
 	public static var ratingStuff:Array<Dynamic> = [
-		['F', 0.0001], //0%
-		['E', 0.6], //From 0.01% to 59%
+		['F', 0.5], //From 0% to 49%
+		['E', 0.6], //From 50% to 59%
 		['D', 0.7], //From 60% to 69%
 		['C', 0.8], //From 70% to 79%
 		['B', 0.9], //From 80% to 89%
@@ -4680,7 +4680,7 @@ class PlayState extends MusicBeatState
 
 	public function spawnNoteSplash(x:Float, y:Float, data:Int, ?note:Note = null) {
 		var skin:String = 'noteSplashes';
-		if(PlayState.SONG.splashSkin != null && PlayState.SONG.splashSkin.length > 0) skin = PlayState.SONG.splashSkin;
+		if((PlayState.SONG.splashSkin != null || PlayState.SONG.splashSkin != '') && PlayState.SONG.splashSkin.length > 0) skin = PlayState.SONG.splashSkin;
 
 		var hue:Float = 0;
 		var sat:Float = 0;
