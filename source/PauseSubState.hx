@@ -91,7 +91,7 @@ class PauseSubState extends MusicBeatSubstate
 		add(bg);
 
 		levelInfo = new FlxText(20, 15, 0, "", 32);
-		levelInfo.text += '$playingSongName ${setPlayBack}%';
+		levelInfo.text += '$playingSongName ${setPlayBack}x';
 		levelInfo.scrollFactor.set();
 		levelInfo.setFormat(Paths.font("font.ttf"), 32);
 		levelInfo.updateHitbox();
