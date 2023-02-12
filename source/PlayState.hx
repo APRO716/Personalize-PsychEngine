@@ -607,8 +607,7 @@ class PlayState extends MusicBeatState
 					grpLimoDancers = new FlxTypedGroup<BackgroundDancer>();
 					add(grpLimoDancers);
 
-					for (i in 0...5)
-					{
+					for (i in 0...5){
 						var dancer:BackgroundDancer = new BackgroundDancer((370 * i) + 170, bgLimo.y - 400);
 						dancer.scrollFactor.set(0.4, 0.4);
 						grpLimoDancers.add(dancer);
@@ -752,10 +751,6 @@ class PlayState extends MusicBeatState
 				GameOverSubstate.endSoundName = 'gameOverEnd-pixel';
 				GameOverSubstate.characterName = 'bf-pixel-dead';
 
-				/*if(!ClientPrefs.lowQuality) { //Does this even do something?
-					var waveEffectBG = new FlxWaveEffect(FlxWaveMode.ALL, 2, -1, 3, 2);
-					var waveEffectFG = new FlxWaveEffect(FlxWaveMode.ALL, 2, -1, 5, 2);
-				}*/
 				var posX = 400;
 				var posY = 200;
 				if(!ClientPrefs.lowQuality) {
@@ -781,8 +776,7 @@ class PlayState extends MusicBeatState
 				var sky:BGSprite = new BGSprite('tankSky', -400, -400, 0, 0);
 				add(sky);
 
-				if(!ClientPrefs.lowQuality)
-				{
+				if(!ClientPrefs.lowQuality){
 					var clouds:BGSprite = new BGSprite('tankClouds', FlxG.random.int(-700, -100), FlxG.random.int(-20, 20), 0.1, 0.1);
 					clouds.active = true;
 					clouds.velocity.x = FlxG.random.float(5, 15);
@@ -804,8 +798,7 @@ class PlayState extends MusicBeatState
 				ruins.updateHitbox();
 				add(ruins);
 
-				if(!ClientPrefs.lowQuality)
-				{
+				if(!ClientPrefs.lowQuality){
 					var smokeLeft:BGSprite = new BGSprite('smokeLeft', -200, -100, 0.4, 0.4, ['SmokeBlurLeft'], true);
 					add(smokeLeft);
 					var smokeRight:BGSprite = new BGSprite('smokeRight', 1100, -100, 0.4, 0.4, ['SmokeRight'], true);
@@ -842,9 +835,8 @@ class PlayState extends MusicBeatState
 				GameOverSubstate.characterName = 'bf-holding-gf-dead';
 		}
 
-		if(isPixelStage) {
+		if(isPixelStage)
 			introSoundsSuffix = '-pixel';
-		}
 
 		add(gfGroup); //Needed for blammed lights
 
@@ -2707,7 +2699,7 @@ class PlayState extends MusicBeatState
 		{
 			if (FlxG.sound.music != null && !startingSong)
 			{
-				resyncVocals();
+				resyncVocals(true);
 			}
 
 			FlxTimer.globalManager.forEach(function(tmr:FlxTimer)
@@ -2756,6 +2748,7 @@ class PlayState extends MusicBeatState
 		}
 		#end
 
+		callOnLuas('onFocus', []);
 		super.onFocus();
 	}
 
@@ -2768,21 +2761,35 @@ class PlayState extends MusicBeatState
 		}
 		#end
 
+		callOnLuas('onFocusLost', []);
 		super.onFocusLost();
 	}
 
 	function resyncVocals(resync:Bool = true):Void
 	{
 		if (finishTimer != null || (transitioning && endingSong)) return;
-		Conductor.songPosition = FlxG.sound.music.time;
-
 		FlxG.sound.music.pitch = playbackRate;
+
 		if (Conductor.songPosition <= vocals.length) {
+			var stream = vocals.vorbis != null;
 			vocals.pitch = playbackRate;
-			if (vocals.vorbis == null || resync) vocals.time = Conductor.songPosition;
-			if (!vocals.playing) vocals.play();
+
+			if (!stream || resync) {
+				if (stream) {
+					FlxG.sound.music.pause();
+					vocals.pause();
+				}
+				vocals.time = Conductor.songPosition = FlxG.sound.music.time;
+			}
+			else
+				Conductor.songPosition = FlxG.sound.music.time;
+
+			vocals.play();
 		}
-		if (!FlxG.sound.music.playing) FlxG.sound.music.play();
+		else
+			Conductor.songPosition = FlxG.sound.music.time;
+
+		FlxG.sound.music.play();
 	}
 
 	public var paused:Bool = false;
@@ -2937,12 +2944,10 @@ class PlayState extends MusicBeatState
 			camFollowPos.setPosition(FlxMath.lerp(camFollowPos.x, camFollow.x, lerpVal), FlxMath.lerp(camFollowPos.y, camFollow.y, lerpVal));
 			if(!startingSong && !endingSong && boyfriend.animation.curAnim != null && boyfriend.animation.curAnim.name.startsWith('idle')) {
 				boyfriendIdleTime += elapsed;
-				if(boyfriendIdleTime >= 0.15) { // Kind of a mercy thing for making the achievement easier to get as it's apparently frustrating to some playerss
+				if(boyfriendIdleTime >= 0.15)// Kind of a mercy thing for making the achievement easier to get as it's apparently frustrating to some playerss
 					boyfriendIdled = true;
-				}
-			} else {
+			}else
 				boyfriendIdleTime = 0;
-			}
 		}
 
 		super.update(elapsed);
@@ -3143,7 +3148,7 @@ class PlayState extends MusicBeatState
 									daNote.y += 10.5 * (fakeCrochet / 400) * 1.5 * songSpeed + (46 * (songSpeed - 1));
 									daNote.y -= 46 * (1 - (fakeCrochet / 600)) * songSpeed;
 									if(PlayState.isPixelStage) {
-										daNote.y += 8 + (6 - daNote.originalHeightForCalcs) * PlayState.daPixelZoom;
+										daNote.y += 8 + (6 - daNote.originalHeightForCalcs) * daPixelZoom;
 									} else {
 										daNote.y -= 19;
 									}
@@ -3606,8 +3611,7 @@ class PlayState extends MusicBeatState
 						}
 				}
 
-				if (char != null)
-				{
+				if (char != null){
 					char.idleSuffix = value2;
 					char.recalculateDanceIdle();
 				}
@@ -4013,7 +4017,7 @@ class PlayState extends MusicBeatState
 	public var showComboNum:Bool = true;
 	public var showRating:Bool = true;
 
-	private function cachePopUpScore()
+	private function cachePopUpScore():Void
 	{
 		var pixelShitPart1:String = '';
 		var pixelShitPart2:String = '';
@@ -4023,18 +4027,18 @@ class PlayState extends MusicBeatState
 			pixelShitPart2 = '-pixel';
 		}
 
-		Paths.image(pixelShitPart1 + "sick" + pixelShitPart2);
-		Paths.image(pixelShitPart1 + "good" + pixelShitPart2);
-		Paths.image(pixelShitPart1 + "bad" + pixelShitPart2);
-		Paths.image(pixelShitPart1 + "shit" + pixelShitPart2);
-		Paths.image(pixelShitPart1 + "combo" + pixelShitPart2);
+		Paths.image(pixelShitPart1 + 'sick' + pixelShitPart2, 'shared');
+		Paths.image(pixelShitPart1 + 'good' + pixelShitPart2, 'shared');
+		Paths.image(pixelShitPart1 + 'bad' + pixelShitPart2, 'shared');
+		Paths.image(pixelShitPart1 + 'shit' + pixelShitPart2, 'shared');
+		Paths.image(pixelShitPart1 + 'combo' + pixelShitPart2, 'shared');
 		
 		for (i in 0...10) {
 			Paths.image(pixelShitPart1 + 'num' + i + pixelShitPart2);
 		}
 	}
 
-	private function popUpScore(note:Note = null):Void
+	private function popUpScore(note:Note):Void
 	{
 		var noteDiff:Float = Math.abs(note.strumTime - Conductor.songPosition + ClientPrefs.ratingOffset) / getActualPlaybackRate();
 		vocals.volume = 1;
@@ -4234,7 +4238,6 @@ class PlayState extends MusicBeatState
 
 				// heavily based on my own code LOL if it aint broke dont fix it
 				var pressNotes:Array<Note> = [];
-				//var notesDatas:Array<Int> = [];
 				var notesStopped:Bool = false;
 
 				var sortedNotesList:Array<Note> = [];
@@ -4471,23 +4474,22 @@ class PlayState extends MusicBeatState
 			}
 
 			if (combo > 5 && gf != null && gf.animOffsets.exists('sad'))
-			{
 				gf.playAnim('sad');
-			}
+
 			if (combo != 0) combo = 0;
 
 			if(!practiceMode) songScore -= 10;
 
 			if(!endingSong) songMisses++;
-	
+
 			totalPlayed++;
 			RecalculateRating(true);
 
 			FlxG.sound.play(Paths.soundRandom('missnote', 1, 3), FlxG.random.float(0.1, 0.2));
 
-			if(boyfriend.hasMissAnimations) {
+			if(boyfriend.hasMissAnimations)
 				boyfriend.playAnim(singAnimations[Std.int(Math.abs(direction))] + 'miss', true);
-			}
+
 			vocals.volume = 0;
 		}
 		callOnLuas('noteMissPress', [direction]);
@@ -4863,10 +4865,6 @@ class PlayState extends MusicBeatState
 		}
 		luaArray = [];
 
-		#if hscript
-		if(FunkinLua.hscript != null) FunkinLua.hscript = null;
-		#end
-
 		if(!controls.controllerMode)
 		{
 			FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
@@ -4888,11 +4886,12 @@ class PlayState extends MusicBeatState
 	override function stepHit()
 	{
 		super.stepHit();
-		
-		var time:Float = FlxG.sound.music.time;
-		var resync:Bool = vocals.loaded && Math.abs(vocals.time - time) > 8;
-		if (Math.abs(time - (Conductor.songPosition - Conductor.offset)) > 16 || resync)
-			resyncVocals(resync);
+
+		if (!paused && !startingSong) {
+			var resync:Bool = vocals.loaded && Math.abs(vocals.time - FlxG.sound.music.time) > (vocals.vorbis == null ? 16 : 24);
+			if (Math.abs(FlxG.sound.music.time - (Conductor.songPosition - Conductor.offset)) > 16 || resync)
+				resyncVocals(resync);
+		}
 
 		if(curStep == lastStepHit) return;
 
@@ -5141,10 +5140,10 @@ class PlayState extends MusicBeatState
 			if (songMisses > 0 && songMisses < 10) ratingFC = "SDCB";
 			else if (songMisses >= 10) ratingFC = "Clear";
 		}
-		updateScore(badHit); // score will only update after rating is calculated, if it's a badHit, it shouldn't bounce -Ghost
 		setOnLuas('rating', ratingPercent);
 		setOnLuas('ratingName', ratingName);
 		setOnLuas('ratingFC', ratingFC);
+		updateScore(badHit); // score will only update after rating is calculated, if it's a badHit, it shouldn't bounce -Ghost
 	}
 
 	public function getActualPlaybackRate():Float {
