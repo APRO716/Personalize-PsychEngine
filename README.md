@@ -1,4 +1,7 @@
 # Friday Night Funkin' - Personalize Psych Engine
+
+![Repo size](https://img.shields.io/github/repo-size/APRO716/Personalize-PsychEngine)
+
 Based on Psych Engine 0.6.3 & Fix Somebug
 ---------------------------------------------------------------------------
 [Download Latest Build Here](https://github.com/APRO716/Personalize-PsychEngine/actions)

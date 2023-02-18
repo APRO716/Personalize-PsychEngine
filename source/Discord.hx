@@ -72,8 +72,6 @@ class DiscordClient
 	public static function changePresence(details:String, state:Null<String>, ?smallImageKey : String, ?hasStartTimestamp : Bool, ?endTimestamp: Float)
 	{
 		var startTimestamp:Float = if(hasStartTimestamp) Date.now().getTime() else 0;
-		var psychVer:String = MainMenuState.psychEngineVersion;
-		var gitBuild:String = MainMenuState.gitBuild;
 
 		if (endTimestamp > 0)
 		{
@@ -84,7 +82,7 @@ class DiscordClient
 			details: details,
 			state: state,
 			largeImageKey: 'icon',
-			largeImageText: 'Engine Version: $psychVer [$gitBuild]',
+			largeImageText: 'Engine Version: ${MainMenuState.psychEngineVersion} [${MainMenuState.gitBuild}]',
 			smallImageKey : smallImageKey,
 			// Obtained times are in milliseconds so they are divided so Discord can use it
 			startTimestamp : Std.int(startTimestamp / 1000),

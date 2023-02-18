@@ -72,7 +72,9 @@ import sys.io.File;
 #end
 
 #if VIDEOS_ALLOWED
-import vlc.MP4Handler;
+#if (hxCodec >= "2.6.1") import hxcodec.VideoHandler as MP4Handler;
+#elseif (hxCodec == "2.6.0") import VideoHandler as MP4Handler;
+#else import vlc.MP4Handler; #end
 #end
 
 using StringTools;
@@ -1321,7 +1323,6 @@ class PlayState extends MusicBeatState
 		cachePopUpScore();
 		for (key => type in precacheList)
 		{
-			//trace('Key $key is type $type');
 			switch(type)
 			{
 				case 'image':
@@ -2952,7 +2953,7 @@ class PlayState extends MusicBeatState
 
 		super.update(elapsed);
 
-		displayedHealth = FlxMath.lerp(displayedHealth, health ,CoolUtil.boundTo(elapsed * 8, 0, 1)); // Steal Form Very Fucking Old Hilo Engine Hahaha - Apro
+		displayedHealth = FlxMath.lerp(displayedHealth, health, CoolUtil.boundTo(elapsed * 8 * playbackRate, 0, 1)); // Steal Form Very Fucking Old Hilo Engine Hahaha - Apro
 
 		setOnLuas('curDecStep', curDecStep);
 		setOnLuas('curDecBeat', curDecBeat);
@@ -3205,7 +3206,7 @@ class PlayState extends MusicBeatState
 						var parent = daNote.parent;
 						if (Conductor.songPosition > noteKillOffset + daNote.strumTime)
 						{
-							if (daNote.mustPress && !cpuControlled && !daNote.ignoreNote && !endingSong && (daNote.tooLate || !daNote.wasGoodHit)) {
+							if (daNote.mustPress && !cpuControlled && !daNote.ignoreNote && !endingSong && (daNote.tooLate || !daNote.wasGoodHit) && Conductor.songPosition - elapsed > daNote.strumTime) {
 								if(daNote.isSustainNote) {
 									for (daNote in parent.tail){
 										daNote.active = false;

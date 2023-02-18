@@ -40,10 +40,6 @@ class PauseSubState extends MusicBeatSubstate
 	var blueballedTxt:FlxText;
 	var curTime:Float = Math.max(0, Conductor.songPosition);
 
-	var playingSongName = PlayState.SONG.song;
-	var setPlayback = PlayState.instance.playbackRate;
-	var deathCounter = PlayState.deathCounter;
-
 	public static var songName:String = '';
 
 	public function new(x:Float, y:Float)
@@ -91,7 +87,7 @@ class PauseSubState extends MusicBeatSubstate
 		add(bg);
 
 		levelInfo = new FlxText(20, 15, 0, "", 32);
-		levelInfo.text += '$playingSongName ${setPlayback}x';
+		levelInfo.text += '${PlayState.SONG.song} ${PlayState.instance.playbackRate}x';
 		levelInfo.scrollFactor.set();
 		levelInfo.setFormat(Paths.font("font.ttf"), 32);
 		levelInfo.updateHitbox();
@@ -105,7 +101,7 @@ class PauseSubState extends MusicBeatSubstate
 		add(levelDifficulty);
 
 		blueballedTxt = new FlxText(20, 15 + 64, 0, "", 32);
-		blueballedTxt.text = 'Blueballed: $deathCounter';
+		blueballedTxt.text = 'Blueballed: ${PlayState.deathCounter}';
 		blueballedTxt.scrollFactor.set();
 		blueballedTxt.setFormat(Paths.font('font.ttf'), 32);
 		blueballedTxt.updateHitbox();
