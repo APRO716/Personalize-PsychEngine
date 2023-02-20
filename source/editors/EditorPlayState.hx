@@ -426,26 +426,18 @@ class EditorPlayState extends MusicBeatState
 					}
 				}
 
+				var parent = daNote.parent;
 				if (Conductor.songPosition > (noteKillOffset / PlayState.SONG.speed) + daNote.strumTime)
 				{
-					if (daNote.mustPress)
-					{
-						if (daNote.tooLate || !daNote.wasGoodHit)
-						{
-							//Dupe note remove
-							notes.forEachAlive(function(note:Note) {
-								if (daNote != note && daNote.mustPress && daNote.noteData == note.noteData && daNote.isSustainNote == note.isSustainNote && Math.abs(daNote.strumTime - note.strumTime) < 10) {
-									note.kill();
-									notes.remove(note, true);
-									note.destroy();
-								}
-							});
-
-							if(!daNote.ignoreNote) {
-								noteMiss(daNote);
-								vocals.volume = 0;
+					if (daNote.mustPress && !daNote.ignoreNote && (daNote.tooLate || !daNote.wasGoodHit)) {
+						if(daNote.isSustainNote) {
+							for (daNote in parent.tail){
+								daNote.active = false;
+								daNote.exists = false;//good bye note
 							}
 						}
+						noteMiss(daNote);
+						vocals.volume = 0;
 					}
 
 					daNote.active = false;
@@ -455,6 +447,12 @@ class EditorPlayState extends MusicBeatState
 					notes.remove(daNote, true);
 					daNote.destroy();
 				}
+			});
+		}else{
+			notes.forEachAlive(function(daNote:Note)
+			{
+				daNote.canBeHit = false;
+				daNote.wasGoodHit = false;
 			});
 		}
 

@@ -140,16 +140,6 @@ class MasterEditorMenu extends MusicBeatState
 			bruh++;
 		}
 
-		var bruh = 0;
-		for (item in grpTexts.members)
-		{
-			if (item.alpha != 1 && bruh == yay)
-				item.alpha = 0.8;
-			else if (item.alpha != 1)
-				item.alpha = 0.6;
-			bruh++;
-		}
-
 		if (accepted)
 		{
 			switch(options[curSelected]) {
