@@ -1,3 +1,11 @@
+[0.3] - Kind of Big Ass (20 Feb 2023)
+- Cleanup & Rewrite Many Code
+- Fix Notesplash Null Object Reference when it null in ChartingState
+- Fixed Many Bug
+- Add Mouse Support in Master Editor Menu
+- Use Official Week 7 Update Song Files CR https://github.com/ShadowMario/FNF-PsychEngine/pull/11841
+- Deleted Unused Files
+
 [0.2.3] - Many Thing (4 Feb 2023)
 - In Title Menu Close Sound is Quieter
 - Fix Mainmenu Mouse Scroll when accept it

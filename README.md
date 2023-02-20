@@ -6,7 +6,7 @@ Based on Psych Engine 0.6.3 & Fix Somebug
 ---------------------------------------------------------------------------
 [Download Latest Build Here](https://github.com/APRO716/Personalize-PsychEngine/actions)
 ---------------------------------------------------------------------------
-[Download Official Release (Little bit More Stable)](https://github.com/APRO716/Personalize-PsychEngine/releases)
+[Download Official Release](https://github.com/APRO716/Personalize-PsychEngine/releases)
 ---------------------------------------------------------------------------
 Feature:
 * Added Many Cool Pull Request in Psych Engine

@@ -176,7 +176,7 @@ class EditorPlayState extends MusicBeatState
 		Conductor.changeBPM(songData.bpm);
 		
 		notes = new FlxTypedGroup<Note>();
-		add(notes);
+		insert(members.indexOf(strumLineNotes) + 1, notes);
 		
 		var noteData:Array<SwagSection>;
 
@@ -198,10 +198,7 @@ class EditorPlayState extends MusicBeatState
 
 						var gottaHitNote:Bool = section.mustHitSection;
 
-						if (songNotes[1] > 3)
-						{
-							gottaHitNote = !section.mustHitSection;
-						}
+						if (songNotes[1] > 3) gottaHitNote = !section.mustHitSection;
 
 						var oldNote:Note;
 						if (unspawnNotes.length > 0)
@@ -209,21 +206,19 @@ class EditorPlayState extends MusicBeatState
 						else
 							oldNote = null;
 
+						var fixedSus:Int = Math.round(songNotes[2] / Conductor.stepCrochet);
+
 						var swagNote:Note = new Note(daStrumTime, daNoteData, oldNote);
 						swagNote.mustPress = gottaHitNote;
-						swagNote.sustainLength = songNotes[2];
+						swagNote.sustainLength = fixedSus * Conductor.stepCrochet;
 						swagNote.noteType = songNotes[3];
 						if(!Std.isOfType(songNotes[3], String)) swagNote.noteType = editors.ChartingState.noteTypeList[songNotes[3]]; //Backward compatibility + compatibility with Week 7 charts
 						swagNote.scrollFactor.set();
 
-						var susLength:Float = swagNote.sustainLength;
-
-						susLength = susLength / Conductor.stepCrochet;
 						unspawnNotes.push(swagNote);
 
-						var floorSus:Int = Math.floor(susLength);
-						if(floorSus > 0) {
-							for (susNote in 0...floorSus+1)
+						if(fixedSus > 0) {
+							for (susNote in 0...Math.floor(Math.max(fixedSus, 2)))
 							{
 								oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
 
@@ -231,6 +226,8 @@ class EditorPlayState extends MusicBeatState
 								sustainNote.mustPress = gottaHitNote;
 								sustainNote.noteType = swagNote.noteType;
 								sustainNote.scrollFactor.set();
+								swagNote.tail.push(sustainNote);
+								sustainNote.parent = swagNote;
 								unspawnNotes.push(sustainNote);
 
 								if (sustainNote.mustPress)
@@ -267,7 +264,7 @@ class EditorPlayState extends MusicBeatState
 					}
 				}
 			}
-			daBeats += 1;
+			daBeats++;
 		}
 
 		unspawnNotes.sort(sortByShit);
@@ -445,7 +442,7 @@ class EditorPlayState extends MusicBeatState
 							});
 
 							if(!daNote.ignoreNote) {
-								noteMiss();
+								noteMiss(daNote);
 								vocals.volume = 0;
 							}
 						}
@@ -657,8 +654,9 @@ class EditorPlayState extends MusicBeatState
 			notes.forEachAlive(function(daNote:Note)
 			{
 				// hold note functions
-				if (strumsBlocked[daNote.noteData] != true && daNote.isSustainNote && controlHoldArray[daNote.noteData] && daNote.canBeHit 
-				&& daNote.mustPress && !daNote.tooLate && !daNote.wasGoodHit && !daNote.blockHit) {
+				if (strumsBlocked[daNote.noteData] != true && daNote.isSustainNote && (daNote.parent == null
+					|| daNote.parent.wasGoodHit) && controlHoldArray[daNote.noteData] && daNote.canBeHit
+					&& daNote.mustPress && !daNote.tooLate && !daNote.wasGoodHit && !daNote.blockHit) {
 					goodNoteHit(daNote);
 				}
 			});
@@ -687,7 +685,7 @@ class EditorPlayState extends MusicBeatState
 			if (ClientPrefs.hitsoundVolume > 0 && !note.hitsoundDisabled) FlxG.sound.play(Paths.sound('hitsound'), ClientPrefs.hitsoundVolume);
 
 			if(note.hitCausesMiss) {
-					noteMiss();
+					noteMiss(note);
 					--songMisses;
 					if(!note.isSustainNote) {
 						if(!note.noteSplashDisabled) {
@@ -710,8 +708,8 @@ class EditorPlayState extends MusicBeatState
 			if (!note.isSustainNote)
 			{
 				combo++;
-				popUpScore(note);
 				songHits++;
+				popUpScore(note);
 			}
 
 			playerStrums.forEach(function(spr:StrumNote)
@@ -734,16 +732,21 @@ class EditorPlayState extends MusicBeatState
 		}
 	}
 
-	function noteMiss():Void
+	function noteMiss(daNote:Note):Void
 	{
-		combo = 0;
-		songMisses++;
-		vocals.volume = 0;
+		if ((!daNote.isSustainNote && daNote.nextNote.isSustainNote) && !daNote.hitCausesMiss) daNote.nextNote.countMiss = false; // Null Object Reference Fixed!
+		else if (daNote.nextNote != null || daNote.hitCausesMiss) daNote.nextNote.countMiss = true;
+
+		if(daNote.countMiss){
+			if (combo != 0) combo = 0;
+			songMisses++;
+			vocals.volume = 0;
+		}
 	}
 
 	function noteMissPress():Void
 	{
-		combo = 0;
+		if (combo != 0) combo = 0;
 		songMisses++;
 		FlxG.sound.play(Paths.soundRandom('missnote', 1, 3), FlxG.random.float(0.1, 0.2));
 		vocals.volume = 0;

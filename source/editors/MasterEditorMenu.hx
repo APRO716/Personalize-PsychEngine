@@ -81,12 +81,13 @@ class MasterEditorMenu extends MusicBeatState
 		#end
 		changeSelection();
 
-		FlxG.mouse.visible = false;
 		super.create();
 	}
 
 	override function update(elapsed:Float)
 	{
+		var accepted = controls.ACCEPT;
+
 		if (controls.UI_UP_P)
 		{
 			changeSelection(-1);
@@ -94,6 +95,12 @@ class MasterEditorMenu extends MusicBeatState
 		if (controls.UI_DOWN_P)
 		{
 			changeSelection(1);
+		}
+		if(FlxG.mouse.wheel != 0)
+		{
+			FlxG.sound.play(Paths.sound('scrollMenu'), 0.2);
+			changeSelection(-FlxG.mouse.wheel);
+			changeDirectory();
 		}
 		#if MODS_ALLOWED
 		if(controls.UI_LEFT_P)
@@ -111,7 +118,39 @@ class MasterEditorMenu extends MusicBeatState
 			MusicBeatState.switchState(new MainMenuState());
 		}
 
-		if (controls.ACCEPT)
+		var bruh:Int = 0; // Code From In The Galaxy Mod 3.0
+		var yay:Int = -1;
+		for (item in grpTexts.members)
+		{
+			if (FlxG.mouse.screenX > item.x
+				&& FlxG.mouse.screenX < item.x + item.width
+				&& FlxG.mouse.screenY > item.y
+				&& FlxG.mouse.screenY < item.y + item.height)
+			{
+				yay = bruh;
+				if (FlxG.mouse.justPressed)
+				{
+					if (curSelected == bruh){
+						accepted = true;
+						FlxG.sound.music.volume = 0;
+					}else
+						changeSelection(bruh - curSelected);
+				}
+			}
+			bruh++;
+		}
+
+		var bruh = 0;
+		for (item in grpTexts.members)
+		{
+			if (item.alpha != 1 && bruh == yay)
+				item.alpha = 0.8;
+			else if (item.alpha != 1)
+				item.alpha = 0.6;
+			bruh++;
+		}
+
+		if (accepted)
 		{
 			switch(options[curSelected]) {
 				case 'Character Editor':

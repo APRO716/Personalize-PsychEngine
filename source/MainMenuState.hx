@@ -25,7 +25,7 @@ using StringTools;
 
 class MainMenuState extends MusicBeatState
 {
-	public static var editVer:String = '0.2.3';
+	public static var editVer:String = '0.3';
 	public static var psychEngineVersion:String = '0.6.3'; //This is also used for Discord RPC
 	public static var gitBuild:String = '571190b'; //This is also used for Discord RPC
 	public static var curSelected:Int = 0;
@@ -216,7 +216,7 @@ class MainMenuState extends MusicBeatState
 		{
 			if (FlxG.mouse.wheel != 0)
 			{
-				FlxG.sound.play(Paths.sound('scrollMenu'));
+				FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
 				#if desktop
 				changeItem(-FlxG.mouse.wheel);
 				#else
