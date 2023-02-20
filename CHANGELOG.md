@@ -1,6 +1,7 @@
 [0.3] - Kind of Big Ass (20 Feb 2023)
 - Cleanup & Rewrite Many Code
 - Fix Notesplash Null Object Reference when it null in ChartingState
+- EditorPlayState use same PlayState Input System now
 - Fixed Many Bug
 - Add Mouse Support in Master Editor Menu
 - Use Official Week 7 Update Song Files CR https://github.com/ShadowMario/FNF-PsychEngine/pull/11841
