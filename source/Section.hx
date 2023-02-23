@@ -31,5 +31,6 @@ class Section
 	public function new(sectionBeats:Float = 4, lengthInSteps:Int = 16)
 	{
 		this.sectionBeats = sectionBeats;
+		this.lengthInSteps = lengthInSteps;
 	}
 }

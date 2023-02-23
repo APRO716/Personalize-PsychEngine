@@ -2533,9 +2533,6 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		// trace(unspawnNotes.length);
-		// playerCounter++;
-
 		unspawnNotes.sort(sortByTime);
 		generatedMusic = true;
 	}

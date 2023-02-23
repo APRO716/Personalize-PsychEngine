@@ -32,11 +32,7 @@ class FPS extends TextField
 	**/
 	public var currentFPS(default, null):Int;
 	public var currentMem:Float;
-
 	public var highestMem:Float;
- 	public static var showMem:Bool=true;
-  	public static var showFPS:Bool=true;
-	public static var showMemPeak:Bool=true;
 
 	@:noCompletion private var cacheCount:Int;
 	@:noCompletion private var currentTime:Float;
@@ -66,45 +62,37 @@ class FPS extends TextField
 		#if flash
 		addEventListener(Event.ENTER_FRAME, function(e)
 		{
-			__enterFrame(Timer.stamp()-lastUpdate);
+			var time = Lib.getTimer();
+			__enterFrame(time - currentTime);
 		});
 		#end
 	}
 
 	// Event Handlers
 	@:noCompletion
-	private #if !flash override #end function __enterFrame(d:Float):Void
+	private #if !flash override #end function __enterFrame(deltaTime:Float):Void
+	{
+		currentTime += deltaTime;
+		times.push(currentTime);
+		while(times[0]<currentTime-1000)
+			times.shift();
+
+		var currentCount = times.length;
+		currentFPS = Math.round((currentCount + cacheCount) / 2);
+		currentMem = Math.abs(FlxMath.roundDecimal(System.totalMemory / 1000000, 1));
+
+		if (currentFPS > ClientPrefs.framerate) currentFPS = ClientPrefs.framerate;
+
+		if(currentMem > highestMem) highestMem = currentMem;
+
+		if (currentCount != cacheCount)
 		{
-			currentTime = Timer.stamp();
-			var dt = currentTime-lastUpdate;
-			lastUpdate = currentTime;
-			times.push(currentTime);
-			while(times[0]<currentTime-1)
-				times.shift();
-	
-			var currentCount = times.length;
-			currentFPS = currentCount;
-		currentMem = Math.round(System.totalMemory / (1e+6));
-	
-			if(currentMem>highestMem)
-				highestMem=currentMem;
-			if (currentCount != cacheCount /*&& visible*/)
-			{
-		  text = "";
-		  if(showFPS)
-				   text += "FPS: " + currentFPS + "\n";
-		  if(showMem){
-					if(currentMem<0){
-				text += "Memory: Leaking " + Math.abs(currentMem) + " MB\n";
-					}else{
-						text += "Memory: " + currentMem + " MB\n";
-					}
-				}
-				if(showMemPeak)
-					text += "Mem Peak: " + highestMem + " MB\n";
-	
-			}
-	
-			cacheCount = currentCount;
+			text = "FPS: " + currentFPS;
+			text += "\nMemory: " + currentMem + " MB";
+			text += "\nMem Peak: " + highestMem + " MB";
+			text += "\n";
 		}
+
+		cacheCount = currentCount;
 	}
+}
