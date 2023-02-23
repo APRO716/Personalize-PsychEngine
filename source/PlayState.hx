@@ -4433,8 +4433,10 @@ class PlayState extends MusicBeatState
 			doDeathCheck(true);
 		}
 
-		if ((!daNote.isSustainNote && daNote.nextNote.isSustainNote) && !daNote.hitCausesMiss) daNote.nextNote.countMiss = false; // Null Object Reference Fixed!
-		else if (daNote.nextNote != null || daNote.hitCausesMiss) daNote.nextNote.countMiss = true;
+		if(daNote.nextNote != null){
+			if ((!daNote.isSustainNote && daNote.nextNote.isSustainNote) && !daNote.hitCausesMiss) daNote.nextNote.countMiss = false; // Null Object Reference Fixed!
+			else if (daNote.hitCausesMiss) daNote.nextNote.countMiss = true;
+		}
 
 		if(daNote.countMiss) { // FUCKKKKKKK
 			if (combo != 0) combo = 0;
