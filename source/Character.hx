@@ -217,7 +217,7 @@ class Character extends FlxSprite
 		{
 			flipX = !flipX;
 
-			/*// Doesn't flip for BF, since his are already in the right place???*/
+			/*Doesn't flip for BF, since his are already in the right place???*/
 		}
 
 		switch(curCharacter)
