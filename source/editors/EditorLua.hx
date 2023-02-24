@@ -47,9 +47,6 @@ class EditorLua {
 		LuaL.openlibs(lua);
 		Lua.init_callbacks(lua);
 
-		//trace('Lua version: ' + Lua.version());
-		//trace("LuaJIT version: " + Lua.versionJIT());
-
 		var result:Dynamic = LuaL.dofile(lua, script);
 		var resultStr:String = Lua.tostring(lua, result);
 		if(resultStr != null && result != 0) {
@@ -200,9 +197,6 @@ class EditorLua {
 
 		var result:Null<Int> = Lua.pcall(lua, args.length, 1, 0);
 		if(result != null && resultIsAllowed(lua, result)) {
-			/*var resultStr:String = Lua.tostring(lua, result);
-			var error:String = Lua.tostring(lua, -1);
-			Lua.pop(lua, 1);*/
 			if(Lua.type(lua, -1) == Lua.LUA_TSTRING) {
 				var error:String = Lua.tostring(lua, -1);
 				Lua.pop(lua, 1);
@@ -250,8 +244,7 @@ class EditorLua {
 			return false;
 		}
 
-		// YES! FINALLY IT WORKS
-		//trace('variable: ' + variable + ', ' + result);
+		// YES! FINALLY IT WORK
 		return (result == 'true');
 	}
 	#end

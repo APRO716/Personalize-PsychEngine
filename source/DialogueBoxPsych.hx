@@ -145,10 +145,8 @@ class DialogueCharacter extends FlxSprite
 			var anim:DialogueAnimArray = dialogueAnimations.get(leAnim);
 			if(playIdle) {
 				offset.set(anim.idle_offsets[0], anim.idle_offsets[1]);
-				//trace('Setting idle offsets: ' + anim.idle_offsets);
 			} else {
 				offset.set(anim.loop_offsets[0], anim.loop_offsets[1]);
-				//trace('Setting loop offsets: ' + anim.loop_offsets);
 			}
 		} else {
 			offset.set(0, 0);
@@ -183,7 +181,6 @@ class DialogueBoxPsych extends FlxSpriteGroup
 	var textBoxTypes:Array<String> = ['normal', 'angry'];
 	
 	var curCharacter:String = "";
-	//var charPositionList:Array<String> = ['left', 'center', 'right'];
 
 	public function new(dialogueList:DialogueFile, ?song:String = null)
 	{

@@ -138,7 +138,6 @@ class TitleState extends MusicBeatState
 			if(FlxG.save.data != null && FlxG.save.data.fullscreen)
 			{
 				FlxG.fullscreen = FlxG.save.data.fullscreen;
-				//trace('LOADED FULLSCREEN SETTING!!');
 			}
 			persistentUpdate = true;
 			persistentDraw = true;
@@ -197,10 +196,6 @@ class TitleState extends MusicBeatState
 		}else{
 			bg.makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		}
-
-		// bg.antialiasing = ClientPrefs.globalAntialiasing;
-		// bg.setGraphicSize(Std.int(bg.width * 0.6));
-		// bg.updateHitbox();
 		add(bg);
 
 		logoBl = new FlxSprite(titleJSON.titlex, titleJSON.titley);
@@ -210,8 +205,6 @@ class TitleState extends MusicBeatState
 		logoBl.animation.addByPrefix('bump', 'logo bumpin', 24, false);
 		logoBl.animation.play('bump');
 		logoBl.updateHitbox();
-		// logoBl.screenCenter();
-		// logoBl.color = FlxColor.BLACK;
 
 		swagShader = new ColorSwap();
 		gfDance = new FlxSprite(titleJSON.gfx, titleJSON.gfy);
@@ -258,15 +251,12 @@ class TitleState extends MusicBeatState
 		titleText = new FlxSprite(titleJSON.startx, titleJSON.starty);
 		#if (desktop && MODS_ALLOWED)
 		var path = "mods/" + Paths.currentModDirectory + "/images/titleEnter.png";
-		//trace(path, FileSystem.exists(path));
 		if (!FileSystem.exists(path)){
 			path = "mods/images/titleEnter.png";
 		}
-		//trace(path, FileSystem.exists(path));
 		if (!FileSystem.exists(path)){
 			path = "assets/images/titleEnter.png";
 		}
-		//trace(path, FileSystem.exists(path));
 		titleText.frames = FlxAtlasFrames.fromSparrow(BitmapData.fromFile(path),File.getContent(StringTools.replace(path,".png",".xml")));
 		#else
 
@@ -294,16 +284,11 @@ class TitleState extends MusicBeatState
 		titleText.antialiasing = ClientPrefs.globalAntialiasing;
 		titleText.animation.play('idle');
 		titleText.updateHitbox();
-		// titleText.screenCenter(X);
 		add(titleText);
 
 		var logo:FlxSprite = new FlxSprite().loadGraphic(Paths.image('logo'));
 		logo.screenCenter();
 		logo.antialiasing = ClientPrefs.globalAntialiasing;
-		// add(logo);
-
-		// FlxTween.tween(logoBl, {y: logoBl.y + 50}, 0.6, {ease: FlxEase.quadInOut, type: PINGPONG});
-		// FlxTween.tween(logo, {y: logoBl.y + 50}, 0.6, {ease: FlxEase.quadInOut, type: PINGPONG, startDelay: 0.1});
 
 		credGroup = new FlxGroup();
 		add(credGroup);
@@ -314,9 +299,6 @@ class TitleState extends MusicBeatState
 
 		credTextShit = new Alphabet(0, 0, "", true);
 		credTextShit.screenCenter();
-
-		// credTextShit.alignment = CENTER;
-
 		credTextShit.visible = false;
 
 		ngSpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('newgrounds_logo'));
@@ -334,7 +316,6 @@ class TitleState extends MusicBeatState
 		else
 			initialized = true;
 
-		// credGroup.add(credTextShit);
 	}
 
 	function getIntroTextShit():Array<Array<String>>
@@ -436,14 +417,12 @@ class TitleState extends MusicBeatState
 				FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
 
 				transitioning = true;
-				// FlxG.sound.music.stop();
 
 				new FlxTimer().start(1, function(tmr:FlxTimer)
 				{
 					MusicBeatState.switchState(new MainMenuState());
 					closedState = true;
 				});
-				// FlxG.sound.play(Paths.music('titleShoot'), 0.7);
 			}
 			#if TITLE_SCREEN_EASTER_EGG
 			else if (FlxG.keys.firstJustPressed() != FlxKey.NONE)
@@ -453,7 +432,6 @@ class TitleState extends MusicBeatState
 				if(allowedKeys.contains(keyName)) {
 					easterEggKeysBuffer += keyName;
 					if(easterEggKeysBuffer.length >= 32) easterEggKeysBuffer = easterEggKeysBuffer.substring(1);
-					//trace('Test! Allowed Key pressed!!! Buffer: ' + easterEggKeysBuffer);
 
 					for (wordRaw in easterEggKeys)
 					{
@@ -567,7 +545,6 @@ class TitleState extends MusicBeatState
 			switch (sickBeats)
 			{
 				case 1:
-					//FlxG.sound.music.stop();
 					FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
 					FlxG.sound.music.fadeIn(4, 0, 0.7);
 				case 2:
@@ -576,7 +553,6 @@ class TitleState extends MusicBeatState
 					#else
 					createCoolText(['ninjamuffin99', 'phantomArcade', 'kawaisprite', 'evilsk8er']);
 					#end
-				// credTextShit.visible = true;
 				case 4:
 					#if PSYCH_WATERMARKS
 					addMoreText('Shadow Mario', 15);
@@ -585,13 +561,8 @@ class TitleState extends MusicBeatState
 					#else
 					addMoreText('present');
 					#end
-				// credTextShit.text += '\npresent...';
-				// credTextShit.addText();
 				case 5:
 					deleteCoolText();
-				// credTextShit.visible = false;
-				// credTextShit.text = 'In association \nwith';
-				// credTextShit.screenCenter();
 				case 6:
 					#if PSYCH_WATERMARKS
 					createCoolText(['Not associated', 'with'], -40);
@@ -601,33 +572,21 @@ class TitleState extends MusicBeatState
 				case 8:
 					addMoreText('newgrounds', -40);
 					ngSpr.visible = true;
-				// credTextShit.text += '\nNewgrounds';
 				case 9:
 					deleteCoolText();
 					ngSpr.visible = false;
-				// credTextShit.visible = false;
-
-				// credTextShit.text = 'Shoutouts Tom Fulp';
-				// credTextShit.screenCenter();
 				case 10:
 					createCoolText([curWacky[0]]);
-				// credTextShit.visible = true;
 				case 12:
 					addMoreText(curWacky[1]);
-				// credTextShit.text += '\nlmao';
 				case 13:
 					deleteCoolText();
-				// credTextShit.visible = false;
-				// credTextShit.text = "Friday";
-				// credTextShit.screenCenter();
 				case 14:
 					addMoreText('Friday');
-				// credTextShit.visible = true;
 				case 15:
 					addMoreText('Night');
-				// credTextShit.text += '\nNight';
 				case 16:
-					addMoreText('Funkin'); // credTextShit.text += '\nFunkin';
+					addMoreText('Funkin');
 
 				case 17:
 					skipIntro();

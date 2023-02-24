@@ -96,7 +96,6 @@ class ModsMenuState extends MusicBeatState
 					if(!Paths.ignoreModFolders.contains(modSplit[0].toLowerCase()))
 					{
 						addToModsList([modSplit[0], (modSplit[1] == '1')]);
-						//trace(modSplit[1]);
 					}
 				}
 			}
@@ -327,7 +326,6 @@ class ModsMenuState extends MusicBeatState
 		{
 			if(modsList[i][0] == values[0])
 			{
-				//trace(modsList[i][0], values[0]);
 				return;
 			}
 		}
@@ -416,7 +414,6 @@ class ModsMenuState extends MusicBeatState
 			saveTxt();
 			if(needaReset)
 			{
-				//MusicBeatState.switchState(new TitleState());
 				TitleState.initialized = false;
 				TitleState.closedState = false;
 				FlxG.sound.music.fadeOut(0.3);
@@ -514,7 +511,7 @@ class ModsMenuState extends MusicBeatState
 				}
 
 				// correct layering
-				var stuffArray:Array<FlxSprite> = [/*removeButton, installButton,*/ selector, descriptionTxt, mod.alphabet, mod.icon];
+				var stuffArray:Array<FlxSprite> = [selector, descriptionTxt, mod.alphabet, mod.icon];
 				for (obj in stuffArray)
 				{
 					remove(obj);

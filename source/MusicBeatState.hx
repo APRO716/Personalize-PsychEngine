@@ -70,7 +70,6 @@ class MusicBeatState extends FlxUIState
 
 	override function update(elapsed:Float)
 	{
-		//everyStep();
 		var oldStep:Int = curStep;
 
 		updateCurStep();
@@ -153,12 +152,10 @@ class MusicBeatState extends FlxUIState
 				CustomFadeTransition.finishCallback = function() {
 					FlxG.resetState();
 				};
-				//trace('resetted');
 			} else {
 				CustomFadeTransition.finishCallback = function() {
 					FlxG.switchState(nextState);
 				};
-				//trace('changed state');
 			}
 			return;
 		}
@@ -184,12 +181,10 @@ class MusicBeatState extends FlxUIState
 
 	public function beatHit():Void
 	{
-		//trace('Beat: ' + curBeat);
 	}
 
 	public function sectionHit():Void
 	{
-		//trace('Section: ' + curSection + ', Beat: ' + curBeat + ', Step: ' + curStep);
 	}
 
 	function getBeatsOnSection()

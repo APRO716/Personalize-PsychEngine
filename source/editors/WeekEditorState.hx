@@ -618,10 +618,6 @@ class WeekEditorFreeplayState extends MusicBeatState
 			// using a FlxGroup is too much fuss!
 			iconArray.push(icon);
 			add(icon);
-
-			// songText.x += 40;
-			// DONT PUT X IN THE FIRST PARAMETER OF new ALPHABET() !!
-			// songText.screenCenter(X);
 		}
 
 		addEditorBox();
@@ -771,12 +767,10 @@ class WeekEditorFreeplayState extends MusicBeatState
 			bullShit++;
 
 			item.alpha = 0.6;
-			// item.setGraphicSize(Std.int(item.width * 0.8));
 
 			if (item.targetY == 0)
 			{
 				item.alpha = 1;
-				// item.setGraphicSize(Std.int(item.width));
 			}
 		}
 		trace(weekFile.songs[curSelected]);

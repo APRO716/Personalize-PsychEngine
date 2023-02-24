@@ -9,7 +9,9 @@ Based on Psych Engine 0.6.3 & Fix Somebug
 [Download Official Release](https://github.com/APRO716/Personalize-PsychEngine/releases)
 ---------------------------------------------------------------------------
 Feature:
-* Added Many Cool Pull Request in Psych Engine
+* Little Bit more Optimize (5-10% more optimize I test it) & delete unused file
+* Added Many Cool Pull Request in Psych Engine (oops)
+* Use Week 7 Release Audio
 * Qol Change
 * Fixed Sustain (Hold Note) Too Long CR https://github.com/Raltyro/FNF-PsikeEngine
 * Fixed Timebar for Playbackrate

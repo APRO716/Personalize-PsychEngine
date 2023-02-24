@@ -129,9 +129,6 @@ class Character extends FlxSprite
 				var modTxtToFind:String = Paths.modsTxt(json.image);
 				var txtToFind:String = Paths.getPath('images/' + json.image + '.txt', TEXT);
 				
-				//var modTextureToFind:String = Paths.modFolders("images/"+json.image);
-				//var textureToFind:String = Paths.getPath('images/' + json.image, new AssetType();
-				
 				if (FileSystem.exists(modTxtToFind) || FileSystem.exists(txtToFind) || Assets.exists(txtToFind))
 				#else
 				if (Assets.exists(Paths.getPath('images/' + json.image + '.txt', TEXT)))
@@ -143,9 +140,6 @@ class Character extends FlxSprite
 				#if MODS_ALLOWED
 				var modAnimToFind:String = Paths.modFolders('images/' + json.image + '/Animation.json');
 				var animToFind:String = Paths.getPath('images/' + json.image + '/Animation.json', TEXT);
-				
-				//var modTextureToFind:String = Paths.modFolders("images/"+json.image);
-				//var textureToFind:String = Paths.getPath('images/' + json.image, new AssetType();
 				
 				if (FileSystem.exists(modAnimToFind) || FileSystem.exists(animToFind) || Assets.exists(animToFind))
 				#else
@@ -212,7 +206,6 @@ class Character extends FlxSprite
 				} else {
 					quickAnimAdd('idle', 'BF idle dance');
 				}
-				//trace('Loaded file to character ' + curCharacter);
 		}
 		originalFlipX = flipX;
 
@@ -224,25 +217,7 @@ class Character extends FlxSprite
 		{
 			flipX = !flipX;
 
-			/*// Doesn't flip for BF, since his are already in the right place???
-			if (!curCharacter.startsWith('bf'))
-			{
-				// var animArray
-				if(animation.getByName('singLEFT') != null && animation.getByName('singRIGHT') != null)
-				{
-					var oldRight = animation.getByName('singRIGHT').frames;
-					animation.getByName('singRIGHT').frames = animation.getByName('singLEFT').frames;
-					animation.getByName('singLEFT').frames = oldRight;
-				}
-
-				// IF THEY HAVE MISS ANIMATIONS??
-				if (animation.getByName('singLEFTmiss') != null && animation.getByName('singRIGHTmiss') != null)
-				{
-					var oldMiss = animation.getByName('singRIGHTmiss').frames;
-					animation.getByName('singRIGHTmiss').frames = animation.getByName('singLEFTmiss').frames;
-					animation.getByName('singLEFTmiss').frames = oldMiss;
-				}
-			}*/
+			/*// Doesn't flip for BF, since his are already in the right place???*/
 		}
 
 		switch(curCharacter)

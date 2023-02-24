@@ -399,7 +399,6 @@ class PlayState extends MusicBeatState
 		practiceMode = ClientPrefs.getGameplaySetting('practice', false);
 		cpuControlled = ClientPrefs.getGameplaySetting('botplay', false);
 
-		// var gameCam:FlxCamera = FlxG.camera;
 		camGame = new FlxCamera();
 		camHUD = new FlxCamera();
 		camOther = new FlxCamera();
@@ -444,7 +443,6 @@ class PlayState extends MusicBeatState
 		var songName:String = Paths.formatToSongPath(SONG.song);
 
 		curStage = SONG.stage;
-		//trace('stage is: ' + curStage);
 		if(SONG.stage == null || SONG.stage.length < 1) {
 			switch (songName)
 			{
@@ -1002,8 +1000,6 @@ class PlayState extends MusicBeatState
 			dialogue = CoolUtil.coolTextFile(file);
 		}
 		var doof:DialogueBox = new DialogueBox(false, dialogue);
-		// doof.x += 70;
-		// doof.y = FlxG.height * 0.5;
 		doof.scrollFactor.set();
 		doof.finishThing = startCountdown;
 		doof.nextDialogueThing = startNextDialogue;
@@ -1068,8 +1064,6 @@ class PlayState extends MusicBeatState
 		opponentStrums = new FlxTypedGroup<StrumNote>();
 		playerStrums = new FlxTypedGroup<StrumNote>();
 
-		// startCountdown();
-
 		generateSong(SONG.song);
 
 		// After all characters being loaded, it makes then invisible 0.01s later so that the player won't freeze when you change characters
@@ -1092,7 +1086,6 @@ class PlayState extends MusicBeatState
 		add(camFollowPos);
 
 		FlxG.camera.follow(camFollowPos, LOCKON, 1);
-		// FlxG.camera.setScrollBounds(0, FlxG.width, 0, FlxG.height);
 		FlxG.camera.zoom = defaultCamZoom;
 		FlxG.camera.focusOn(camFollow);
 
@@ -1405,7 +1398,6 @@ class PlayState extends MusicBeatState
 				if(found)
 				{
 					runtimeShaders.set(name, [frag, vert]);
-					//trace('Found shader $name!');
 					return true;
 				}
 			}
@@ -1718,7 +1710,7 @@ class PlayState extends MusicBeatState
 		var songName:String = Paths.formatToSongPath(SONG.song);
 		dadGroup.alpha = 0.00001;
 		camHUD.visible = false;
-		//inCutscene = true; //this would stop the camera movement, oops
+		//this would stop the camera movement, oops
 
 		var tankman:FlxSprite = new FlxSprite(-20, 320);
 		tankman.frames = Paths.getSparrowAtlas('cutscenes/' + songName);
@@ -2054,7 +2046,6 @@ class PlayState extends MusicBeatState
 			for (i in 0...opponentStrums.length) {
 				setOnLuas('defaultOpponentStrumX' + i, opponentStrums.members[i].x);
 				setOnLuas('defaultOpponentStrumY' + i, opponentStrums.members[i].y);
-				//if(ClientPrefs.middleScroll) opponentStrums.members[i].visible = false;
 			}
 
 			startedCountdown = true;
@@ -2130,7 +2121,7 @@ class PlayState extends MusicBeatState
 						countdownReady.screenCenter();
 						countdownReady.antialiasing = antialias;
 						insert(members.indexOf(notes), countdownReady);
-						FlxTween.tween(countdownReady, {/*y: countdownReady.y + 100,*/ alpha: 0}, Conductor.crochet / 1000, {
+						FlxTween.tween(countdownReady, {alpha: 0}, Conductor.crochet / 1000, {
 							ease: FlxEase.cubeInOut,
 							onComplete: function(twn:FlxTween)
 							{
@@ -2152,7 +2143,7 @@ class PlayState extends MusicBeatState
 						countdownSet.screenCenter();
 						countdownSet.antialiasing = antialias;
 						insert(members.indexOf(notes), countdownSet);
-						FlxTween.tween(countdownSet, {/*y: countdownSet.y + 100,*/ alpha: 0}, Conductor.crochet / 1000, {
+						FlxTween.tween(countdownSet, {alpha: 0}, Conductor.crochet / 1000, {
 							ease: FlxEase.cubeInOut,
 							onComplete: function(twn:FlxTween)
 							{
@@ -2176,7 +2167,7 @@ class PlayState extends MusicBeatState
 						countdownGo.screenCenter();
 						countdownGo.antialiasing = antialias;
 						insert(members.indexOf(notes), countdownGo);
-						FlxTween.tween(countdownGo, {/*y: countdownGo.y + 100,*/ alpha: 0}, Conductor.crochet / 1000, {
+						FlxTween.tween(countdownGo, {alpha: 0}, Conductor.crochet / 1000, {
 							ease: FlxEase.cubeInOut,
 							onComplete: function(twn:FlxTween)
 							{
@@ -2375,7 +2366,6 @@ class PlayState extends MusicBeatState
 	private var eventPushedMap:Map<String, Bool> = new Map<String, Bool>();
 	private function generateSong(dataPath:String):Void
 	{
-		// FlxG.log.add(ChartParser.parse());
 		songSpeedType = ClientPrefs.getGameplaySetting('scrolltype','multiplicative');
 
 		switch(songSpeedType)
@@ -2638,7 +2628,6 @@ class PlayState extends MusicBeatState
 	{
 		for (i in 0...4)
 		{
-			// FlxG.log.add(i);
 			var targetAlpha:Float = 1;
 			if (player < 1)
 			{
@@ -2650,7 +2639,6 @@ class PlayState extends MusicBeatState
 			babyArrow.downScroll = ClientPrefs.downScroll;
 			if (!isStoryMode && !skipArrowStartTween)
 			{
-				//babyArrow.y -= 10;
 				babyArrow.alpha = 0;
 				FlxTween.tween(babyArrow, {alpha: targetAlpha}, 1, {ease: FlxEase.circOut, startDelay: 0.5 + (0.2 * i)});
 			}
@@ -3029,13 +3017,10 @@ class PlayState extends MusicBeatState
 				songTime += FlxG.game.ticks - previousFrameTime;
 				previousFrameTime = FlxG.game.ticks;
 
-				// Interpolation type beat
 				if (Conductor.lastSongPos != Conductor.songPosition)
 				{
 					songTime = (songTime + Conductor.songPosition) / 2;
 					Conductor.lastSongPos = Conductor.songPosition;
-					// Conductor.songPosition += FlxG.elapsed * 1000;
-					// trace('MISSED FRAME');
 				}
 
 				if(updateTime) {
@@ -3556,7 +3541,6 @@ class PlayState extends MusicBeatState
 				}
 
 			case 'Play Animation':
-				//trace('Anim to play: ' + value1);
 				var char:Character = dad;
 				switch(value2.toLowerCase().trim()) {
 					case 'bf' | 'boyfriend':
@@ -4325,7 +4309,6 @@ class PlayState extends MusicBeatState
 			}
 			callOnLuas('onKeyRelease', [key]);
 		}
-		//trace('released: ' + controlArray);
 	}
 
 	private function getKeyFromEvent(key:FlxKey):Int
@@ -4366,7 +4349,6 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		// FlxG.watch.addQuick('asdfa', upP);
 		if (startedCountdown && !boyfriend.stunned && generatedMusic)
 		{
 			// rewritten inputs???

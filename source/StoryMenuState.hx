@@ -112,7 +112,6 @@ class StoryMenuState extends MusicBeatState
 
 				weekThing.screenCenter(X);
 				weekThing.antialiasing = ClientPrefs.globalAntialiasing;
-				// weekThing.updateHitbox();
 
 				// Needs an offset thingie
 				if (isLocked)
@@ -181,7 +180,6 @@ class StoryMenuState extends MusicBeatState
 		txtTracklist.font = rankText.font;
 		txtTracklist.color = 0xFFe55777;
 		add(txtTracklist);
-		// add(rankText);
 		add(scoreText);
 		add(txtWeekTitle);
 
@@ -259,7 +257,6 @@ class StoryMenuState extends MusicBeatState
 			{
 				persistentUpdate = false;
 				openSubState(new ResetScoreSubState('', curDifficulty, '', curWeek));
-				//FlxG.sound.play(Paths.sound('scrollMenu'));
 			}
 			else if ((controls.ACCEPT && !FlxG.keys.justPressed.ALT) || weekClicked)
 			{
@@ -360,7 +357,6 @@ class StoryMenuState extends MusicBeatState
 
 		var diff:String = CoolUtil.difficulties[curDifficulty];
 		var newImage:FlxGraphic = Paths.image('menudifficulties/' + Paths.formatToSongPath(diff));
-		//trace(Paths.currentModDirectory + ', menudifficulties/' + Paths.formatToSongPath(diff));
 
 		if(sprDifficulty.graphic != newImage)
 		{
@@ -459,7 +455,6 @@ class StoryMenuState extends MusicBeatState
 		}
 
 		var newPos:Int = CoolUtil.difficulties.indexOf(lastDifficultyName);
-		//trace('Pos of ' + lastDifficultyName + ' is ' + newPos);
 		if(newPos > -1)
 		{
 			curDifficulty = newPos;

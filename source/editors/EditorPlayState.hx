@@ -512,7 +512,6 @@ class EditorPlayState extends MusicBeatState
 	{
 		var eventKey:FlxKey = event.keyCode;
 		var key:Int = getKeyFromEvent(eventKey);
-		//trace('Pressed: ' + eventKey);
 
 		if (key > -1 && (FlxG.keys.checkStatus(eventKey, JUST_PRESSED) || controls.controllerMode))
 		{
@@ -526,10 +525,8 @@ class EditorPlayState extends MusicBeatState
 
 				// heavily based on my own code LOL if it aint broke dont fix it
 				var pressNotes:Array<Note> = [];
-				//var notesDatas:Array<Int> = [];
 				var notesStopped:Bool = false;
 
-				//trace('test!');
 				var sortedNotesList:Array<Note> = [];
 				notes.forEachAlive(function(daNote:Note)
 				{
@@ -601,7 +598,6 @@ class EditorPlayState extends MusicBeatState
 				spr.resetAnim = 0;
 			}
 		}
-		//trace('released: ' + controlArray);
 	}
 
 	private function getKeyFromEvent(key:FlxKey):Int
@@ -645,7 +641,6 @@ class EditorPlayState extends MusicBeatState
 			}
 		}
 
-		// FlxG.watch.addQuick('asdfa', upP);
 		if (generatedMusic)
 		{
 			// rewritten inputs???
@@ -899,7 +894,6 @@ class EditorPlayState extends MusicBeatState
 	{
 		for (i in 0...4)
 		{
-			// FlxG.log.add(i);
 			var targetAlpha:Float = 1;
 			if (player < 1)
 			{

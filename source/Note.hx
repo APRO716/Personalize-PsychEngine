@@ -195,8 +195,6 @@ class Note extends FlxSprite
 			}
 		}
 
-		// trace(prevNote);
-
 		if(prevNote!=null)
 			prevNote.nextNote = this;
 
@@ -234,7 +232,6 @@ class Note extends FlxSprite
 					prevNote.scale.y *= (6 / height); //Auto adjust note size
 				}
 				prevNote.updateHitbox();
-				// prevNote.setGraphicSize();
 			}
 
 			if(PlayState.isPixelStage) {
@@ -294,13 +291,6 @@ class Note extends FlxSprite
 				offsetX += lastNoteOffsetXForPixelAutoAdjusting;
 				lastNoteOffsetXForPixelAutoAdjusting = (width - 7) * (PlayState.daPixelZoom / 2);
 				offsetX -= lastNoteOffsetXForPixelAutoAdjusting;
-
-				/*if(animName != null && !animName.endsWith('end'))
-				{
-					lastScaleY /= lastNoteScaleToo;
-					lastNoteScaleToo = (6 / height);
-					lastScaleY *= lastNoteScaleToo;
-				}*/
 			}
 		} else {
 			frames = Paths.getSparrowAtlas(blahblah);
@@ -326,7 +316,7 @@ class Note extends FlxSprite
 
 		if (isSustainNote)
 		{
-			animation.addByPrefix('purpleholdend', 'pruple end hold'); // ?????
+			animation.addByPrefix('purpleholdend', 'pruple end hold');
 			animation.addByPrefix(colArray[noteData] + 'holdend', colArray[noteData] + ' hold end');
 			animation.addByPrefix(colArray[noteData] + 'hold', colArray[noteData] + ' hold piece');
 		}
