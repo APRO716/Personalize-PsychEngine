@@ -148,7 +148,7 @@ class TitleState extends MusicBeatState
 			StoryMenuState.weekCompleted = FlxG.save.data.weekCompleted;
 		}
 
-		FlxG.mouse.visible = false;
+		FlxG.mouse.visible = true;
 		#if FREEPLAY
 		MusicBeatState.switchState(new FreeplayState());
 		#elseif CHARTING
@@ -311,6 +311,8 @@ class TitleState extends MusicBeatState
 
 		FlxTween.tween(credTextShit, {y: credTextShit.y + 20}, 2.9, {ease: FlxEase.quadInOut, type: PINGPONG});
 
+		FlxG.mouse.visible = true;
+
 		if (initialized)
 			skipIntro();
 		else
@@ -341,12 +343,10 @@ class TitleState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
-		FlxG.mouse.visible = true;
-
 		if (FlxG.sound.music != null)
 			Conductor.songPosition = FlxG.sound.music.time;
 
-		var pressedEnter:Bool = FlxG.keys.justPressed.ENTER || controls.ACCEPT;
+		var pressedEnter:Bool = FlxG.keys.justPressed.ENTER || controls.ACCEPT || FlxG.mouse.justPressed;
 
 		#if desktop
 		if (FlxG.keys.justPressed.ESCAPE && initialized && !pressedEnter && !stopplz) // THANK YOU BeastlyGhost idk i write correct
@@ -405,7 +405,7 @@ class TitleState extends MusicBeatState
 				titleText.alpha = FlxMath.lerp(titleTextAlphas[0], titleTextAlphas[1], timer);
 			}
 			
-			if(pressedEnter || FlxG.mouse.justPressed)
+			if(pressedEnter)
 			{
 				if(titleText != null) {
 					titleText.color = FlxColor.WHITE;
@@ -475,7 +475,7 @@ class TitleState extends MusicBeatState
 			#end
 		}
 
-		if (initialized && (pressedEnter || FlxG.mouse.justPressed) && !skippedIntro)
+		if (initialized && pressedEnter && !skippedIntro)
 		{
 			skipIntro();
 		}
