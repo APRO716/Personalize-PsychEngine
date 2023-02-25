@@ -1,10 +1,10 @@
 package openfl.display;
 
+import flixel.math.FlxMath;
 import haxe.Timer;
 import openfl.events.Event;
 import openfl.text.TextField;
 import openfl.text.TextFormat;
-import flixel.math.FlxMath;
 #if gl_stats
 import openfl.display._internal.stats.Context3DStats;
 import openfl.display._internal.stats.DrawCallContext;
@@ -31,14 +31,13 @@ class FPS extends TextField
 		The current frame rate, expressed using frames-per-second
 	**/
 	public var currentFPS(default, null):Int;
-	public var currentMem:Float;
-	public var highestMem:Float;
+	private var currentMem:Float;
+	private var highestMem:Float;
 
 	@:noCompletion private var cacheCount:Int;
 	@:noCompletion private var currentTime:Float;
 	@:noCompletion private var times:Array<Float>;
 
-	var lastUpdate:Float = 0;
 	public function new(x:Float = 10, y:Float = 10, color:Int = 0x000000)
 	{
 		super();
@@ -56,7 +55,6 @@ class FPS extends TextField
 
 		cacheCount = 0;
 		currentTime = 0;
-		highestMem = 0;
 		times = [];
 
 		#if flash
@@ -74,22 +72,33 @@ class FPS extends TextField
 	{
 		currentTime += deltaTime;
 		times.push(currentTime);
-		while(times[0]<currentTime-1000)
+
+		while (times[0] < currentTime - 1000)
+		{
 			times.shift();
+		}
 
 		var currentCount = times.length;
 		currentFPS = Math.round((currentCount + cacheCount) / 2);
-		currentMem = Math.abs(FlxMath.roundDecimal(System.totalMemory / 1000000, 1));
-
 		if (currentFPS > ClientPrefs.framerate) currentFPS = ClientPrefs.framerate;
-
-		if(currentMem > highestMem) highestMem = currentMem;
 
 		if (currentCount != cacheCount)
 		{
 			text = "FPS: " + currentFPS;
+			#if openfl
+			currentMem = Math.abs(FlxMath.roundDecimal(System.totalMemory / 1000000, 1));
+			if(currentMem > highestMem)
+				highestMem = currentMem;
 			text += "\nMemory: " + currentMem + " MB";
 			text += "\nMem Peak: " + highestMem + " MB";
+			#end
+
+			if (text != null || text != '')
+			{
+				if (Main.fpsVar != null)
+					Main.fpsVar.visible = true;
+			}
+
 			text += "\n";
 		}
 
