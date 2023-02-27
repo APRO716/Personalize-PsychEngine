@@ -39,7 +39,7 @@ class LatencyState extends FlxState
 
 	override function update(elapsed:Float)
 	{
-		offsetText.text = "Offset: " + Conductor.offset + "ms";
+		offsetText.text = 'Offset: ${Conductor.offset}ms';
 
 		Conductor.songPosition = FlxG.sound.music.time - Conductor.offset;
 

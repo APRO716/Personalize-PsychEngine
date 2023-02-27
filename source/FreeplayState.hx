@@ -566,7 +566,6 @@ class FreeplayState extends MusicBeatState
 		}
 
 		var newPos:Int = CoolUtil.difficulties.indexOf(lastDifficultyName);
-		//trace('Pos of ' + lastDifficultyName + ' is ' + newPos);
 		if(newPos > -1)
 		{
 			curDifficulty = newPos;
