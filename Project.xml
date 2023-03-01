@@ -140,8 +140,6 @@
 	<!-- Enables a terminal log prompt on debug builds -->
 	<haxelib name="hxcpp-debug-server" if="debug"/>
 
-	<haxelib name="flixel-screenshot-plugin" />
-
 	<haxedef name="no-deprecation-warnings" />
 
 	<!-- <haxelib name="markdown" /> -->
