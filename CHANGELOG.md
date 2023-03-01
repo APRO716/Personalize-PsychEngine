@@ -1,3 +1,11 @@
+[0.3.1] - IDK Man (1 Mar 2023)
+- Memory Show Decimal & Improve FPS Code Base
+- Delete unused Comment & Duplicate Code
+- Fixed Playbackrate Timing Window
+- Botplay Show Score now & Not Save Score :)
+- Improve String
+- add header.lua
+
 [0.3] - Kind of Big Ass (20 Feb 2023)
 - Cleanup & Rewrite Many Code
 - Fix Notesplash Null Object Reference when it null in ChartingState

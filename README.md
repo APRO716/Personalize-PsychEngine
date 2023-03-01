@@ -16,7 +16,7 @@ Feature:
 * Fixed Sustain (Hold Note) Too Long CR https://github.com/Raltyro/FNF-PsikeEngine
 * Fixed Timebar for Playbackrate
 * Fixed Slow Playbackrate , Week 7 Playbackrate Higher than 1 Not Loading Inst & Storymode Crash
-* Fixed EditorPlayState Weird Input
+* Fixed EditorPlayState Weird Input & Clean Up
 * Better Hold Note System Like OSU!mania & Kade Engine (Used to have this since 0.1.2 then removed in 0.1.3 but It's back & better...)
 * Full Mouse Support
 * Phantommuff Font (You can change it in assets/fonts)
