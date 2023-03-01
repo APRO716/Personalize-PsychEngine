@@ -2757,6 +2757,7 @@ class PlayState extends MusicBeatState
 	function resyncVocals(resync:Bool = true):Void
 	{
 		if (finishTimer != null || (transitioning && endingSong)) return;
+		var prev = Conductor.songPosition;
 		FlxG.sound.music.pitch = playbackRate;
 
 		if (Conductor.songPosition <= vocals.length) {
@@ -2768,16 +2769,18 @@ class PlayState extends MusicBeatState
 					FlxG.sound.music.pause();
 					vocals.pause();
 				}
-				vocals.time = Conductor.songPosition = FlxG.sound.music.time;
+				Conductor.songPosition = (lastSongTime = vocals.time = FlxG.sound.music.time) + Conductor.offset;
 			}
 			else
-				Conductor.songPosition = FlxG.sound.music.time;
+				Conductor.songPosition = lastSongTime + Conductor.offset;
 
 			vocals.play();
 		}
 		else
-			Conductor.songPosition = FlxG.sound.music.time;
+			Conductor.songPosition = lastSongTime + Conductor.offset;
 
+		var diff = prev - Conductor.songPosition;
+		if (diff < songElapsed && diff >= 0) Conductor.songPosition = prev;
 		FlxG.sound.music.play();
 	}
 
@@ -2786,6 +2789,8 @@ class PlayState extends MusicBeatState
 	var startedCountdown:Bool = false;
 	var canPause:Bool = true;
 	var limoSpeed:Float = 0;
+	var lastSongTime:Float = 0;
+	var songElapsed:Float = 0;
 
 	override public function update(elapsed:Float)
 	{
@@ -3000,7 +3005,15 @@ class PlayState extends MusicBeatState
 		
 		if (startedCountdown)
 		{
-			Conductor.songPosition += FlxG.elapsed * 1000 * playbackRate;
+			var dt = elapsed * 1000 * playbackRate;
+			Conductor.songPosition += dt;
+
+			if (FlxG.sound.music.playing) {
+				var time = FlxG.sound.music.time;
+				songElapsed = time - lastSongTime;
+				lastSongTime = time;
+				if (!startingSong && songElapsed > 0) Conductor.songPosition = time;
+			}
 		}
 
 		if (startingSong)
@@ -4879,8 +4892,8 @@ class PlayState extends MusicBeatState
 		super.stepHit();
 
 		if (!paused && !startingSong) {
-			var resync:Bool = vocals.loaded && Math.abs(vocals.time - FlxG.sound.music.time) > (vocals.vorbis == null ? 16 : 24);
-			if (Math.abs(FlxG.sound.music.time - (Conductor.songPosition - Conductor.offset)) > 16 || resync)
+			var resync:Bool = vocals.loaded && Math.abs(vocals.time - FlxG.sound.music.time) > (vocals.vorbis == null ? 6 : 12);
+			if ((songElapsed <= 0 && Math.abs(lastSongTime - (Conductor.songPosition - Conductor.offset)) > 16) || resync)
 				resyncVocals(resync);
 		}
 
