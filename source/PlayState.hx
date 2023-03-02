@@ -692,27 +692,27 @@ class PlayState extends MusicBeatState
 				GameOverSubstate.endSoundName = 'gameOverEnd-pixel';
 				GameOverSubstate.characterName = 'bf-pixel-dead';
 
+				var bgSky:BGSprite = new BGSprite('weeb/weebSky', 0, 0, 0.1, 0.1);
+				add(bgSky);
+				bgSky.antialiasing = false;
+
 				var repositionShit = -200;
 
-				var bgSky:BGSprite = new BGSprite('weeb/weebSky', 0, 0, 0.1, 0.1);
-				bgSky.antialiasing = false;
-				add(bgSky);
-
 				var bgSchool:BGSprite = new BGSprite('weeb/weebSchool', repositionShit, 0, 0.6, 0.90);
-				bgSchool.antialiasing = false;
 				add(bgSchool);
+				bgSchool.antialiasing = false;
 
 				var bgStreet:BGSprite = new BGSprite('weeb/weebStreet', repositionShit, 0, 0.95, 0.95);
-				bgStreet.antialiasing = false;
 				add(bgStreet);
+				bgStreet.antialiasing = false;
 
 				var widShit = Std.int(bgSky.width * 6);
 				if(!ClientPrefs.lowQuality) {
 					var fgTrees:BGSprite = new BGSprite('weeb/weebTreesBack', repositionShit + 170, 130, 0.9, 0.9);
 					fgTrees.setGraphicSize(Std.int(widShit * 0.8));
 					fgTrees.updateHitbox();
-					fgTrees.antialiasing = false;
 					add(fgTrees);
+					fgTrees.antialiasing = false;
 				}
 
 				var bgTrees:FlxSprite = new FlxSprite(repositionShit - 380, -800);
@@ -720,15 +720,15 @@ class PlayState extends MusicBeatState
 				bgTrees.animation.add('treeLoop', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18], 12);
 				bgTrees.animation.play('treeLoop');
 				bgTrees.scrollFactor.set(0.85, 0.85);
-				bgTrees.antialiasing = false;
 				add(bgTrees);
+				bgTrees.antialiasing = false;
 
 				if(!ClientPrefs.lowQuality) {
 					var treeLeaves:BGSprite = new BGSprite('weeb/petals', repositionShit, -40, 0.85, 0.85, ['PETALS ALL'], true);
 					treeLeaves.setGraphicSize(widShit);
 					treeLeaves.updateHitbox();
-					treeLeaves.antialiasing = false;
 					add(treeLeaves);
+					treeLeaves.antialiasing = false;
 				}
 
 				bgSky.setGraphicSize(widShit);
@@ -898,7 +898,7 @@ class PlayState extends MusicBeatState
 
 		// STAGE SCRIPTS
 		#if (MODS_ALLOWED && LUA_ALLOWED)
-		startLuasOnFolder('stages/' + curStage + '.lua');
+		startLuasOnFolder('stages/$curStage.lua');
 		#end
 
 		var gfVersion:String = SONG.gfVersion;
@@ -2017,7 +2017,7 @@ class PlayState extends MusicBeatState
 		if (isPixelStage) introAlts = introAssets.get('pixel');
 		
 		for (asset in introAlts)
-			Paths.image(asset, 'shared');
+			Paths.image(asset);
 		
 		Paths.sound('intro3' + introSoundsSuffix);
 		Paths.sound('intro2' + introSoundsSuffix);
@@ -2757,7 +2757,6 @@ class PlayState extends MusicBeatState
 	function resyncVocals(resync:Bool = true):Void
 	{
 		if (finishTimer != null || (transitioning && endingSong)) return;
-		var prev = Conductor.songPosition;
 		FlxG.sound.music.pitch = playbackRate;
 
 		if (Conductor.songPosition <= vocals.length) {
@@ -2769,7 +2768,7 @@ class PlayState extends MusicBeatState
 					FlxG.sound.music.pause();
 					vocals.pause();
 				}
-				Conductor.songPosition = (lastSongTime = vocals.time = FlxG.sound.music.time) + Conductor.offset;
+				Conductor.songPosition = (vocals.time = FlxG.sound.music.time) + Conductor.offset;
 			}
 			else
 				Conductor.songPosition = lastSongTime + Conductor.offset;
@@ -2779,8 +2778,13 @@ class PlayState extends MusicBeatState
 		else
 			Conductor.songPosition = lastSongTime + Conductor.offset;
 
-		var diff = prev - Conductor.songPosition;
-		if (diff < songElapsed && diff >= 0) Conductor.songPosition = prev;
+		var diff = lastSongTime - Conductor.songPosition;
+		if (diff < songElapsed && diff >= 0) {
+			var v = Conductor.songPosition;
+			Conductor.songPosition = lastSongTime;
+			lastSongTime = v;
+		}
+		else lastSongTime = Conductor.songPosition;
 		FlxG.sound.music.play();
 	}
 
@@ -2794,6 +2798,12 @@ class PlayState extends MusicBeatState
 
 	override public function update(elapsed:Float)
 	{
+		if (FlxG.sound.music.playing) { 
+			var time = FlxG.sound.music.time + (elapsed * FlxG.sound.music.getActualPitch());
+			songElapsed = time - lastSongTime;
+			lastSongTime = time;
+		} // Credit https://github.com/Raltyro/FNF-PsikeEngine/ So Cool XD
+
 		callOnLuas('onUpdate', [elapsed]);
 
 		grpNoteSplashes.forEachDead(function(splash:NoteSplash) {
@@ -2944,6 +2954,21 @@ class PlayState extends MusicBeatState
 				boyfriendIdleTime = 0;
 		}
 
+		if (startedCountdown)
+		{
+			var dt = elapsed * 1000 * playbackRate;
+			if (!startingSong && FlxG.sound.music.playing && songElapsed > 0)
+				Conductor.songPosition = lastSongTime;
+			else
+				Conductor.songPosition += dt;
+		}
+
+		if (lastStepHit != curStep && !paused && !startingSong) {
+			var resync:Bool = vocals.loaded && Math.abs(vocals.time - FlxG.sound.music.time) > (vocals.vorbis == null ? 6 : 12);
+			if (Math.abs(lastSongTime - Conductor.songPosition) > 16 || resync)
+				resyncVocals(resync);
+		}
+
 		super.update(elapsed);
 
 		displayedHealth = FlxMath.lerp(displayedHealth, health, CoolUtil.boundTo(elapsed * 8 * playbackRate, 0, 1)); // Steal Form Very Fucking Old Hilo Engine Hahaha - Apro
@@ -3001,19 +3026,6 @@ class PlayState extends MusicBeatState
 			paused = true;
 			cancelMusicFadeTween();
 			MusicBeatState.switchState(new CharacterEditorState(SONG.player2));
-		}
-		
-		if (startedCountdown)
-		{
-			var dt = elapsed * 1000 * playbackRate;
-			Conductor.songPosition += dt;
-
-			if (FlxG.sound.music.playing) {
-				var time = FlxG.sound.music.time;
-				songElapsed = time - lastSongTime;
-				lastSongTime = time;
-				if (!startingSong && songElapsed > 0) Conductor.songPosition = time;
-			}
 		}
 
 		if (startingSong)
@@ -4256,7 +4268,11 @@ class PlayState extends MusicBeatState
 					for (epicNote in sortedNotesList)
 					{
 						for (doubleNote in pressNotes) {
-							if (Math.abs(doubleNote.strumTime - epicNote.strumTime) > 3)
+							if (Math.abs(doubleNote.strumTime - epicNote.strumTime) < 1) {
+								doubleNote.kill();
+								notes.remove(doubleNote, true);
+								doubleNote.destroy();
+							} else
 								notesStopped = true;
 						}
 
@@ -4888,12 +4904,6 @@ class PlayState extends MusicBeatState
 	override function stepHit()
 	{
 		super.stepHit();
-
-		if (!paused && !startingSong) {
-			var resync:Bool = vocals.loaded && Math.abs(vocals.time - FlxG.sound.music.time) > (vocals.vorbis == null ? 6 : 12);
-			if ((songElapsed <= 0 && Math.abs(lastSongTime - (Conductor.songPosition - Conductor.offset)) > 16) || resync)
-				resyncVocals(resync);
-		}
 
 		if(curStep == lastStepHit) return;
 

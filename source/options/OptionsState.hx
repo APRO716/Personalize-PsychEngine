@@ -116,15 +116,9 @@ class OptionsState extends MusicBeatState
 			#end
 		#end
 
-		if (controls.BACK) { // Inspirated by Os Engine My Beloved >:D
-			if (PauseSubState.pausetooptions){
-				FlxG.sound.play(Paths.sound("cancelMenu"));
-				LoadingState.loadAndSwitchState(new PlayState());
-				PauseSubState.pausetooptions = false;
-			}else{
-				FlxG.sound.play(Paths.sound("cancelMenu"));
-				MusicBeatState.switchState(new MainMenuState());
-			}
+		if (controls.BACK) {
+			FlxG.sound.play(Paths.sound("cancelMenu"));
+			MusicBeatState.switchState(new MainMenuState());
 		}
 
 		if (controls.ACCEPT || FlxG.mouse.justPressed) {

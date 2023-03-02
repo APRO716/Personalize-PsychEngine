@@ -1,4 +1,11 @@
+[Patch] - Lol (2 Mar 2023)
+- Little bit more html5 support for FPS font
+- REMOVE OPTIONS Shortcut in Pausemenu (Buggy) :(
+- Imporve EditorPlayState Same like PlayState
+- Little bit Improve Playbackrate CR https://github.com/Raltyro/FNF-PsikeEngine/ Epic :D
+
 [0.3.1] - IDK Man (1 Mar 2023)
+- Actual Legacy Chart Support CR BeastlyGhost
 - Memory Show Decimal & Improve FPS Code Base
 - Delete unused Comment & Duplicate Code
 - Fixed Playbackrate Timing Window

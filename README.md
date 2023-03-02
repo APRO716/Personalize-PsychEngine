@@ -12,8 +12,9 @@ Feature:
 * Little Bit more Optimize (5-10% more optimize I test it) & delete unused file
 * Added Many Cool Pull Request in Psych Engine (oops)
 * Use Week 7 Release Audio
+* Legacy Chart Support (CR BeastlyGhost)
 * Qol Change
-* Fixed Sustain (Hold Note) Too Long CR https://github.com/Raltyro/FNF-PsikeEngine
+* Fixed Sustain (Hold Note) Too Long (CR https://github.com/Raltyro/FNF-PsikeEngine)
 * Fixed Timebar for Playbackrate
 * Fixed Slow Playbackrate , Week 7 Playbackrate Higher than 1 Not Loading Inst & Storymode Crash
 * Fixed EditorPlayState Weird Input & Clean Up
@@ -22,5 +23,4 @@ Feature:
 * Phantommuff Font (You can change it in assets/fonts)
 * Better Sustain (When Miss Sustain It will miss only 1)
 * Combo Number Show Exact Digit instead of 3 digits
-* Quick Option in PauseMenu
 * Cool Loading Screen & More...
