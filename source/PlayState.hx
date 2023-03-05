@@ -3796,16 +3796,13 @@ class PlayState extends MusicBeatState
 				if (storyPlaylist.length <= 0)
 				{
 					WeekData.loadTheFirstEnabledMod();
-					FlxG.sound.playMusic(Paths.music('freakyMenu'));
 
 					cancelMusicFadeTween();
 					if(FlxTransitionableState.skipNextTransIn) {
 						CustomFadeTransition.nextCamera = null;
 					}
-					FlxG.mouse.visible = true;
-					MusicBeatState.switchState(new StoryMenuState());
+					MusicBeatState.switchState(new ResultState());
 
-					// if ()
 					if(!ClientPrefs.getGameplaySetting('practice', false) && !ClientPrefs.getGameplaySetting('botplay', false)) {
 						StoryMenuState.weekCompleted.set(WeekData.weeksList[storyWeek], true);
 
@@ -3847,25 +3844,22 @@ class PlayState extends MusicBeatState
 					if(winterHorrorlandNext) {
 						new FlxTimer().start(2, function(tmr:FlxTimer) {
 							cancelMusicFadeTween();
-							LoadingState.loadAndSwitchState(new PlayState());
+							MusicBeatState.switchState(new ResultState());
 						});
 					} else {
 						cancelMusicFadeTween();
-						LoadingState.loadAndSwitchState(new PlayState());
+						MusicBeatState.switchState(new ResultState());
 					}
 				}
 			}
 			else
 			{
-				trace('WENT BACK TO FREEPLAY??');
 				WeekData.loadTheFirstEnabledMod();
 				cancelMusicFadeTween();
 				if(FlxTransitionableState.skipNextTransIn) {
 					CustomFadeTransition.nextCamera = null;
 				}
-				FlxG.mouse.visible = true;
-				MusicBeatState.switchState(new FreeplayState());
-				FlxG.sound.playMusic(Paths.music('freakyMenu'));
+				MusicBeatState.switchState(new ResultState());
 				changedDifficulty = false;
 			}
 			transitioning = true;
