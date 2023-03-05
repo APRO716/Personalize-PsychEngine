@@ -84,46 +84,6 @@ class ResultState extends MusicBeatState
     }
 
     public static function playConfirmSound() {
-		FlxG.sound.play(Paths.sound('confirmMenu'), 0.8);
-	}
-
-    function updateaccuracy(accuracy:Float)
-    {
-        var placement:String = Std.string(accuracy);
-
-        var coolText:FlxText = new FlxText(0, 0, 0, placement, 32);
-		coolText.screenCenter();
-		coolText.x = FlxG.width * 0.35;
-
-        var accuracyarray:Array<String> = Std.string(accuracy).split("");
-        var accuracyarraytwo:Array<String> = Std.string(Math.ceil(accuracy)).split("");
-
-        var loopshit:Float = 0;
-        var numScore:FlxSprite;
-        
-        numscoregroup.destroy();
-		numscoregroup = new FlxGroup();
-		add(numscoregroup);
-
-        for (i in accuracyarray)
-        {
-            if(i=="."){
-                i = "point";
-            }
-            numScore = new FlxSprite().loadGraphic(Paths.image('num' + Std.string(i)));
-			numScore.screenCenter();
-			numScore.x = coolText.x + (43 * loopshit) - 150;
-            numScore.updateHitbox();
-            numScore.antialiasing = ClientPrefs.globalAntialiasing;
-			numScore.setGraphicSize(Std.int(numScore.width * 0.5));
-			if(i == "point") {
-                numScore.x += 20;
-                numScore.setGraphicSize(Std.int(numScore.width * 0.65));
-                loopshit -= 0.4;
-            }
-
-            loopshit++;
-            numscoregroup.add(numScore);
-        }
+        FlxG.sound.play(Paths.sound('confirmMenu'), 0.8);
     }
 }
