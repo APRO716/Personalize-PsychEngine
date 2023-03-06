@@ -19,23 +19,14 @@ using StringTools;
 
 class ResultState extends MusicBeatState
 {
-    var score:Int = 0;
-    var misses:Int = 0;
-    var rank:String = "";
-    var FC:String = "";
+    var rank:String = '${PlayState.instance.ratingName}';
+    var FC:String = '${PlayState.instance.ratingFC}';
     var resultTxt:FlxText;
-    var sicknum:Int = 0;
-    var goodnum:Int = 0;
-    var badnum:Int = 0;
-    var shitnum:Int = 0;
     var stopPlz:Bool = false;
     var numscoregroup:FlxGroup = new FlxGroup();
 
     override function create()
     {
-        rank = PlayState.instance.ratingName;
-        FC = PlayState.instance.ratingFC;
-
         DiscordClient.changePresence('Result Screen ${PlayState.SONG.song}', null);
 
         resultTxt = new FlxText(0, 12, FlxG.width, "", 6);
@@ -48,19 +39,12 @@ class ResultState extends MusicBeatState
 
     override function update(elapsed:Float)
     {
-        score =  Math.ceil(FlxMath.lerp(score, PlayState.instance.songScore, CoolUtil.boundTo(elapsed * 48, 0, 1)));
-        misses =  Math.ceil(FlxMath.lerp(misses, PlayState.instance.songMisses, CoolUtil.boundTo(elapsed * 48,0, 1)));
-        sicknum = Math.ceil(FlxMath.lerp(sicknum, PlayState.instance.sicks, CoolUtil.boundTo(elapsed * 48, 0, 1)));
-        goodnum = Math.ceil(FlxMath.lerp(goodnum, PlayState.instance.goods, CoolUtil.boundTo(elapsed * 48, 0, 1)));
-        badnum = Math.ceil(FlxMath.lerp(badnum, PlayState.instance.bads, CoolUtil.boundTo(elapsed * 48, 0, 1)));
-        shitnum = Math.ceil(FlxMath.lerp(shitnum, PlayState.instance.shits, CoolUtil.boundTo(elapsed * 48, 0, 1)));
-
         resultTxt.text = 'Accuracy = ${Highscore.floorDecimal(PlayState.instance.ratingPercent * 100, 2)}%
-        \nScore = ${score}
-        \nMisses = ${misses}
+        \nScore = ${PlayState.instance.songScore}
+        \nMisses = ${PlayState.instance.songMisses}
         \nRank = ${rank} [${FC}]
-        \nSicks = ${sicknum}                         Goods = ${goodnum}
-        \nBads = ${badnum}                           Shits = ${shitnum}';
+        \nSicks = ${PlayState.instance.sicks}                         Goods = ${PlayState.instance.goods}
+        \nBads = ${PlayState.instance.bads}                           Shits = ${PlayState.instance.shits}';
 
         if (controls.ACCEPT && !stopPlz)
         {
@@ -84,5 +68,7 @@ class ResultState extends MusicBeatState
                 MusicBeatState.switchState(new FreeplayState());
             }
         }
+
+        super.update(elapsed);
     }
 }
