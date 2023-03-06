@@ -115,21 +115,14 @@ class GameOverSubstate extends MusicBeatSubstate
 		if (controls.ACCEPT || FlxG.mouse.justPressed)
 		{
 			#if !switch
-			if (!PlayState.instance.practiceMode && !PlayState.instance.cpuControlled)
+			if (!PlayState.instance.practiceMode && !PlayState.instance.cpuControlled) //Get Last Score Before You Died
 				Highscore.saveScore(PlayState.SONG.song, PlayState.instance.songScore, PlayState.storyDifficulty, PlayState.instance.ratingPercent);
 			#end
-			if (PlayState.isStoryMode){ //Get Last Score Before You Died
-				MusicBeatState.switchState(new StoryMenuState());
-				StoryMenuState.weekCompleted.set(WeekData.weeksList[storyWeek], true);
-
+			if (PlayState.isStoryMode){
 				if (!PlayState.instance.practiceMode && !PlayState.instance.cpuControlled)
 					Highscore.saveWeekScore(WeekData.getWeekFileName(), PlayState.campaignScore, PlayState.storyDifficulty);
-
-				FlxG.save.data.weekCompleted = StoryMenuState.weekCompleted;
-				FlxG.save.flush();
-			}else{
-				MusicBeatState.switchState(new FreeplayState());
 			}
+
 			endBullshit();
 		}
 
