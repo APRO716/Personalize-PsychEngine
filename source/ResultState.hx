@@ -23,11 +23,12 @@ class ResultState extends MusicBeatState
     var misses:Int = 0;
     var rank:String = "";
     var FC:String = "";
-    var accuracytxt:FlxText;
+    var resultTxt:FlxText;
     var sicknum:Int = 0;
     var goodnum:Int = 0;
     var badnum:Int = 0;
     var shitnum:Int = 0;
+    var stopPlz:Bool = false;
     var numscoregroup:FlxGroup = new FlxGroup();
 
     override function create()
@@ -37,10 +38,11 @@ class ResultState extends MusicBeatState
 
         DiscordClient.changePresence('Result Screen ${PlayState.SONG.song}', null);
 
-        accuracytxt = new FlxText(0, 12, FlxG.width, "", 6);
-        accuracytxt.scrollFactor.set();
-		accuracytxt.setFormat(Paths.font("font.ttf"), 28, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		add(accuracytxt);
+        resultTxt = new FlxText(0, 12, FlxG.width, "", 6);
+        resultTxt.scrollFactor.set();
+		resultTxt.setFormat(Paths.font("font.ttf"), 28, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		add(resultTxt);
+
         super.create();
     }
 
@@ -53,16 +55,17 @@ class ResultState extends MusicBeatState
         badnum = Math.ceil(FlxMath.lerp(badnum, PlayState.instance.bads, CoolUtil.boundTo(elapsed * 48, 0, 1)));
         shitnum = Math.ceil(FlxMath.lerp(shitnum, PlayState.instance.shits, CoolUtil.boundTo(elapsed * 48, 0, 1)));
 
-        accuracytxt.text = 'Accuracy = ${Highscore.floorDecimal(PlayState.instance.ratingPercent * 100, 2)} %
+        resultTxt.text = 'Accuracy = ${Highscore.floorDecimal(PlayState.instance.ratingPercent * 100, 2)}%
         \nScore = ${score}
         \nMisses = ${misses}
         \nRank = ${rank} [${FC}]
         \nSicks = ${sicknum}                         Goods = ${goodnum}
         \nBads = ${badnum}                           Shits = ${shitnum}';
 
-        if (controls.ACCEPT)
+        if (controls.ACCEPT && !stopPlz)
         {
-            playConfirmSound(); // Prevent Earrrape Sound
+            stopPlz = true;
+            FlxG.sound.play(Paths.sound('confirmMenu'), 0.8);
             if (PlayState.isStoryMode){
                 if(PlayState.storyPlaylist.length <= 0){
                     FlxG.sound.playMusic(Paths.music('freakyMenu'));
@@ -81,9 +84,5 @@ class ResultState extends MusicBeatState
                 MusicBeatState.switchState(new FreeplayState());
             }
         }
-    }
-
-    public static function playConfirmSound() {
-        FlxG.sound.play(Paths.sound('confirmMenu'), 0.8);
     }
 }

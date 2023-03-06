@@ -9,13 +9,13 @@ Based on Psych Engine 0.6.3 & Fix Somebug
 [Download Official Release](https://github.com/APRO716/Personalize-PsychEngine/releases)
 ---------------------------------------------------------------------------
 Feature:
+* Result Screen at the end of Song
 * Little Bit more Optimize (5-10% more optimize I test it) & delete unused file
 * Added Many Cool Pull Request in Psych Engine (oops)
 * Use Week 7 Release Audio
 * Legacy Chart Support (CR BeastlyGhost)
 * Qol Change
 * Fixed Sustain (Hold Note) Too Long (CR https://github.com/Raltyro/FNF-PsikeEngine)
-* Fixed Timebar for Playbackrate
 * Fixed Slow Playbackrate , Week 7 Playbackrate Higher than 1 Not Loading Inst & Storymode Crash
 * Fixed EditorPlayState Weird Input & Clean Up
 * Better Hold Note System Like OSU!mania & Kade Engine (Used to have this since 0.1.2 then removed in 0.1.3 but It's back & better...)

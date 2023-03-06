@@ -59,7 +59,7 @@ import Achievements;
 import StageData;
 import psychlua.FunkinLua;
 import DialogueBoxPsych;
-import Conductor.Rating;
+import Rating;
 
 #if !flash 
 import flixel.addons.display.FlxRuntimeShader;
@@ -2939,8 +2939,8 @@ class PlayState extends MusicBeatState
 					var curTime:Float = Math.max(0, Conductor.songPosition - ClientPrefs.noteOffset);
 					songPercent = curTime / songLength;
 
-					var songCalc:Float = (songLength - curTime) / playbackRate; // Fix Timebar calculate wrong?
-					if(ClientPrefs.timeBarType == 'Time Elapsed') songCalc = curTime / playbackRate;
+					var songCalc:Float = songLength - curTime;
+					if(ClientPrefs.timeBarType == 'Time Elapsed') songCalc = curTime;
 
 					var secondsTotal:Int = Math.floor(Math.max(0, songCalc / 1000));
 
