@@ -1,6 +1,7 @@
 [0.3.2] - Result Screen & more (7 Mar 2023)
 - Result Screen WIP {Show Sick Good Bad Shit Hit , Score Misses Rank FC & Acc}
 - GameOver Save the Score as Player Has OOF
+- Loading Screen with Mod Folder Support (You can custom Loading Screen in Mod Folder now) Lol
 - Update PE to e75b42f (Not Include Reworking Folder Organization)
 - Autosave when pressing BACKSPACE to exit Chart Editor (CR EliteMasterEric)
 - Character instances can be created anywhere, and bugs/crashes involving character assets can be prevented (CR https://github.com/ShadowMario/FNF-PsychEngine/pull/12029) Pretty Cool :D
