@@ -201,7 +201,6 @@ class FreeplayState extends MusicBeatState
 		{
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
 		}
-
 		lerpScore = Math.floor(FlxMath.lerp(lerpScore, intendedScore, CoolUtil.boundTo(elapsed * 24, 0, 1)));
 		lerpRating = FlxMath.lerp(lerpRating, intendedRating, CoolUtil.boundTo(elapsed * 12, 0, 1));
 
@@ -218,10 +217,7 @@ class FreeplayState extends MusicBeatState
 		while(ratingSplit[1].length < 2) { //Less than 2 decimals in it, add decimals then
 			ratingSplit[1] += '0';
 		}
-
-		var ratingPercent = ratingSplit.join('.');
-
-		scoreText.text = 'PERSONAL BEST: $lerpScore [$ratingPercent%]';
+		scoreText.text = 'PERSONAL BEST: $lerpScore [${ratingSplit.join('.')}%]';
 		positionHighscore();
 
 		var upP = controls.UI_UP_P;
@@ -298,7 +294,7 @@ class FreeplayState extends MusicBeatState
 					}
 				}
 			}
-			var bruh = 0;
+			var bruh:Int = 0;
 			for (item in grpSongs.members)
 			{
 				if (item.alpha != 1 && bruh == lol)
@@ -429,6 +425,7 @@ class FreeplayState extends MusicBeatState
 			openSubState(new ResetScoreSubState(songs[curSelected].songName, curDifficulty, songs[curSelected].songCharacter));
 			FlxG.sound.play(Paths.sound('scrollMenu'));
 		}
+
 		super.update(elapsed);
 	}
 
@@ -528,7 +525,7 @@ class FreeplayState extends MusicBeatState
 				item.color = 0xFFCDCA44;
 			}
 		}
-		
+
 		Paths.currentModDirectory = songs[curSelected].folder;
 		PlayState.storyWeek = songs[curSelected].week;
 
@@ -551,19 +548,13 @@ class FreeplayState extends MusicBeatState
 			}
 
 			if(diffs.length > 0 && diffs[0].length > 0)
-			{
 				CoolUtil.difficulties = diffs;
-			}
 		}
-		
+
 		if(CoolUtil.difficulties.contains(CoolUtil.defaultDifficulty))
-		{
 			curDifficulty = Math.round(Math.max(0, CoolUtil.defaultDifficulties.indexOf(CoolUtil.defaultDifficulty)));
-		}
 		else
-		{
 			curDifficulty = 0;
-		}
 
 		var newPos:Int = CoolUtil.difficulties.indexOf(lastDifficultyName);
 		if(newPos > -1)
