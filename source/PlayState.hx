@@ -2327,7 +2327,8 @@ class PlayState extends MusicBeatState
 				var daNoteData:Int = Std.int(songNotes[1] % 4);
 				var gottaHitNote:Bool = section.mustHitSection;
 
-				if (songNotes[1] > 3) gottaHitNote = !section.mustHitSection;
+				if (songNotes[1] > 3)
+					gottaHitNote = !section.mustHitSection;
 
 				var oldNote:Note;
 				if (unspawnNotes.length > 0)
@@ -3224,7 +3225,7 @@ class PlayState extends MusicBeatState
 
 				#if desktop
 				// Game Over doesn't get his own variable because it's only used here
-				DiscordClient.changePresence("Game Over - " + detailsText, '${SONG.song} ${playbackRate}x ($storyDifficultyText)', iconP2.getCharacter());
+				DiscordClient.changePresence('Game Over - $detailsText', '${SONG.song} ${playbackRate}x ($storyDifficultyText)', iconP2.getCharacter());
 				#end
 				isDead = true;
 				return true;
@@ -3925,10 +3926,8 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	private function popUpScore(note:Note):Void
+	private function popUpScore(note:Note = null):Void
 	{
-		if (note == null) return;
-
 		var noteDiff:Float = Math.abs(note.strumTime - Conductor.songPosition + ClientPrefs.ratingOffset) / getActualPlaybackRate();
 		vocals.volume = 1;
 
@@ -4258,7 +4257,7 @@ class PlayState extends MusicBeatState
 			// rewritten inputs???
 			notes.forEachAlive(function(daNote:Note)
 			{
-				// hold note functions
+				// osu!mania hold note functions
 				if (strumsBlocked[daNote.noteData] != true && daNote.isSustainNote && (daNote.parent == null
 					|| daNote.parent.wasGoodHit) && parsedHoldArray[daNote.noteData] && daNote.canBeHit
 					&& daNote.mustPress && !daNote.tooLate && !daNote.wasGoodHit && !daNote.blockHit) {
@@ -4325,7 +4324,6 @@ class PlayState extends MusicBeatState
 
 		if(daNote.countMiss) { // FUCKKKKKKK
 			if (combo != 0) combo = 0;
-
 			if(!practiceMode) songScore -= 10;
 
 			songMisses++;
@@ -4438,7 +4436,9 @@ class PlayState extends MusicBeatState
 		{
 			if(cpuControlled && (note.ignoreNote || note.hitCausesMiss)) return;
 
-			if (ClientPrefs.hitsoundVolume > 0 && !note.hitsoundDisabled) FlxG.sound.play(Paths.sound('hitsound'), ClientPrefs.hitsoundVolume);
+			if (ClientPrefs.hitsoundVolume > 0 && !note.hitsoundDisabled){
+				FlxG.sound.play(Paths.sound('hitsound'), ClientPrefs.hitsoundVolume);
+			}
 
 			if(note.hitCausesMiss) {
 				noteMiss(note);
