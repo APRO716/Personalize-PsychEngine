@@ -1272,7 +1272,7 @@ class PlayState extends MusicBeatState
 	
 		#if desktop
 		// Updating Discord Rich Presence.
-		DiscordClient.changePresence(detailsText, '${SONG.song} ${playbackRate}x ($storyDifficultyText)', iconP2.getCharacter());
+		DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
 		#end
 
 		if(!controls.controllerMode)
@@ -1912,7 +1912,7 @@ class PlayState extends MusicBeatState
 		if (isPixelStage) introAlts = introAssets.get('pixel');
 		
 		for (asset in introAlts)
-			Paths.image(asset, 'shared');
+			Paths.image(asset);
 		
 		Paths.sound('intro3' + introSoundsSuffix);
 		Paths.sound('intro2' + introSoundsSuffix);
@@ -1949,6 +1949,8 @@ class PlayState extends MusicBeatState
 			callOnLuas('onCountdownStarted', []);
 
 			var swagCounter:Int = 0;
+
+			if(startOnTime < 0) startOnTime = 0;
 
 			if (startOnTime > 0) {
 				clearNotesBefore(startOnTime);
@@ -2248,7 +2250,7 @@ class PlayState extends MusicBeatState
 
 		#if desktop
 		// Updating Discord Rich Presence (with Time Left)
-		DiscordClient.changePresence(detailsText, '${SONG.song} ${playbackRate}x ($storyDifficultyText)', iconP2.getCharacter(), true, songLength / playbackRate);
+		DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter(), true, songLength);
 		#end
 		setOnLuas('songLength', songLength);
 		callOnLuas('onSongStart', []);
@@ -2599,11 +2601,11 @@ class PlayState extends MusicBeatState
 			#if desktop
 			if (startTimer != null && startTimer.finished)
 			{
-				DiscordClient.changePresence(detailsText, '${SONG.song} ${playbackRate}x ($storyDifficultyText)', iconP2.getCharacter(), true, (songLength - Conductor.songPosition - ClientPrefs.noteOffset) / playbackRate);
+				DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter(), true, songLength - Conductor.songPosition - ClientPrefs.noteOffset);
 			}
 			else
 			{
-				DiscordClient.changePresence(detailsText, '${SONG.song} ${playbackRate}x ($storyDifficultyText)', iconP2.getCharacter());
+				DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
 			}
 			#end
 		}
@@ -2618,11 +2620,11 @@ class PlayState extends MusicBeatState
 		{
 			if (Conductor.songPosition > 0.0)
 			{
-				DiscordClient.changePresence(detailsText, '${SONG.song} ${playbackRate}x ($storyDifficultyText)', iconP2.getCharacter(), true, (songLength - Conductor.songPosition - ClientPrefs.noteOffset) / playbackRate);
+				DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter(), true, songLength - Conductor.songPosition - ClientPrefs.noteOffset);
 			}
 			else
 			{
-				DiscordClient.changePresence(detailsText, '${SONG.song} ${playbackRate}x ($storyDifficultyText)', iconP2.getCharacter());
+				DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
 			}
 		}
 		#end
@@ -2635,7 +2637,7 @@ class PlayState extends MusicBeatState
 		#if desktop
 		if (health > 0 && !paused)
 		{
-			DiscordClient.changePresence(detailsPausedText, '${SONG.song} ${playbackRate}x ($storyDifficultyText)', iconP2.getCharacter());
+			DiscordClient.changePresence(detailsPausedText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
 		}
 		#end
 
@@ -3225,7 +3227,7 @@ class PlayState extends MusicBeatState
 
 				#if desktop
 				// Game Over doesn't get his own variable because it's only used here
-				DiscordClient.changePresence('Game Over - $detailsText', '${SONG.song} ${playbackRate}x ($storyDifficultyText)', iconP2.getCharacter());
+				DiscordClient.changePresence("Game Over - " + detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
 				#end
 				isDead = true;
 				return true;
@@ -3915,11 +3917,11 @@ class PlayState extends MusicBeatState
 			pixelShitPart2 = '-pixel';
 		}
 
-		Paths.image(pixelShitPart1 + 'sick' + pixelShitPart2, 'shared');
-		Paths.image(pixelShitPart1 + 'good' + pixelShitPart2, 'shared');
-		Paths.image(pixelShitPart1 + 'bad' + pixelShitPart2, 'shared');
-		Paths.image(pixelShitPart1 + 'shit' + pixelShitPart2, 'shared');
-		Paths.image(pixelShitPart1 + 'combo' + pixelShitPart2, 'shared');
+		Paths.image(pixelShitPart1 + 'sick' + pixelShitPart2);
+		Paths.image(pixelShitPart1 + 'good' + pixelShitPart2);
+		Paths.image(pixelShitPart1 + 'bad' + pixelShitPart2);
+		Paths.image(pixelShitPart1 + 'shit' + pixelShitPart2);
+		Paths.image(pixelShitPart1 + 'combo' + pixelShitPart2);
 		
 		for (i in 0...10) {
 			Paths.image(pixelShitPart1 + 'num$i' + pixelShitPart2);
@@ -4750,6 +4752,10 @@ class PlayState extends MusicBeatState
 		}
 		luaArray = [];
 
+		#if hscript
+		if(FunkinLua.hscript != null) FunkinLua.hscript = null;
+		#end
+
 		@:privateAccess
 		if (Std.isOfType(FlxG.game._requestedState, PlayState)) {
 			if (FlxG.sound.music != null) FlxG.sound.music.destroy();
@@ -5031,7 +5037,7 @@ class PlayState extends MusicBeatState
 		setOnLuas('rating', ratingPercent);
 		setOnLuas('ratingName', ratingName);
 		setOnLuas('ratingFC', ratingFC);
-		updateScore(badHit); // score will only update after rating is calculated, if it's a badHit, it shouldn't bounce -BeastlyGhost
+		updateScore(badHit); // score will only update after rating is calculated, if it's a badHit, it shouldn't bounce @BeastlyGhost
 	}
 
 	public function getActualPlaybackRate():Float {
