@@ -22,7 +22,7 @@ class ResultState extends MusicBeatState
     var rank:String = '${PlayState.instance.ratingName}';
     var FC:String = '${PlayState.instance.ratingFC}';
     var resultTxt:FlxText;
-    var stopPlz:Bool = false;
+    var pressTxt:FlxText;
     var numscoregroup:FlxGroup = new FlxGroup();
 
     override function create()
@@ -33,6 +33,11 @@ class ResultState extends MusicBeatState
         resultTxt.scrollFactor.set();
 		resultTxt.setFormat(Paths.font("font.ttf"), 28, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(resultTxt);
+
+        pressTxt = new FlxText(15, FlxG.height - 44, 0, 'Press ENTER to Exit', 6);
+        pressTxt.scrollFactor.set();
+		pressTxt.setFormat(Paths.font("font.ttf"), 28, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		add(pressTxt);
 
         super.create();
     }
@@ -46,10 +51,8 @@ class ResultState extends MusicBeatState
         \nSicks = ${PlayState.instance.sicks}                         Goods = ${PlayState.instance.goods}
         \nBads = ${PlayState.instance.bads}                           Shits = ${PlayState.instance.shits}';
 
-        if ((controls.ACCEPT || FlxG.mouse.justPressed) && !stopPlz)
+        if (controls.ACCEPT || FlxG.mouse.justPressed)
         {
-            stopPlz = true;
-            FlxG.sound.play(Paths.sound('confirmMenu'), 0.8);
             if (PlayState.isStoryMode){
                 if(PlayState.storyPlaylist.length <= 0){
                     FlxG.sound.playMusic(Paths.music('freakyMenu'));
