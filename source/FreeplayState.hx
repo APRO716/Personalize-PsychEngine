@@ -57,8 +57,6 @@ class FreeplayState extends MusicBeatState
 
 	override function create()
 	{
-		FlxG.mouse.visible = true;
-		
 		persistentUpdate = true;
 		PlayState.isStoryMode = false;
 		WeekData.reloadWeekFiles(false);

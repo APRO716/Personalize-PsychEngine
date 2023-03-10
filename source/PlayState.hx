@@ -3791,6 +3791,8 @@ class PlayState extends MusicBeatState
 
 			if (isStoryMode)
 			{
+				FlxG.mouse.visible = true;
+
 				campaignScore += songScore;
 				campaignMisses += songMisses;
 
@@ -3818,6 +3820,8 @@ class PlayState extends MusicBeatState
 				}
 				else
 				{
+					FlxG.mouse.visible = true;
+
 					var difficulty:String = CoolUtil.getDifficultyFilePath();
 
 					trace('LOADING NEXT SONG');
@@ -3857,6 +3861,7 @@ class PlayState extends MusicBeatState
 			}
 			else
 			{
+				FlxG.mouse.visible = true;
 				WeekData.loadTheFirstEnabledMod();
 				cancelMusicFadeTween();
 				if(FlxTransitionableState.skipNextTransIn) {

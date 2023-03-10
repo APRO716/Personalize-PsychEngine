@@ -51,7 +51,6 @@ class MainMenuState extends MusicBeatState
 
 	override function create()
 	{
-		FlxG.mouse.visible = true;
 		#if MODS_ALLOWED
 		Paths.pushGlobalMods();
 		#end
@@ -97,7 +96,7 @@ class MainMenuState extends MusicBeatState
 		magenta.screenCenter();
 		magenta.visible = false;
 		magenta.antialiasing = ClientPrefs.globalAntialiasing;
-		magenta.color = FlxColor.fromRGB(FlxG.random.int(50, 205), FlxG.random.int(50, 205), FlxG.random.int(50, 205));
+		magenta.color = 0xFFfd719b;
 		add(magenta);
 
 		menuItems = new FlxTypedGroup<FlxSprite>();
@@ -276,9 +275,6 @@ class MainMenuState extends MusicBeatState
 						}
 						else
 						{
-							FlxTween.tween(spr, {x : (FlxG.width / 2) - (spr.width / 2) - 50}, 1.25, {
-								ease: FlxEase.quadOut,
-							});	
 							FlxTween.tween(camGame, {zoom: 3}, 1, {ease: FlxEase.quadInOut, startDelay: 0.5});
 							FlxFlicker.flicker(spr, 1, 0.06, false, false, function(flick:FlxFlicker)
 							{

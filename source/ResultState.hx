@@ -46,7 +46,7 @@ class ResultState extends MusicBeatState
         \nSicks = ${PlayState.instance.sicks}                         Goods = ${PlayState.instance.goods}
         \nBads = ${PlayState.instance.bads}                           Shits = ${PlayState.instance.shits}';
 
-        if (controls.ACCEPT && !stopPlz)
+        if ((controls.ACCEPT || FlxG.mouse.justPressed) && !stopPlz)
         {
             stopPlz = true;
             FlxG.sound.play(Paths.sound('confirmMenu'), 0.8);
