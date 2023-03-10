@@ -3192,6 +3192,7 @@ class PlayState extends MusicBeatState
 	{
 		persistentUpdate = false;
 		paused = true;
+		FlxG.mouse.visible = true;
 		cancelMusicFadeTween();
 		MusicBeatState.switchState(new ChartingState());
 		chartingMode = true;
@@ -3742,6 +3743,8 @@ class PlayState extends MusicBeatState
 			}
 		}
 
+		FlxG.mouse.visible = false;
+
 		timeBarBG.visible = false;
 		timeBar.visible = false;
 		timeTxt.visible = false;
@@ -3791,8 +3794,6 @@ class PlayState extends MusicBeatState
 
 			if (isStoryMode)
 			{
-				FlxG.mouse.visible = true;
-
 				campaignScore += songScore;
 				campaignMisses += songMisses;
 
@@ -3820,8 +3821,6 @@ class PlayState extends MusicBeatState
 				}
 				else
 				{
-					FlxG.mouse.visible = true;
-
 					var difficulty:String = CoolUtil.getDifficultyFilePath();
 
 					trace('LOADING NEXT SONG');
@@ -3861,7 +3860,6 @@ class PlayState extends MusicBeatState
 			}
 			else
 			{
-				FlxG.mouse.visible = true;
 				WeekData.loadTheFirstEnabledMod();
 				cancelMusicFadeTween();
 				if(FlxTransitionableState.skipNextTransIn) {

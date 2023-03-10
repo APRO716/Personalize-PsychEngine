@@ -267,8 +267,6 @@ class ChartingState extends MusicBeatState
 
 		if(curSec >= _song.notes.length) curSec = _song.notes.length - 1;
 
-		FlxG.mouse.visible = true;
-
 		tempBpm = _song.bpm;
 
 		addSection();
