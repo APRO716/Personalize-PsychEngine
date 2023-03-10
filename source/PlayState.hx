@@ -3743,7 +3743,7 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		FlxG.mouse.visible = false;
+		FlxG.mouse.visible = true;
 
 		timeBarBG.visible = false;
 		timeBar.visible = false;
