@@ -410,7 +410,6 @@ class ModsMenuState extends MusicBeatState
 				colorTween.cancel();
 			}
 			FlxG.sound.play(Paths.sound('cancelMenu'));
-			FlxG.mouse.visible = false;
 			saveTxt();
 			if(needaReset)
 			{
