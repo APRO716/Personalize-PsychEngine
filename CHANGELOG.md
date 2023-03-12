@@ -6,6 +6,7 @@
 - More Accurate Loss HP
 - Kade Health System (Optional Disable by Default)
 - default icon for credit state if icon not found or missing
+- Basic Improvements to Lua's setHealthBarColors (CR https://github.com/ShadowMario/FNF-PsychEngine/pull/12074)
 - Character Editor w mouse support (CR https://github.com/ShadowMario/FNF-PsychEngine/pull/8933) WOW
 
 [0.3.2] - Result Screen & more (7 Mar 2023)
