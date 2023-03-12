@@ -15,6 +15,7 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.graphics.FlxGraphic;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
+import flixel.math.FlxPoint;
 import flixel.addons.ui.FlxInputText;
 import flixel.addons.ui.FlxUI9SliceSprite;
 import flixel.addons.ui.FlxUI;
@@ -139,9 +140,9 @@ class CharacterEditorState extends MusicBeatState
 		camFollow.screenCenter();
 		add(camFollow);
 
-		var tipTextArray:Array<String> = "E/Q - Camera Zoom In/Out
+		var tipTextArray:Array<String> = "SCROLLMOUSE - Camera Zoom In/Out
 		\nR - Reset Camera Zoom
-		\nJKLI - Move Camera
+		\nRMOUSE - Move Camera
 		\nW/S - Previous/Next Animation
 		\nSpace - Play Animation
 		\nArrow Keys - Move Character Offset
@@ -193,7 +194,6 @@ class CharacterEditorState extends MusicBeatState
 		addAnimationsUI();
 		UI_characterbox.selected_tab_id = 'Character';
 
-		FlxG.mouse.visible = true;
 		reloadCharacterOptions();
 
 		super.create();
@@ -699,9 +699,9 @@ class CharacterEditorState extends MusicBeatState
 				char.healthIcon = healthIconInputText.text;
 				updatePresence();
 			}
-			else if(sender == imageInputText) {
+			else if(sender == imageInputText)
 				char.imageFile = imageInputText.text;
-			}
+
 		} else if(id == FlxUINumericStepper.CHANGE_EVENT && (sender is FlxUINumericStepper)) {
 			if (sender == scaleStepper)
 			{
@@ -775,12 +775,6 @@ class CharacterEditorState extends MusicBeatState
 		} else {
 			char.frames = Paths.getSparrowAtlas(char.imageFile);
 		}
-
-
-
-
-
-
 
 		if(char.animationsArray != null && char.animationsArray.length > 0) {
 			for (anim in char.animationsArray) {
@@ -1012,6 +1006,9 @@ class CharacterEditorState extends MusicBeatState
 		#end
 	}
 
+	private var lastPosition:FlxPoint = new FlxPoint();
+	private var mouseDiff:FlxPoint = new FlxPoint();
+
 	override function update(elapsed:Float)
 	{
 		MusicBeatState.camBeat = FlxG.camera;
@@ -1048,12 +1045,13 @@ class CharacterEditorState extends MusicBeatState
 					MusicBeatState.switchState(new editors.MasterEditorMenu());
 					FlxG.sound.playMusic(Paths.music('freakyMenu'));
 				}
-				FlxG.mouse.visible = false;
 				return;
 			}
 
 			if (FlxG.keys.justPressed.R) {
 				FlxG.camera.zoom = 1;
+			if (FlxG.keys.pressed.SHIFT)
+				camFollow.screenCenter();
 			}
 
 			if (FlxG.keys.pressed.E && FlxG.camera.zoom < 3) {
@@ -1115,8 +1113,6 @@ class CharacterEditorState extends MusicBeatState
 
 				var controlArray:Array<Bool> = [FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT, FlxG.keys.justPressed.UP, FlxG.keys.justPressed.DOWN];
 
-
-
 				for (i in 0...controlArray.length) {
 					if(controlArray[i]) {
 						var holdShift = FlxG.keys.pressed.SHIFT;
@@ -1145,6 +1141,36 @@ class CharacterEditorState extends MusicBeatState
 		}
 		ghostChar.setPosition(char.x, char.y);
 		super.update(elapsed);
+
+		if (FlxG.mouse.justPressedRight)
+		{
+			lastPosition.set(CoolUtil.boundTo(FlxG.mouse.getScreenPosition().x, 0, FlxG.width), 
+			CoolUtil.boundTo(FlxG.mouse.getScreenPosition().y, 0, FlxG.height));
+		}
+	
+		if (FlxG.mouse.pressedRight) // draggable camera with mouse movement
+		{
+			mouseDiff.set((lastPosition.x - FlxG.mouse.getScreenPosition().x), (lastPosition.y - FlxG.mouse.getScreenPosition().y));
+	
+			if (FlxG.mouse.justMoved)
+			{
+				var mult:Float = 1;
+	
+				if (FlxG.keys.pressed.SHIFT)
+					mult = 4;
+					
+				camFollow.x = camFollow.x - -CoolUtil.boundTo(mouseDiff.x, -FlxG.width, FlxG.width) * mult;
+				camFollow.y = camFollow.y - -CoolUtil.boundTo(mouseDiff.y, -FlxG.height, FlxG.height) * mult;
+	
+				lastPosition.set(CoolUtil.boundTo(FlxG.mouse.getScreenPosition().x, 0, FlxG.width), 
+				CoolUtil.boundTo(FlxG.mouse.getScreenPosition().y, 0, FlxG.height));
+			}
+		}
+
+		if (FlxG.mouse.wheel != 0)
+		{
+			FlxG.camera.zoom += FlxG.mouse.wheel / 10;
+		}
 	}
 
 	var _file:FileReference;

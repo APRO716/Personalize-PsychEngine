@@ -103,7 +103,6 @@ class Main extends Sprite
 
 		#if html5
 		FlxG.autoPause = false;
-		FlxG.mouse.visible = false;
 		#end
 		
 		#if CRASH_HANDLER

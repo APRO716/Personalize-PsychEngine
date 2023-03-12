@@ -91,8 +91,6 @@ class BaseOptionsMenu extends MusicBeatSubstate
 		{
 			var optionText:Alphabet = new Alphabet(290, 260, optionsArray[i].name, false);
 			optionText.isMenuItem = true;
-			/*optionText.forceX = 300;
-			optionText.yMult = 90;*/
 			optionText.targetY = i;
 			grpOptions.add(optionText);
 
@@ -104,7 +102,6 @@ class BaseOptionsMenu extends MusicBeatSubstate
 			} else {
 				optionText.x -= 80;
 				optionText.startPosition.x -= 80;
-				//optionText.xAdd -= 80;
 				var valueText:AttachedText = new AttachedText('' + optionsArray[i].getValue(), optionText.width + 80);
 				valueText.sprTracker = optionText;
 				valueText.copyAlpha = true;
@@ -112,7 +109,7 @@ class BaseOptionsMenu extends MusicBeatSubstate
 				grpTexts.add(valueText);
 				optionsArray[i].setChild(valueText);
 			}
-			//optionText.snapToPosition(); //Don't ignore me when i ask for not making a fucking pull request to uncomment this line ok
+			//Don't ignore me when i ask for not making a fucking pull request to uncomment this line ok // I deleted it lol
 
 			if(optionsArray[i].showBoyfriend && boyfriend == null)
 			{
@@ -219,7 +216,6 @@ class BaseOptionsMenu extends MusicBeatSubstate
 
 									curOption.curOption = num;
 									curOption.setValue(curOption.options[num]); //lol
-									//trace(curOption.options[num]);
 							}
 							updateTextFrom(curOption);
 							curOption.change();

@@ -70,6 +70,13 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			false);
 		addOption(option);
 
+		var option:Option = new Option('Kade Engine Health System',
+			"If checked, Sustain note hot heal\nBut normal note heal more.",
+			'kadeHPmode',
+			'bool',
+			false);
+		addOption(option);
+
 		var option:Option = new Option('Hitsound Volume',
 			'Funny notes does \"Tick!\" when you hit them."',
 			'hitsoundVolume',

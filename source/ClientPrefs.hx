@@ -33,6 +33,7 @@ class ClientPrefs {
 	public static var pauseMusic:String = 'Tea Time';
 	public static var comboStacking:Bool = true;
 	public static var showCombo:Bool = true;
+	public static var kadeHPmode:Bool = false;
 	public static var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
 		'scrolltype' => 'multiplicative', 
@@ -142,6 +143,7 @@ class ClientPrefs {
 		FlxG.save.data.pauseMusic = pauseMusic;
 		FlxG.save.data.comboStacking = comboStacking;
 		FlxG.save.data.showCombo = showCombo;
+		FlxG.save.data.kadeHPmode = kadeHPmode;
 	
 		FlxG.save.flush();
 
@@ -245,30 +247,28 @@ class ClientPrefs {
 		if(FlxG.save.data.pauseMusic != null) {
 			pauseMusic = FlxG.save.data.pauseMusic;
 		}
-		if(FlxG.save.data.gameplaySettings != null)
-		{
+		if(FlxG.save.data.gameplaySettings != null){
 			var savedMap:Map<String, Dynamic> = FlxG.save.data.gameplaySettings;
-			for (name => value in savedMap)
-			{
+			for (name => value in savedMap){
 				gameplaySettings.set(name, value);
 			}
 		}
 		
 		// flixel automatically saves your volume!
-		if(FlxG.save.data.volume != null)
-		{
+		if(FlxG.save.data.volume != null){
 			FlxG.sound.volume = FlxG.save.data.volume;
 		}
-		if (FlxG.save.data.mute != null)
-		{
+		if (FlxG.save.data.mute != null){
 			FlxG.sound.muted = FlxG.save.data.mute;
 		}
-		if (FlxG.save.data.comboStacking != null)
-		{
+		if (FlxG.save.data.comboStacking != null){
 			comboStacking = FlxG.save.data.comboStacking;
 		}
-		if (FlxG.save.data.showCombo != null)
+		if (FlxG.save.data.showCombo != null){
 			showCombo = FlxG.save.data.showCombo;
+		}
+		if (FlxG.save.data.kadeHPmode != null)
+			kadeHPmode = FlxG.save.data.kadeHPmode;
 
 		var save:FlxSave = new FlxSave();
 		save.bind('controls_v3', CoolUtil.getSavePath());

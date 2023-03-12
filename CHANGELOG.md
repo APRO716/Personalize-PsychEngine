@@ -1,3 +1,13 @@
+[0.3.3] - Epik (12 Mar 2023)
+- Fixed HScript not destroyed when done (for previous ver)
+- Kind of more Optimize(?)
+- More Info Result Screen
+- Rewrite mouse code
+- More Accurate Loss HP
+- Kade Health System (Optional Disable by Default)
+- default icon for credit state if icon not found or missing
+- Character Editor w mouse support (CR https://github.com/ShadowMario/FNF-PsychEngine/pull/8933) WOW
+
 [0.3.2] - Result Screen & more (7 Mar 2023)
 - Result Screen WIP {Show Sick Good Bad Shit Hit , Score Misses Rank FC & Acc}
 - GameOver Save the Score as Player Has OOF

@@ -4334,7 +4334,7 @@ class PlayState extends MusicBeatState
 			songMisses++;
 			totalPlayed++;
 			vocals.volume = 0;
-			health -= daNote.missHealth * healthLoss;
+			health -= (daNote.nextNote.countMiss || !daNote.isSustainNote ? daNote.missHealth : 0) * healthLoss; // More Accurate lol
 			RecalculateRating(true);
 
 			var char:Character = boyfriend;
@@ -4356,7 +4356,7 @@ class PlayState extends MusicBeatState
 
 		if (!boyfriend.stunned)
 		{
-			health -= 0.05 * healthLoss;
+			health -= (ClientPrefs.kadeHPmode ? 0.2 : 0.05) * healthLoss;
 			if(instakillOnMiss)
 			{
 				vocals.volume = 0;
@@ -4477,7 +4477,11 @@ class PlayState extends MusicBeatState
 				combo++;
 				popUpScore(note);
 			}
-			health += note.hitHealth * healthGain;
+
+			if (ClientPrefs.kadeHPmode)
+				health += (!note.isSustainNote ? note.hitHealth : 0) * healthGain;
+			else
+				health += note.hitHealth * healthGain;
 
 			if(!note.noAnimation) {
 				var animToPlay:String = singAnimations[Std.int(Math.abs(note.noteData))];

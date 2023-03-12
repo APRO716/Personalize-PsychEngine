@@ -183,8 +183,6 @@ class NoteOffsetState extends MusicBeatState
 		add(timeBar);
 		add(timeTxt);
 
-		///////////////////////
-
 		var blackBox:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, 40, FlxColor.BLACK);
 		blackBox.scrollFactor.set();
 		blackBox.alpha = 0.6;
@@ -475,6 +473,5 @@ class NoteOffsetState extends MusicBeatState
 			changeModeText.text = '< Note/Beat Delay (Press Accept to Switch) >';
 
 		changeModeText.text = changeModeText.text.toUpperCase();
-		FlxG.mouse.visible = onComboMenu;
 	}
 }
