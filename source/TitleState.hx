@@ -249,7 +249,7 @@ class TitleState extends MusicBeatState
 
 		titleText = new FlxSprite(titleJSON.startx, titleJSON.starty);
 		#if (desktop && MODS_ALLOWED)
-		var path = 'mods/${Paths.currentModDirectory}/images/titleEnter.png';
+		var path = "mods/" + Paths.currentModDirectory + "/images/titleEnter.png";
 		if (!FileSystem.exists(path)){
 			path = "mods/images/titleEnter.png";
 		}
