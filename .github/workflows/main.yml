@@ -76,7 +76,7 @@ jobs:
       - name: Publish Artifact (Exe Only)
         uses: actions/upload-artifact@v2.2.4
         with:
-          name: updateOnly
+          name: windowsBuild(Update)
           path: export/release/windows/bin/PsychEngine.exe
   buildMac:
     runs-on: macos-latest
