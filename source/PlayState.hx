@@ -2617,7 +2617,7 @@ class PlayState extends MusicBeatState
 	override public function onFocus():Void
 	{
 		#if desktop
-		if (health > 0 && !paused)
+		if (displayedHealth > 0 && !paused)
 		{
 			if (Conductor.songPosition > 0.0)
 			{
@@ -2636,7 +2636,7 @@ class PlayState extends MusicBeatState
 	override public function onFocusLost():Void
 	{
 		#if desktop
-		if (health > 0 && !paused)
+		if (displayedHealth > 0 && !paused)
 		{
 			DiscordClient.changePresence(detailsPausedText, SONG.song + " " + playbackRate + "x (" + storyDifficultyText + ")", iconP2.getCharacter());
 		}
@@ -2896,11 +2896,11 @@ class PlayState extends MusicBeatState
 		iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset);
 		iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - (iconP2.width - iconOffset));
 
-		if (health >= 2)
-			health = 2;
+		if (displayedHealth >= 2)
+			displayedHealth = 2;
 
-		if (health <= 0)
-			health = 0;
+		if (displayedHealth <= 0)
+			displayedHealth = 0;
 
 		if (healthBar.percent < 20)
 			iconP1.animation.curAnim.curFrame = 1;
@@ -3205,7 +3205,7 @@ class PlayState extends MusicBeatState
 
 	public var isDead:Bool = false; //Don't mess with this on Lua!!!
 	function doDeathCheck(?skipHealthCheck:Bool = false) {
-		if (((skipHealthCheck && instakillOnMiss) || health <= 0) && !practiceMode && !isDead)
+		if (((skipHealthCheck && instakillOnMiss) || displayedHealth <= 0) && !practiceMode && !isDead)
 		{
 			var ret:Dynamic = callOnLuas('onGameOver', [], false);
 			if(ret != FunkinLua.Function_Stop) {
