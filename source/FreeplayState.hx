@@ -388,6 +388,8 @@ class FreeplayState extends MusicBeatState
 
 				trace('CURRENT WEEK: ' + WeekData.getWeekFileName());
 
+				FlxG.mouse.visible = false;
+
 				FlxTween.tween(scoreText, {alpha: 0}, 0.5);
 				FlxTween.tween(diffText, {alpha: 0}, 0.5);
 

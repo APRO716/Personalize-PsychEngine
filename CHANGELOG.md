@@ -1,4 +1,11 @@
+[0.3.3h] - Unexpected Update (13 Mar 2023)
+- Little bit Improve Another Platform Support
+- Change Mouse Visible = false to freeplay instead of PlayState
+- Added more clientprefs var in FunkinLua for Lua Script
+- Added parseJson for Lua (CR https://github.com/ShadowMario/FNF-PsychEngine/pull/12081)
+
 [0.3.3] - Epik (12 Mar 2023)
+- Remove Custom Loading Screen Mod
 - Fixed HScript not destroyed when done (for previous ver)
 - Kind of more Optimize(?)
 - More Info Result Screen
