@@ -4322,15 +4322,15 @@ class PlayState extends MusicBeatState
 			doDeathCheck(true);
 		}
 
+		// osu!mania miss system?
 		if(daNote.nextNote != null){
 			if ((!daNote.isSustainNote && daNote.nextNote.isSustainNote) && !daNote.hitCausesMiss) daNote.nextNote.countMiss = false; // Null Object Reference Fixed!
 			else if (daNote.hitCausesMiss) daNote.nextNote.countMiss = true;
 		}
 
-		if(daNote.countMiss) { // FUCKKKKKKK
+		if(daNote.countMiss) {
 			if (combo != 0) combo = 0;
 			if(!practiceMode) songScore -= 10;
-
 			songMisses++;
 			totalPlayed++;
 			vocals.volume = 0;

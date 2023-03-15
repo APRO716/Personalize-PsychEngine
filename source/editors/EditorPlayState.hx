@@ -677,30 +677,6 @@ class EditorPlayState extends MusicBeatState
 		}
 	}
 
-	function noteMiss(daNote:Note):Void
-	{
-		if(daNote.nextNote != null){
-			if ((!daNote.isSustainNote && daNote.nextNote.isSustainNote) && !daNote.hitCausesMiss) daNote.nextNote.countMiss = false; // Null Object Reference Fixed!
-			else if (daNote.hitCausesMiss) daNote.nextNote.countMiss = true;
-		}
-
-		if(daNote.countMiss){
-			if (combo != 0) combo = 0;
-			songMisses++;
-			vocals.volume = 0;
-		}
-	}
-
-	function noteMissPress():Void
-	{
-		if (ClientPrefs.ghostTapping) return;
-
-		if (combo != 0) combo = 0;
-		songMisses++;
-		FlxG.sound.play(Paths.soundRandom('missnote', 1, 3), FlxG.random.float(0.1, 0.2));
-		vocals.volume = 0;
-	}
-
 	var combo:Int = 0;
 	function goodNoteHit(note:Note):Void
 	{
@@ -754,6 +730,30 @@ class EditorPlayState extends MusicBeatState
 				note.destroy();
 			}
 		}
+	}
+
+	function noteMiss(daNote:Note):Void
+	{
+		if(daNote.nextNote != null){
+			if ((!daNote.isSustainNote && daNote.nextNote.isSustainNote) && !daNote.hitCausesMiss) daNote.nextNote.countMiss = false; // Null Object Reference Fixed!
+			else if (daNote.hitCausesMiss) daNote.nextNote.countMiss = true;
+		}
+
+		if(daNote.countMiss){
+			if (combo != 0) combo = 0;
+			songMisses++;
+			vocals.volume = 0;
+		}
+	}
+
+	function noteMissPress():Void
+	{
+		if (ClientPrefs.ghostTapping) return;
+
+		if (combo != 0) combo = 0;
+		songMisses++;
+		FlxG.sound.play(Paths.soundRandom('missnote', 1, 3), FlxG.random.float(0.1, 0.2));
+		vocals.volume = 0;
 	}
 
 	var COMBO_X:Float = 400;
