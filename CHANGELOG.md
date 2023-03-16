@@ -1,4 +1,5 @@
 [0.4] - SAY GEX Update[?] (16 Mar 2023)
+- Easter Egg in TitleState now Completely Work
 - EditorPlayState code base Completely Up to date with PlayState
 - (GitHub) Workflow now with Exe only file when Action is finished
 - DisplayedHealth now more Accurate when ded lol
