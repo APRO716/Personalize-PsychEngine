@@ -42,6 +42,12 @@ class ResultState extends MusicBeatState
         super.create();
     }
 
+    function destroyText()
+    {
+        resultTxt.destroy();
+        pressTxt.destroy();
+    }
+
     override function update(elapsed:Float)
     {
         resultTxt.text = 'Song : ${PlayState.SONG.song}
@@ -54,6 +60,7 @@ class ResultState extends MusicBeatState
 
         if (controls.ACCEPT || FlxG.mouse.justPressed)
         {
+            destroyText();
             if (PlayState.isStoryMode){
                 if(PlayState.storyPlaylist.length <= 0){
                     FlxG.sound.playMusic(Paths.music('freakyMenu'));

@@ -25,7 +25,6 @@ class EditorPlayState extends MusicBeatState
 {
 	// Yes, this is mostly a copy of PlayState, it's kinda dumb to make a direct copy of it but... ehhh
 	private var strumLine:FlxSprite;
-	private var comboGroup:FlxTypedGroup<FlxSprite>;
 	public var strumLineNotes:FlxTypedGroup<StrumNote>;
 	public var opponentStrums:FlxTypedGroup<StrumNote>;
 	public var playerStrums:FlxTypedGroup<StrumNote>;
@@ -57,6 +56,7 @@ class EditorPlayState extends MusicBeatState
 	var stepTxt:FlxText;
 	var beatTxt:FlxText;
 	var sectionTxt:FlxText;
+	var tipText:FlxText;
 	
 	var timerToStart:Float = 0;
 	private var noteTypeMap:Map<String, Bool> = new Map<String, Bool>();
@@ -84,9 +84,6 @@ class EditorPlayState extends MusicBeatState
 		
 		strumLine = new FlxSprite(ClientPrefs.middleScroll ? PlayState.STRUM_X_MIDDLESCROLL : PlayState.STRUM_X, (ClientPrefs.downScroll ? FlxG.height - 150 : 50)).makeGraphic(FlxG.width, 10);
 		strumLine.scrollFactor.set();
-		
-		comboGroup = new FlxTypedGroup<FlxSprite>();
-		add(comboGroup);
 
 		strumLineNotes = new FlxTypedGroup<StrumNote>();
 		opponentStrums = new FlxTypedGroup<StrumNote>();
@@ -149,7 +146,7 @@ class EditorPlayState extends MusicBeatState
 		stepTxt.borderSize = 1.25;
 		add(stepTxt);
 
-		var tipText:FlxText = new FlxText(10, FlxG.height - 24, 0, 'Press ESC to Go Back to Chart Editor', 16);
+		tipText = new FlxText(10, FlxG.height - 24, 0, 'Press ESC to Go Back to Chart Editor', 16);
 		tipText.setFormat(Paths.font("font.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		tipText.borderSize = 2;
 		tipText.scrollFactor.set();
@@ -294,11 +291,20 @@ class EditorPlayState extends MusicBeatState
 		LoadingState.loadAndSwitchState(new editors.ChartingState());
 	}
 
+	function destroyText(){
+		if (scoreTxt != null) scoreTxt.destroy();
+		sectionTxt.destroy();
+		beatTxt.destroy();
+		stepTxt.destroy();
+		tipText.destroy();
+	}
+
 	public var noteKillOffset:Float = 350;
 	public var spawnTime:Float = 2000;
 	override function update(elapsed:Float) {
 		if (FlxG.keys.justPressed.ESCAPE)
 		{
+			destroyText();
 			FlxG.sound.music.pause();
 			vocals.pause();
 			LoadingState.loadAndSwitchState(new editors.ChartingState());
@@ -708,7 +714,7 @@ class EditorPlayState extends MusicBeatState
 			if (!note.isSustainNote)
 			{
 				combo++;
-				songHits++;
+				if(!note.ratingDisabled) songHits++;
 				popUpScore(note);
 			}
 
@@ -775,22 +781,11 @@ class EditorPlayState extends MusicBeatState
 
 		var rating:FlxSprite = new FlxSprite();
 
-		var daRating:String = "sick";
+		var daRating:Rating = Conductor.judgeNote(note, noteDiff);
 
-		if (noteDiff > ClientPrefs.badWindow)
-		{
-			daRating = 'shit';
-		}
-		else if (noteDiff > ClientPrefs.goodWindow)
-		{
-			daRating = 'bad';
-		}
-		else if (noteDiff > ClientPrefs.sickWindow)
-		{
-			daRating = 'good';
-		}
+		note.rating = daRating.name;
 
-		if(daRating == 'sick' && !note.noteSplashDisabled)
+		if(daRating.noteSplash && !note.noteSplashDisabled)
 		{
 			spawnNoteSplashOnNote(note);
 		}
@@ -804,7 +799,7 @@ class EditorPlayState extends MusicBeatState
 			pixelShitPart2 = '-pixel';
 		}
 
-		rating.loadGraphic(Paths.image(pixelShitPart1 + daRating + pixelShitPart2));
+		rating.loadGraphic(Paths.image(pixelShitPart1 + daRating.image + pixelShitPart2));
 		rating.screenCenter();
 		rating.x = coolText.x - 40;
 		rating.y -= 60;
@@ -825,7 +820,8 @@ class EditorPlayState extends MusicBeatState
 		comboSpr.y -= ClientPrefs.comboOffset[1];
 		comboSpr.y += 60;
 		comboSpr.velocity.x += FlxG.random.int(1, 10);
-		comboGroup.add(rating);
+
+		insert(members.indexOf(strumLineNotes), rating);
 
 		if (!ClientPrefs.comboStacking)
 		{
@@ -861,6 +857,14 @@ class EditorPlayState extends MusicBeatState
 		{
 			if (lastCombo != null) lastCombo.kill();
 			lastCombo = comboSpr;
+		}
+		if (lastScore != null)
+		{
+			while (lastScore.length > 0)
+			{
+				lastScore[0].kill();
+				lastScore.remove(lastScore[0]);
+			}
 		}
 		for (i in seperatedScore)
 		{
