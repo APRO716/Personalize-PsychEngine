@@ -1,3 +1,11 @@
+[0.4] - SAY GEX Update[?] (16 Mar 2023)
+- EditorPlayState code base Completely Up to date with PlayState
+- (GitHub) Workflow now with Exe only file when Action is finished
+- DisplayedHealth now more Accurate when ded lol
+- Restore Hot Dilf song that Removed in PE 0.5b (SAY GEX)
+- Recolor Mainmenu Version Text to Pastel RGB uwu & Better Menu Tween
+- Rework Freeplay Score Text (Add Letter Rank) & Cool Ass Tween (CR Hiro my homie https://github.com/hironothilo/)
+
 [0.3.3h] - Unexpected Update (13 Mar 2023)
 - Little bit Improve Another Platform Support
 - Change Mouse Visible = false to freeplay instead of PlayState

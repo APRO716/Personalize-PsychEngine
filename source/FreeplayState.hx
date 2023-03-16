@@ -407,6 +407,17 @@ class FreeplayState extends MusicBeatState
 				FlxTween.tween(scoreText, {alpha: 0}, 0.5);
 				FlxTween.tween(diffText, {alpha: 0}, 0.5);
 
+				for (item in grpSongs.members)
+				{
+					if (item.targetY == 0)
+					{
+						item.alpha = 1;
+						FlxFlicker.flicker(item, 1.5, 0.05, false);
+					}
+					else
+						FlxTween.tween(item, {alpha: 0}, 0.3);
+				}
+
 				for (i in 0...iconArray.length)
 				{
 					if(i != curSelected) FlxTween.tween(iconArray[i], {alpha: 0}, 0.3);
