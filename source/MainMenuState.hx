@@ -129,17 +129,17 @@ class MainMenuState extends MusicBeatState
 
 		var versionShit:FlxText = new FlxText(12, FlxG.height - 64, 0, 'Personalize Psych v$editVer', 12);
 		versionShit.scrollFactor.set();
-		versionShit.setFormat(Paths.font("font.ttf"), 16, 0xFFFFd1dc, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		versionShit.setFormat(Paths.font("font.ttf"), 16, 0xFFFF6961, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
 
 		var versionShit:FlxText = new FlxText(12, FlxG.height - 44, 0, 'Psych Engine v$psychEngineVersion [$gitBuild]', 12);
 		versionShit.scrollFactor.set();
-		versionShit.setFormat(Paths.font("font.ttf"), 16, 0xFFC3B1E1, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		versionShit.setFormat(Paths.font("font.ttf"), 16, 0xFFD1FEB8, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
 
 		var versionShit:FlxText = new FlxText(12, FlxG.height - 24, 0, "Friday Night Funkin' v" + Application.current.meta.get('version'), 12);
 		versionShit.scrollFactor.set();
-		versionShit.setFormat(Paths.font("font.ttf"), 16, FlxColor.CYAN, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		versionShit.setFormat(Paths.font("font.ttf"), 16, 0xFFA7C7E7, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
 
 		camGame.zoom = 3;
