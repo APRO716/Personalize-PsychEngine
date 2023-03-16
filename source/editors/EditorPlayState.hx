@@ -764,9 +764,7 @@ class EditorPlayState extends MusicBeatState
 
 	var COMBO_X:Float = 400;
 	var COMBO_Y:Float = 340;
-
-	public var showCombo:Bool = ClientPrefs.showCombo;
-
+	var showCombo:Bool = ClientPrefs.showCombo;
 	private function popUpScore(note:Note = null):Void
 	{
 		var noteDiff:Float = Math.abs(note.strumTime - Conductor.songPosition + ClientPrefs.ratingOffset);
