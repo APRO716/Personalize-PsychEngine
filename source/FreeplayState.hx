@@ -463,11 +463,11 @@ class FreeplayState extends MusicBeatState
 
 		switch(CoolUtil.difficulties[PlayState.storyDifficulty].toUpperCase()){
 			case 'EASY':
-				diffText.color = 0xFF66FF00;
+				diffText.color = 0xFF77DD77;
 			case 'NORMAL':
-				diffText.color = 0xFFFFFF00;
+				diffText.color = 0xFFFDFD96;
 			case 'HARD':
-				diffText.color = 0xFFCC0000;
+				diffText.color = 0xFFFF6961;
 			default:
 				diffText.color = 0xFFFFFFFF;
 		}
