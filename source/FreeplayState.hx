@@ -36,6 +36,7 @@ class FreeplayState extends MusicBeatState
 	var curDifficulty:Int = -1;
 	private static var lastDifficultyName:String = '';
 
+	var rank:String = '';
 	var scoreBG:FlxSprite;
 	var scoreText:FlxText;
 	var diffText:FlxText;
@@ -45,6 +46,18 @@ class FreeplayState extends MusicBeatState
 	var intendedRating:Float = 0;
 
 	var stopspamming:Bool = false;
+	var accuracy:Float = 0;
+	public static var ratingStuff:Array<Dynamic> = [
+		['F', 0.5], //From 0% to 49%
+		['E', 0.6], //From 50% to 59%
+		['D', 0.7], //From 60% to 69%
+		['C', 0.8], //From 70% to 79%
+		['B', 0.9], //From 80% to 89%
+		['A', 0.95], //From 90% to 94%
+		['S', 0.99], //From 95% to 98%
+		['SS', 1], //99%+ but not 100%
+		['SSS', 1] //The value on this one isn't used actually, since Perfect is always "1"
+	];
 
 	private var grpSongs:FlxTypedGroup<Alphabet>;
 	private var curPlaying:Bool = false;
@@ -124,13 +137,13 @@ class FreeplayState extends MusicBeatState
 		WeekData.setDirectoryFromWeek();
 
 		scoreText = new FlxText(FlxG.width * 0.7, 5, 0, "", 32);
-		scoreText.setFormat(Paths.font("font.ttf"), 32, FlxColor.WHITE, RIGHT);
+		scoreText.setFormat(Paths.font("font.ttf"), 32, FlxColor.WHITE, CENTER);
 
-		scoreBG = new FlxSprite(scoreText.x - 6, 0).makeGraphic(1, 66, 0xFF000000);
+		scoreBG = new FlxSprite(scoreText.x - 6, 0).makeGraphic(1, 150, 0xFF000000);
 		scoreBG.alpha = 0.6;
 		add(scoreBG);
 
-		diffText = new FlxText(scoreText.x, scoreText.y + 36, 0, "", 24);
+		diffText = new FlxText(scoreText.x, scoreText.y + 108, 0, "", 28);
 		diffText.font = scoreText.font;
 		add(diffText);
 
@@ -215,7 +228,8 @@ class FreeplayState extends MusicBeatState
 		while(ratingSplit[1].length < 2) { //Less than 2 decimals in it, add decimals then
 			ratingSplit[1] += '0';
 		}
-		scoreText.text = 'PERSONAL BEST: $lerpScore [${ratingSplit.join('.')}%]';
+		accuracy = Std.parseFloat(ratingSplit.join('.'));
+		scoreText.text = 'PERSONAL BEST: $lerpScore\nACCURACY : ${accuracy}%\nRANK : $rank';
 		positionHighscore();
 
 		var upP = controls.UI_UP_P;
@@ -570,6 +584,23 @@ class FreeplayState extends MusicBeatState
 		scoreBG.x = FlxG.width - (scoreBG.scale.x / 2);
 		diffText.x = Std.int(scoreBG.x + (scoreBG.width / 2));
 		diffText.x -= diffText.width / 2;
+
+		if(accuracy / 100 >= 1)
+        {
+            rank = ratingStuff[ratingStuff.length-1][0]; //Uses last string
+        }
+        else
+        {
+            for (i in 0...ratingStuff.length-1)
+            {
+                if(accuracy / 100 < ratingStuff[i][1])
+                {
+                    rank = ratingStuff[i][0];
+                    break;
+                }
+            }
+        }
+		if(accuracy <= 0) rank = 'N/A';
 	}
 }
 
