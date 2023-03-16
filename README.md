@@ -9,6 +9,10 @@ Based on Psych Engine 0.6.3 & Fix Somebug
 [Download Official Release](https://github.com/APRO716/Personalize-PsychEngine/releases)
 ---------------------------------------------------------------------------
 Feature:
+* SAY GEX /j
+* Recolor Mainmenu Version Text
+* Rework (idk) FreePlay Score Text (Add Letter Rank)
+* Da Option that Sustain note not Gain HP
 * Result Screen at the end of Song
 * Little Bit more Optimize (5-10% more optimize I test it) & delete unused file
 * Added Many Cool Pull Request in Psych Engine (oops)
