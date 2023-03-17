@@ -50,7 +50,7 @@ class ResultState extends MusicBeatState
 
     override function update(elapsed:Float)
     {
-        resultTxt.text = 'Song : ${PlayState.SONG.song}
+        resultTxt.text = 'Song Cleared!
         \nScore : ${PlayState.instance.songScore}
         \nAccuracy : ${Highscore.floorDecimal(PlayState.instance.ratingPercent * 100, 2)}%
         \nMisses : ${PlayState.instance.songMisses}
