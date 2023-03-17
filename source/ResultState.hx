@@ -66,8 +66,9 @@ class ResultState extends MusicBeatState
                     FlxG.sound.playMusic(Paths.music('freakyMenu'));
                     MusicBeatState.switchState(new StoryMenuState());
                 }else{
-                    var difficulty:String = CoolUtil.getDifficultyFilePath();
+                    FlxG.mouse.visible = false;
 
+                    var difficulty:String = CoolUtil.getDifficultyFilePath();
                     PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0] + difficulty, PlayState.storyPlaylist[0]);
 
 				    PlayState.cancelMusicFadeTween();
