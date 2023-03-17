@@ -216,6 +216,7 @@ class PauseSubState extends MusicBeatSubstate
 				if(menuItems.length - 1 != curSelected && difficultyChoices.contains(daSelected)) {
 					var name:String = PlayState.SONG.song;
 					var poop = Highscore.formatSong(name, curSelected);
+					FlxG.mouse.visible = false;
 					PlayState.SONG = Song.loadFromJson(poop, name);
 					PlayState.storyDifficulty = curSelected;
 					MusicBeatState.resetState();
@@ -248,6 +249,7 @@ class PauseSubState extends MusicBeatSubstate
 					PlayState.changedDifficulty = true;
 					practiceText.visible = PlayState.instance.practiceMode;
 				case "Restart Song":
+					FlxG.mouse.visible = false;
 					restartSong();
 				case "Leave Charting Mode":
 					restartSong();
@@ -265,6 +267,7 @@ class PauseSubState extends MusicBeatSubstate
 							PlayState.instance.clearNotesBefore(curTime);
 							PlayState.instance.setSongTime(curTime);
 						}
+						FlxG.mouse.visible = false;
 						close();
 					}
 				case "End Song":
@@ -308,6 +311,7 @@ class PauseSubState extends MusicBeatSubstate
 
 	public static function restartSong(noTrans:Bool = false)
 	{
+		FlxG.mouse.visible = false;
 		PlayState.instance.paused = true; // For lua
 		FlxG.sound.music.volume = 0;
 		PlayState.instance.vocals.volume = 0;
@@ -349,12 +353,10 @@ class PauseSubState extends MusicBeatSubstate
 			bullShit++;
 
 			item.alpha = 0.6;
-			// item.setGraphicSize(Std.int(item.width * 0.8));
 
 			if (item.targetY == 0)
 			{
 				item.alpha = 1;
-				// item.setGraphicSize(Std.int(item.width));
 
 				if(item == skipTimeTracker)
 				{
