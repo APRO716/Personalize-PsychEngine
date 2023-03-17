@@ -249,7 +249,6 @@ class PauseSubState extends MusicBeatSubstate
 					PlayState.changedDifficulty = true;
 					practiceText.visible = PlayState.instance.practiceMode;
 				case "Restart Song":
-					FlxG.mouse.visible = false;
 					restartSong();
 				case "Leave Charting Mode":
 					restartSong();
