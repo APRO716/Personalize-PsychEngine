@@ -23,7 +23,6 @@ class ResultState extends MusicBeatState
     var FC:String = '${PlayState.instance.ratingFC}';
     var resultTxt:FlxText;
     var pressTxt:FlxText;
-    var numscoregroup:FlxGroup = new FlxGroup();
 
     override function create()
     {
