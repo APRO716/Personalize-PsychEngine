@@ -2144,7 +2144,7 @@ class PlayState extends MusicBeatState
 	}
 
 	public var tempScore:String = '';
-	public var scoreSeparator:String = ' // ';
+	public var scoreSeparator:String = ' | ';
 	public var displayRatings:Bool = true;
 
 	public function updateScore(miss:Bool = false)

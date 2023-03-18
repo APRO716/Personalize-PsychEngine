@@ -325,6 +325,8 @@ class StoryMenuState extends MusicBeatState
 
 				selectedWeek = true;
 
+				FlxG.mouse.visible = false;
+
 				PlayState.campaignScore = 0;
 				PlayState.campaignMisses = 0;
 				new FlxTimer().start(1, function(tmr:FlxTimer)
