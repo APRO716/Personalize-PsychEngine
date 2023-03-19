@@ -45,7 +45,6 @@ class FreeplayState extends MusicBeatState
 	var intendedScore:Int = 0;
 	var intendedRating:Float = 0;
 
-	var stopspamming:Bool = false;
 	var accuracy:Float = 0;
 	public static var ratingStuff:Array<Dynamic> = [
 		['F', 0.5], //From 0% to 49%
@@ -139,11 +138,11 @@ class FreeplayState extends MusicBeatState
 		scoreText = new FlxText(FlxG.width * 0.7, 5, 0, "", 32);
 		scoreText.setFormat(Paths.font("font.ttf"), 32, FlxColor.WHITE, CENTER);
 
-		scoreBG = new FlxSprite(scoreText.x - 6, 0).makeGraphic(1, 150, 0xFF000000);
+		scoreBG = new FlxSprite(scoreText.x - 6, 0).makeGraphic(1, 160, 0xFF000000);
 		scoreBG.alpha = 0.6;
 		add(scoreBG);
 
-		diffText = new FlxText(scoreText.x, scoreText.y + 108, 0, "", 28);
+		diffText = new FlxText(scoreText.x, scoreText.y + 115, 0, "", 28);
 		diffText.font = scoreText.font;
 		add(diffText);
 
@@ -189,7 +188,6 @@ class FreeplayState extends MusicBeatState
 	override function closeSubState() {
 		changeSelection(0, false);
 		persistentUpdate = true;
-		stopspamming = false;
 		super.closeSubState();
 	}
 

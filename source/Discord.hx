@@ -28,7 +28,6 @@ class DiscordClient
 		{
 			DiscordRpc.process();
 			sleep(2);
-			//trace("Discord Client Update");
 		}
 
 		DiscordRpc.shutdown();
@@ -88,8 +87,6 @@ class DiscordClient
 			startTimestamp : Std.int(startTimestamp / 1000),
             endTimestamp : Std.int(endTimestamp / 1000)
 		});
-
-		//trace('Discord RPC Updated. Arguments: $details, $state, $smallImageKey, $hasStartTimestamp, $endTimestamp');
 	}
 
 	#if LUA_ALLOWED

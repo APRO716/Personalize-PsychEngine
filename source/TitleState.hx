@@ -314,7 +314,6 @@ class TitleState extends MusicBeatState
 			skipIntro();
 		else
 			initialized = true;
-
 	}
 
 	function getIntroTextShit():Array<Array<String>>
@@ -435,7 +434,6 @@ class TitleState extends MusicBeatState
 						var word:String = wordRaw.toUpperCase(); //just for being sure you're doing it right
 						if (easterEggKeysBuffer.contains(word))
 						{
-							//trace('YOOO! ' + word);
 							if (FlxG.save.data.psychDevsEasterEgg == word)
 								FlxG.save.data.psychDevsEasterEgg = '';
 							else

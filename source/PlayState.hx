@@ -88,7 +88,7 @@ using StringTools;
 
 class PlayState extends MusicBeatState
 {
-	public static var STRUM_X = 42;
+	public static var STRUM_X = 48.5; // https://github.com/ShadowMario/FNF-PsychEngine/pull/12123 WOW mafs
 	public static var STRUM_X_MIDDLESCROLL = -278;
 
 	public static var ratingStuff:Array<Dynamic> = [

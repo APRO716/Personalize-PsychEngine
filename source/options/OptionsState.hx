@@ -138,9 +138,11 @@ class OptionsState extends MusicBeatState
 		for (item in grpOptions.members) {
 			item.targetY = bullShit - curSelected;
 			bullShit++;
-
+			item.color = 0xFFFFFFFF;
 			item.alpha = 0.6;
+			selectorLeft.color = selectorRight.color = 0xFFCDCA44;
 			if (item.targetY == 0) {
+				item.color = 0xFFCDCA44;
 				item.alpha = 1;
 				selectorLeft.x = item.x - 63;
 				selectorLeft.y = item.y;
