@@ -26,7 +26,7 @@ class ResultState extends MusicBeatState
 
     override function create()
     {
-        DiscordClient.changePresence('In The Result Screen', null);
+        DiscordClient.changePresence('Result Screen', null);
 
         resultTxt = new FlxText(0, 12, FlxG.width, "", 6);
         resultTxt.scrollFactor.set();
