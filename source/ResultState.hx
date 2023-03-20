@@ -13,7 +13,7 @@ import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 
-//"Static access to instance field (varible) is not allowed" mean you stupid go read kade version lol
+//"Static access to instance field (varible) is not allowed" mean you stupid go read kade version lol -hiro
 
 using StringTools;
 
@@ -26,7 +26,7 @@ class ResultState extends MusicBeatState
 
     override function create()
     {
-        DiscordClient.changePresence('Result Screen ${PlayState.SONG.song}', null);
+        DiscordClient.changePresence('In The Result Screen', null);
 
         resultTxt = new FlxText(0, 12, FlxG.width, "", 6);
         resultTxt.scrollFactor.set();
