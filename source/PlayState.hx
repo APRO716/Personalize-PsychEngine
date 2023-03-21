@@ -2010,7 +2010,7 @@ class PlayState extends MusicBeatState
 						countdownReady.scrollFactor.set();
 						countdownReady.updateHitbox();
 
-						if (PlayState.isPixelStage)
+						if (isPixelStage)
 							countdownReady.setGraphicSize(Std.int(countdownReady.width * daPixelZoom));
 
 						countdownReady.screenCenter();
@@ -2032,7 +2032,7 @@ class PlayState extends MusicBeatState
 						countdownSet.cameras = [camHUD];
 						countdownSet.scrollFactor.set();
 
-						if (PlayState.isPixelStage)
+						if (isPixelStage)
 							countdownSet.setGraphicSize(Std.int(countdownSet.width * daPixelZoom));
 
 						countdownSet.screenCenter();
@@ -2054,7 +2054,7 @@ class PlayState extends MusicBeatState
 						countdownGo.cameras = [camHUD];
 						countdownGo.scrollFactor.set();
 
-						if (PlayState.isPixelStage)
+						if (isPixelStage)
 							countdownGo.setGraphicSize(Std.int(countdownGo.width * daPixelZoom));
 
 						countdownGo.updateHitbox();
@@ -2338,11 +2338,11 @@ class PlayState extends MusicBeatState
 				else
 					oldNote = null;
 
-				var fixedSus:Int = Math.round(songNotes[2] / Conductor.stepCrochet);
+				var sussy:Int = Math.round(songNotes[2] / Conductor.stepCrochet); // sussy baka
 
 				var swagNote:Note = new Note(daStrumTime, daNoteData, oldNote);
 				swagNote.mustPress = gottaHitNote;
-				swagNote.sustainLength = fixedSus * Conductor.stepCrochet;
+				swagNote.sustainLength = sussy * Conductor.stepCrochet;
 				swagNote.gfNote = (section.gfSection && (songNotes[1]<4));
 				swagNote.noteType = songNotes[3];
 				if(!Std.isOfType(songNotes[3], String)) swagNote.noteType = editors.ChartingState.noteTypeList[songNotes[3]]; //Backward compatibility + compatibility with Week 7 charts
@@ -2350,8 +2350,8 @@ class PlayState extends MusicBeatState
 
 				unspawnNotes.push(swagNote);
 
-				if(fixedSus > 0) {
-					for (susNote in 0...Math.floor(Math.max(fixedSus, 2)))
+				if(sussy > 0) {
+					for (susNote in 0...Math.floor(Math.max(sussy, 2)))
 					{
 						oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
 
@@ -3048,7 +3048,7 @@ class PlayState extends MusicBeatState
 								if (daNote.animation.curAnim.name.endsWith('end')) {
 									daNote.y += 10.5 * (fakeCrochet / 400) * 1.5 * songSpeed + (46 * (songSpeed - 1));
 									daNote.y -= 46 * (1 - (fakeCrochet / 600)) * songSpeed;
-									if(PlayState.isPixelStage) {
+									if(isPixelStage) {
 										daNote.y += 8 + (6 - daNote.originalHeightForCalcs) * daPixelZoom;
 									} else {
 										daNote.y -= 19;
@@ -3974,7 +3974,7 @@ class PlayState extends MusicBeatState
 		var pixelShitPart1:String = "";
 		var pixelShitPart2:String = '';
 
-		if (PlayState.isPixelStage)
+		if (isPixelStage)
 		{
 			pixelShitPart1 = 'pixelUI/';
 			pixelShitPart2 = '-pixel';
@@ -4012,7 +4012,7 @@ class PlayState extends MusicBeatState
 			lastRating = rating;
 		}
 
-		if (!PlayState.isPixelStage)
+		if (!isPixelStage)
 		{
 			rating.setGraphicSize(Std.int(rating.width * 0.7));
 			rating.antialiasing = ClientPrefs.globalAntialiasing;
@@ -4064,7 +4064,7 @@ class PlayState extends MusicBeatState
 			if (!ClientPrefs.comboStacking)
 				lastScore.push(numScore);
 
-			if (!PlayState.isPixelStage)
+			if (!isPixelStage)
 			{
 				numScore.antialiasing = ClientPrefs.globalAntialiasing;
 				numScore.setGraphicSize(Std.int(numScore.width * 0.5));

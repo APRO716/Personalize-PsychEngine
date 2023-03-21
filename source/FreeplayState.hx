@@ -46,17 +46,6 @@ class FreeplayState extends MusicBeatState
 	var intendedRating:Float = 0;
 
 	var accuracy:Float = 0;
-	public static var ratingStuff:Array<Dynamic> = [
-		['F', 0.5], //From 0% to 49%
-		['E', 0.6], //From 50% to 59%
-		['D', 0.7], //From 60% to 69%
-		['C', 0.8], //From 70% to 79%
-		['B', 0.9], //From 80% to 89%
-		['A', 0.95], //From 90% to 94%
-		['S', 0.99], //From 95% to 98%
-		['SS', 1], //99%+ but not 100%
-		['SSS', 1] //The value on this one isn't used actually, since Perfect is always "1"
-	];
 
 	private var grpSongs:FlxTypedGroup<Alphabet>;
 	private var curPlaying:Bool = false;
@@ -596,15 +585,15 @@ class FreeplayState extends MusicBeatState
 
 		if(accuracy / 100 >= 1)
         {
-            rank = ratingStuff[ratingStuff.length-1][0]; //Uses last string
+            rank = PlayState.ratingStuff[PlayState.ratingStuff.length-1][0]; //Uses last string
         }
         else
         {
-            for (i in 0...ratingStuff.length-1)
+            for (i in 0...PlayState.ratingStuff.length-1)
             {
-                if(accuracy / 100 < ratingStuff[i][1])
+                if(accuracy / 100 < PlayState.ratingStuff[i][1])
                 {
-                    rank = ratingStuff[i][0];
+                    rank = PlayState.ratingStuff[i][0];
                     break;
                 }
             }

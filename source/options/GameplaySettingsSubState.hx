@@ -71,7 +71,7 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		addOption(option);
 
 		var option:Option = new Option('Kade Engine Health System',
-			"If checked, Sustain note hot heal\nBut normal note heal more.",
+			"If checked, Sustain notes hot heal\nBut Normal notes heal more.",
 			'kadeHPmode',
 			'bool',
 			false);

@@ -288,7 +288,7 @@ class EditorPlayState extends MusicBeatState
 	}
 
 	private function endSong() {
-		LoadingState.loadAndSwitchState(new editors.ChartingState());
+		MusicBeatState.switchState(new editors.ChartingState());
 	}
 
 	function destroyText(){
@@ -307,7 +307,7 @@ class EditorPlayState extends MusicBeatState
 			destroyText();
 			FlxG.sound.music.pause();
 			vocals.pause();
-			LoadingState.loadAndSwitchState(new editors.ChartingState());
+			MusicBeatState.switchState(new editors.ChartingState());
 		}
 
 		if (startingSong) {
