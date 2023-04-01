@@ -1,3 +1,6 @@
+[0.6.9] - Week 8 Update! (32 Mar 2023)
+- Week 8 Funni
+
 [0.4] - SAY GEX Update[?] (16 Mar 2023)
 - Easter Egg in TitleState now Completely Work
 - EditorPlayState code base Completely Up to date with PlayState

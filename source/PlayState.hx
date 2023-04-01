@@ -59,7 +59,6 @@ import Achievements;
 import StageData;
 import psychlua.FunkinLua;
 import DialogueBoxPsych;
-import Rating;
 
 #if !flash 
 import flixel.addons.display.FlxRuntimeShader;
@@ -78,9 +77,9 @@ import sys.io.File;
 #end
 
 #if LUA_ALLOWED
-import psychlua.DebugLuaText;
-import psychlua.ModchartSprite;
-import psychlua.ModchartText;
+import llua.Lua;
+import psychlua.*;
+#else
 import psychlua.LuaUtils;
 #end
 
@@ -433,8 +432,6 @@ class PlayState extends MusicBeatState
 
 		GameOverSubstate.resetVariables();
 		songName = Paths.formatToSongPath(SONG.song);
-
-		curStage = SONG.stage;
 		if(SONG.stage == null || SONG.stage.length < 1) {
 			SONG.stage = StageData.vanillaSongStage(songName);
 		}
@@ -547,8 +544,8 @@ class PlayState extends MusicBeatState
 				phillyWindow = new BGSprite('philly/window', city.x, city.y, 0.3, 0.3);
 				phillyWindow.setGraphicSize(Std.int(phillyWindow.width * 0.85));
 				phillyWindow.updateHitbox();
-				phillyWindow.alpha = 0;
 				add(phillyWindow);
+				phillyWindow.alpha = 0;
 
 				if(!ClientPrefs.lowQuality) {
 					var streetBehind:BGSprite = new BGSprite('philly/behindTrain', -40, 50);
@@ -2115,8 +2112,7 @@ class PlayState extends MusicBeatState
 			var daNote:Note = unspawnNotes[i];
 			if(daNote.strumTime - 350 < time)
 			{
-				daNote.active = false;
-				daNote.visible = false;
+				daNote.active = daNote.visible = false;
 				daNote.ignoreNote = true;
 
 				daNote.kill();
@@ -2131,8 +2127,7 @@ class PlayState extends MusicBeatState
 			var daNote:Note = notes.members[i];
 			if(daNote.strumTime - 350 < time)
 			{
-				daNote.active = false;
-				daNote.visible = false;
+				daNote.active = daNote.visible = false;
 				daNote.ignoreNote = true;
 
 				daNote.kill();
@@ -2259,7 +2254,7 @@ class PlayState extends MusicBeatState
 	var debugNum:Int = 0;
 	private var noteTypeMap:Map<String, Bool> = new Map<String, Bool>();
 	private var eventPushedMap:Map<String, Bool> = new Map<String, Bool>();
-	private function generateSong(dataPath:String):Void
+	inline private function generateSong(dataPath:String):Void
 	{
 		songSpeedType = ClientPrefs.getGameplaySetting('scrolltype','multiplicative');
 
@@ -2281,7 +2276,6 @@ class PlayState extends MusicBeatState
 		else
 			vocals = new FlxSound();
 
-		vocals.group = FlxG.sound.defaultMusicGroup;
 		vocals.pitch = playbackRate;
 		FlxG.sound.list.add(vocals);
 		FlxG.sound.list.add(new FlxSound().loadEmbedded(Paths.inst(PlayState.SONG.song)));
@@ -2345,7 +2339,7 @@ class PlayState extends MusicBeatState
 				swagNote.sustainLength = sussy * Conductor.stepCrochet;
 				swagNote.gfNote = (section.gfSection && (songNotes[1]<4));
 				swagNote.noteType = songNotes[3];
-				if(!Std.isOfType(songNotes[3], String)) swagNote.noteType = editors.ChartingState.noteTypeList[songNotes[3]]; //Backward compatibility + compatibility with Week 7 charts
+				if(!Std.isOfType(songNotes[3], String)) swagNote.noteType = ChartingState.noteTypeList[songNotes[3]]; //Backward compatibility + compatibility with Week 7 charts
 				swagNote.scrollFactor.set();
 
 				unspawnNotes.push(swagNote);
@@ -3116,8 +3110,7 @@ class PlayState extends MusicBeatState
 								noteMiss(daNote);
 							}
 
-							daNote.active = false;
-							daNote.visible = false;
+							daNote.active = daNote.visible = false;
 
 							daNote.kill();
 							notes.remove(daNote, true);
@@ -3895,8 +3888,7 @@ class PlayState extends MusicBeatState
 	public function KillNotes() {
 		while(notes.length > 0) {
 			var daNote:Note = notes.members[0];
-			daNote.active = false;
-			daNote.visible = false;
+			daNote.active = daNote.visible = false;
 
 			daNote.kill();
 			notes.remove(daNote, true);
@@ -3923,14 +3915,14 @@ class PlayState extends MusicBeatState
 			pixelShitPart2 = '-pixel';
 		}
 
-		Paths.image(pixelShitPart1 + 'sick' + pixelShitPart2);
-		Paths.image(pixelShitPart1 + 'good' + pixelShitPart2);
-		Paths.image(pixelShitPart1 + 'bad' + pixelShitPart2);
-		Paths.image(pixelShitPart1 + 'shit' + pixelShitPart2);
-		Paths.image(pixelShitPart1 + 'combo' + pixelShitPart2);
+		Paths.image(pixelShitPart1 + "sick" + pixelShitPart2);
+		Paths.image(pixelShitPart1 + "good" + pixelShitPart2);
+		Paths.image(pixelShitPart1 + "bad" + pixelShitPart2);
+		Paths.image(pixelShitPart1 + "shit" + pixelShitPart2);
+		Paths.image(pixelShitPart1 + "combo" + pixelShitPart2);
 		
 		for (i in 0...10) {
-			Paths.image(pixelShitPart1 + 'num$i' + pixelShitPart2);
+			Paths.image(pixelShitPart1 + 'num' + i + pixelShitPart2);
 		}
 	}
 
@@ -4174,12 +4166,7 @@ class PlayState extends MusicBeatState
 					callOnLuas('onGhostTap', [key]);
 					if (canMiss) noteMissPress(key);
 				}
-
-				// I dunno what you need this for but here you go
-				//									- Shubs
-
-				// Shubs, this is for the "Just the Two of Us" achievement lol
-				//									- Shadow Mario
+				//for the "Just the Two of Us" achievement
 				keysPressed[key] = true;
 
 				//more accurate hit time for the ratings? part 2 (Now that the calculations are done, go back to the time it was before for not causing a note stutter)
@@ -4762,6 +4749,10 @@ class PlayState extends MusicBeatState
 		}
 		luaArray = [];
 
+		#if LUA_ALLOWED
+		Lua_helper.callbacks.clear();
+		#end
+
 		#if hscript
 		if(FunkinLua.hscript != null) FunkinLua.hscript = null;
 		#end
@@ -5036,13 +5027,15 @@ class PlayState extends MusicBeatState
 					}
 				}
 			}
-			ratingFC = 'Clear';
+			ratingFC = '';
 			if(songMisses < 1) {
 				if (bads > 0 || shits > 0) ratingFC = 'FC';
 				else if (goods > 0) ratingFC = 'GFC';
 				else if (sicks > 0) ratingFC = 'SFC';
-			} else if (songMisses < 10)
+			} else if (songMisses < 10){
 				ratingFC = 'SDCB';
+			}else
+				ratingFC = 'CLEAR';
 		}
 		setOnLuas('rating', ratingPercent);
 		setOnLuas('ratingName', ratingName);

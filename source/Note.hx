@@ -4,6 +4,7 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.math.FlxMath;
+import flixel.math.FlxRect;
 import flixel.util.FlxColor;
 import flash.display.BitmapData;
 import editors.ChartingState;
@@ -139,12 +140,7 @@ class Note extends FlxSprite
 					colorSwap.saturation = 0;
 					colorSwap.brightness = 0;
 					lowPriority = true;
-
-					if(isSustainNote) {
-						missHealth = 0.1;
-					} else {
-						missHealth = 0.3;
-					}
+					missHealth = isSustainNote ? 0.1 : 0.3;
 					hitCausesMiss = true;
 				case 'Alt Animation':
 					animSuffix = '-alt';
@@ -334,36 +330,47 @@ class Note extends FlxSprite
 	}
 
 	override function update(elapsed:Float)
-		{
-			super.update(elapsed);
+	{
+		super.update(elapsed);
 
-			if (mustPress)
-			{
-				// ok river
-				if (strumTime > Conductor.songPosition - (Conductor.safeZoneOffset * lateHitMult)
-					&& strumTime < Conductor.songPosition + (Conductor.safeZoneOffset * earlyHitMult))
-					canBeHit = true;
-				else
-					canBeHit = false;
-	
-				if (strumTime < Conductor.songPosition - Conductor.safeZoneOffset && !wasGoodHit)
-					tooLate = true;
-			}
+		if (mustPress)
+		{
+			// ok river
+			if (strumTime > Conductor.songPosition - (Conductor.safeZoneOffset * lateHitMult)
+				&& strumTime < Conductor.songPosition + (Conductor.safeZoneOffset * earlyHitMult))
+				canBeHit = true;
 			else
-			{
 				canBeHit = false;
-	
-				if (strumTime < Conductor.songPosition + (Conductor.safeZoneOffset * earlyHitMult))
-				{
-					if((isSustainNote && prevNote.wasGoodHit) || strumTime <= Conductor.songPosition)
-						wasGoodHit = true;
-				}
-			}
-	
-			if (tooLate && !inEditor)
+
+			if (strumTime < Conductor.songPosition - Conductor.safeZoneOffset && !wasGoodHit)
+				tooLate = true;
+		}
+		else
+		{
+			canBeHit = false;
+
+			if (strumTime < Conductor.songPosition + (Conductor.safeZoneOffset * earlyHitMult))
 			{
-				if (alpha > 0.3)
-					alpha = 0.3;
+				if((isSustainNote && prevNote.wasGoodHit) || strumTime <= Conductor.songPosition)
+					wasGoodHit = true;
 			}
 		}
+
+		if (tooLate && !inEditor)
+		{
+			if (alpha > 0.3)
+				alpha = 0.3;
+		}
+	}
+
+	@:noCompletion //https://github.com/ShadowMario/FNF-PsychEngine/pull/12188 Yay
+	override function set_clipRect(rect:FlxRect):FlxRect
+	{
+		clipRect = rect;
+
+		if (frames != null)
+			frame = frames.frames[animation.frameIndex];
+
+		return rect;
+	}
 }

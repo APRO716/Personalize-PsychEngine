@@ -121,14 +121,14 @@ class EditorPlayState extends MusicBeatState
 		noteTypeMap.clear();
 		noteTypeMap = null;
 
-		scoreTxt = new FlxText(10, FlxG.height - 50, FlxG.width - 20, "Hits: 0 // Misses: 0", 20);
+		scoreTxt = new FlxText(10, FlxG.height - (ClientPrefs.downScroll ? 580 : 50), FlxG.width - 20, "Hits: 0 | Misses: 0", 20);
 		scoreTxt.setFormat(Paths.font("font.ttf"), 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		scoreTxt.scrollFactor.set();
 		scoreTxt.borderSize = 1.25;
 		scoreTxt.visible = !ClientPrefs.hideHud;
 		add(scoreTxt);
 		
-		sectionTxt = new FlxText(10, 580, FlxG.width - 20, "Section: 0", 20);
+		sectionTxt = new FlxText(10, ClientPrefs.downScroll ? 50 : 580, FlxG.width - 20, "Section: 0", 20);
 		sectionTxt.setFormat(Paths.font("font.ttf"), 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		sectionTxt.scrollFactor.set();
 		sectionTxt.borderSize = 1.25;
@@ -375,7 +375,7 @@ class EditorPlayState extends MusicBeatState
 								daNote.y += 10.5 * (fakeCrochet / 400) * 1.5 * PlayState.SONG.speed + (46 * (PlayState.SONG.speed - 1));
 								daNote.y -= 46 * (1 - (fakeCrochet / 600)) * PlayState.SONG.speed;
 								if(PlayState.isPixelStage) {
-									daNote.y += 8;
+									daNote.y += 8 + (6 - daNote.originalHeightForCalcs) * PlayState.daPixelZoom;
 								} else {
 									daNote.y -= 19;
 								}
@@ -466,7 +466,7 @@ class EditorPlayState extends MusicBeatState
 		}
 
 		keyShit();
-		scoreTxt.text = 'Hits: $songHits // Misses: $songMisses';
+		scoreTxt.text = 'Hits: $songHits | Misses: $songMisses';
 		sectionTxt.text = 'Section: $curSection';
 		beatTxt.text = 'Beat: $curBeat';
 		stepTxt.text = 'Step: $curStep';
@@ -740,6 +740,14 @@ class EditorPlayState extends MusicBeatState
 
 	function noteMiss(daNote:Note):Void
 	{
+		notes.forEachAlive(function(note:Note) {
+			if (daNote != note && daNote.mustPress && daNote.noteData == note.noteData && daNote.isSustainNote == note.isSustainNote && Math.abs(daNote.strumTime - note.strumTime) < 1) {
+				note.kill();
+				notes.remove(note, true);
+				note.destroy();
+			}
+		});
+
 		if(daNote.nextNote != null){
 			if ((!daNote.isSustainNote && daNote.nextNote.isSustainNote) && !daNote.hitCausesMiss) daNote.nextNote.countMiss = false; // Null Object Reference Fixed!
 			else if (daNote.hitCausesMiss) daNote.nextNote.countMiss = true;

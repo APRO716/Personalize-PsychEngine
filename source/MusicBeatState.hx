@@ -26,16 +26,17 @@ class MusicBeatState extends FlxUIState
 	private var curDecStep:Float = 0;
 	private var curDecBeat:Float = 0;
 	public var controls(get, never):Controls;
-	private function get_controls()
-	{
-		return Controls.instance;
-	}
 
 	private var errorDisplay:ErrorDisplay;
 	private var missChart:String = 'Error! Chart not found;';
 	private var missFile:String = 'MISSING FILE AT:';
 
 	public static var camBeat:FlxCamera;
+
+	private function get_controls()
+	{
+		return Controls.instance;
+	}
 
 	private static function getPathWithDir(songFolder:String, songLowercase:String):String
 	{
