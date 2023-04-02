@@ -147,7 +147,7 @@ class Main extends Sprite
 			}
 		}
 
-		errMsg += "\nUncaught Error: " + e.error + "\nPlease report this error to the GitHub page: https://github.com/APRO716/Personalize-PsychEngine\n" + "Engine Version: " + MainMenuState.psychEngineVersion + "\n\n> Crash Handler written by: sqirra-rng";
+		errMsg += "\nUncaught Error: " + e.error + "\nPlease report this error to the GitHub page: https://github.com/APRO716/Personalize-PsychEngine/issues\n" + "Engine Version: " + MainMenuState.psychEngineVersion + "\n\n> Crash Handler written by: sqirra-rng";
 
 		if (!FileSystem.exists("./crash/"))
 			FileSystem.createDirectory("./crash/");
