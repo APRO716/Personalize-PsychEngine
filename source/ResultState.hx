@@ -54,7 +54,7 @@ class ResultState extends MusicBeatState
         \nAccuracy : ${Highscore.floorDecimal(PlayState.instance.ratingPercent * 100, 2)}%
         \nMisses : ${PlayState.instance.songMisses}
         \nRank : ${rank} [${FC}]
-        \nSicks = ${PlayState.instance.sicks}                         Goods = ${PlayState.instance.goods}
+        \nSicks = ${PlayState.instance.sicks}                        Goods = ${PlayState.instance.goods}
         \nBads = ${PlayState.instance.bads}                           Shits = ${PlayState.instance.shits}';
 
         if (controls.ACCEPT || FlxG.mouse.justPressed)

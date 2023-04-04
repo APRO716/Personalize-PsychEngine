@@ -2276,6 +2276,7 @@ class PlayState extends MusicBeatState
 		else
 			vocals = new FlxSound();
 
+		vocals.group = FlxG.sound.defaultMusicGroup;
 		vocals.pitch = playbackRate;
 		FlxG.sound.list.add(vocals);
 		FlxG.sound.list.add(new FlxSound().loadEmbedded(Paths.inst(PlayState.SONG.song)));
@@ -2960,7 +2961,7 @@ class PlayState extends MusicBeatState
 		// RESET = Quick Game Over Screen
 		if (!ClientPrefs.noReset && controls.RESET && canReset && !inCutscene && startedCountdown && !endingSong)
 		{
-			health = 0;
+			displayedHealth = 0;
 			trace("RESET = True");
 		}
 		doDeathCheck();
@@ -3174,7 +3175,6 @@ class PlayState extends MusicBeatState
 			vocals.pause();
 		}
 		openSubState(new PauseSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
-		//}
 
 		#if desktop
 		DiscordClient.changePresence(detailsPausedText, SONG.song + " " + playbackRate + "x (" + storyDifficultyText + ")", iconP2.getCharacter());
@@ -5035,7 +5035,7 @@ class PlayState extends MusicBeatState
 			} else if (songMisses < 10){
 				ratingFC = 'SDCB';
 			}else
-				ratingFC = 'CLEAR';
+				ratingFC = 'Clear';
 		}
 		setOnLuas('rating', ratingPercent);
 		setOnLuas('ratingName', ratingName);
