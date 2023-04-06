@@ -1896,6 +1896,7 @@ class PlayState extends MusicBeatState
 	public var countdownReady:FlxSprite;
 	public var countdownSet:FlxSprite;
 	public var countdownGo:FlxSprite;
+	public var endCountdown:Bool = false;
 	public static var startOnTime:Float = 0;
 
 	function cacheCountdown()
@@ -1924,6 +1925,7 @@ class PlayState extends MusicBeatState
 		}
 
 		inCutscene = false;
+		endCountdown = false;
 		var ret:Dynamic = callOnLuas('onStartCountdown', [], false);
 		if(ret != FunkinLua.Function_Stop) {
 			if (skipCountdown || startOnTime > 0) skipArrowStartTween = true;
@@ -2072,6 +2074,7 @@ class PlayState extends MusicBeatState
 					case 4:
 						iconP1.scale.set(1.3, 1.3);
 						iconP2.scale.set(1.3, 1.3);
+						endCountdown = true;
 				}
 
 				notes.forEachAlive(function(note:Note) {

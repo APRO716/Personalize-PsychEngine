@@ -1,19 +1,21 @@
-# Friday Night Funkin' - Personalize Psych Engine
+# Friday Night Funkin' - Psych Engine (Fork?)
 
 ![Repo size](https://img.shields.io/github/repo-size/APRO716/Personalize-PsychEngine)
 
 Based on Psych Engine 0.6.3 & Fix Somebug
 ---------------------------------------------------------------------------
-[Download Latest Build Here](https://github.com/APRO716/Personalize-PsychEngine/actions)
+[Download Latest Build](https://github.com/APRO716/Personalize-PsychEngine/actions)
 ---------------------------------------------------------------------------
 [Download Official Release](https://github.com/APRO716/Personalize-PsychEngine/releases)
 ---------------------------------------------------------------------------
 Feature:
+* No HTML Support :P
+* Pretty Smooth Healthbar
+* Countdown Pause Menu
 * SAY GEX /j
-* Recolor Mainmenu Version Text
 * Rework (idk) FreePlay Score Text (Add Letter Rank)
 * Da Option that Sustain note not Gain HP
-* Result Screen at the end of Song
+* Result Screen at the end of Song (Pretty boring but anyways :>)
 * Little Bit more Optimize (5-10% more optimize I test it) & delete unused file
 * Added Many Cool Pull Request in Psych Engine (oops)
 * Use Week 7 Release Audio
@@ -27,4 +29,4 @@ Feature:
 * Phantommuff Font (You can change it in assets/fonts)
 * Better Sustain (When Miss Sustain It will miss only 1)
 * Combo Number Show Exact Digit instead of 3 digits
-* Cool Loading Screen & More...
+* Cool Loading Screen & More :O

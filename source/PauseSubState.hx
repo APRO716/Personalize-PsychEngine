@@ -25,6 +25,7 @@ class PauseSubState extends MusicBeatSubstate
 	var curSelected:Int = 0;
 
 	var startedCountdown:Bool = false;
+	var stopspamming:Bool = false;
 
 	var pauseMusic:FlxSound;
 
@@ -66,7 +67,6 @@ class PauseSubState extends MusicBeatSubstate
 			difficultyChoices.push(diff);
 		}
 		difficultyChoices.push('BACK');
-
 
 		pauseMusic = new FlxSound();
 		if(songName != null) {
@@ -209,7 +209,7 @@ class PauseSubState extends MusicBeatSubstate
 				}
 		}
 
-		if (accepted && (cantUnpause <= 0 || !controls.controllerMode))
+		if (accepted && (cantUnpause <= 0 || !controls.controllerMode) && !stopspamming)
 		{
 			if (menuItems == difficultyChoices)
 			{
@@ -233,8 +233,9 @@ class PauseSubState extends MusicBeatSubstate
 			switch (daSelected)
 			{
 				case "Resume":
+					stopspamming = true;
 					FlxG.mouse.visible = false;
-					if(PlayState.chartingMode) close();
+					if(PlayState.chartingMode || !PlayState.instance.endCountdown) close(); //fixed countdown 2 time when countdown loaded song
 					else
 					{
 						startedCountdown = true;
@@ -466,8 +467,10 @@ class PauseSubState extends MusicBeatSubstate
 					countdownSet = new FlxSprite().loadGraphic(Paths.image(introAlts[1]));
 					countdownSet.cameras = [PlayState.instance.camHUD];
 					countdownSet.scrollFactor.set();
+					countdownSet.updateHitbox();
 
-					if (PlayState.isPixelStage) countdownSet.setGraphicSize(Std.int(countdownSet.width * PlayState.daPixelZoom));
+					if (PlayState.isPixelStage)
+						countdownSet.setGraphicSize(Std.int(countdownSet.width * PlayState.daPixelZoom));
 
 					countdownSet.screenCenter();
 					countdownSet.antialiasing = antialias;
@@ -485,11 +488,10 @@ class PauseSubState extends MusicBeatSubstate
 					countdownGo = new FlxSprite().loadGraphic(Paths.image(introAlts[2]));
 					countdownGo.cameras = [PlayState.instance.camHUD];
 					countdownGo.scrollFactor.set();
+					countdownGo.updateHitbox();
 
 					if (PlayState.isPixelStage)
 						countdownGo.setGraphicSize(Std.int(countdownGo.width * PlayState.daPixelZoom));
-
-					countdownGo.updateHitbox();
 
 					countdownGo.screenCenter();
 					countdownGo.antialiasing = antialias;
@@ -505,8 +507,8 @@ class PauseSubState extends MusicBeatSubstate
 					FlxG.sound.play(Paths.sound('introGo' + PlayState.instance.introSoundsSuffix), 0.6);
 				case 3:
 					close();
-				}
-				swagCounter++;
-			}, 4);
+			}
+			swagCounter++;
+		}, 4);
 	}
 }

@@ -1,5 +1,15 @@
-[0.6.9] - Week 8 Update! (32 Mar 2023)
-- Week 8 Funni
+[0.4.1] - Yoooooo (6 April 2023)
+- Fixed mouse still visible in StoryMode
+- Result Screen won't show Song name anymore
+- Rework Freeplay V2 : Optimize Ranking Letter & better diff space for score text
+- Restart Song won't show Mouse anymore (Completely Fixed mouse visible)
+- Delete Personalize Watermark at main menu & Colored Text (no name lol)
+- Fixed Pause Menu null object when spam pause then null object
+- Fixed Introtext show nothing
+- Fixed EditorPlayState null object reference when access it without pass PlayState (took 30 minutes to fix it :skull:)
+- Flash menu can use mouse to enter
+- Improve EditorPlayState & when use downscroll the scoretxt & info now at top
+- Fixed Press Reset Button BF doesn't ded
 
 [0.4] - SAY GEX Update[?] (16 Mar 2023)
 - Easter Egg in TitleState now Completely Work

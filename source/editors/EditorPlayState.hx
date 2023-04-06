@@ -548,8 +548,10 @@ class EditorPlayState extends MusicBeatState
 				{
 					if (strumsBlocked[daNote.noteData] != true && daNote.canBeHit && daNote.mustPress && !daNote.tooLate && !daNote.wasGoodHit && !daNote.isSustainNote && !daNote.blockHit)
 					{
-						if(daNote.noteData == key) sortedNotesList.push(daNote);
-
+						if(daNote.noteData == key)
+						{
+							sortedNotesList.push(daNote);
+						}
 						canMiss = true;
 					}
 				});
@@ -779,24 +781,21 @@ class EditorPlayState extends MusicBeatState
 		vocals.volume = 0;
 	}
 
-	var COMBO_X:Float = 400;
-	var COMBO_Y:Float = 340;
 	var showCombo:Bool = ClientPrefs.showCombo;
 	private function popUpScore(note:Note = null):Void
 	{
 		var noteDiff:Float = Math.abs(note.strumTime - Conductor.songPosition + ClientPrefs.ratingOffset);
-
 		vocals.volume = 1;
 
 		var placement:String = Std.string(combo);
 
 		var coolText:FlxText = new FlxText(0, 0, 0, placement, 32);
-		coolText.x = COMBO_X;
-		coolText.y = COMBO_Y;
+		coolText.screenCenter();
+		coolText.x = FlxG.width * 0.35;
 
 		var rating:FlxSprite = new FlxSprite();
 
-		var daRating:Rating = Conductor.judgeNote(note, noteDiff);
+		var daRating:Rating = judgeNote(note, noteDiff);
 
 		note.rating = daRating.name;
 
@@ -942,6 +941,19 @@ class EditorPlayState extends MusicBeatState
 			},
 			startDelay: Conductor.crochet * 0.001
 		});
+	}
+
+	public static function judgeNote(note:Note, diff:Float=0):Rating // copy from Conductor.hx :skull:
+	{
+		var data:Array<Rating> = Rating.loadDefault(); //shortening cuz fuck u
+		for(i in 0...data.length-1) //skips last window (Shit)
+		{
+			if (diff <= data[i].hitWindow)
+			{
+				return data[i];
+			}
+		}
+		return data[data.length - 1];
 	}
 
 	private function generateStaticArrows(player:Int):Void
