@@ -6,8 +6,8 @@
 - Delete Personalize Watermark at main menu & Colored Text (no name lol)
 - Fixed Pause Menu null object when spam pause then null object
 - Fixed Introtext show nothing
-- Fixed EditorPlayState null object reference when access it without pass PlayState (took 30 minutes to fix it :skull:)
 - Flash menu can use mouse to enter
+- Fixed EditorPlayState null object reference when access it without pass PlayState (took 30 minutes to fix it :skull:)
 - Improve EditorPlayState & when use downscroll the scoretxt & info now at top
 - Fixed Press Reset Button BF doesn't ded
 
