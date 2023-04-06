@@ -206,19 +206,19 @@ class EditorPlayState extends MusicBeatState
 						else
 							oldNote = null;
 
-						var fixedSus:Int = Math.round(songNotes[2] / Conductor.stepCrochet);
+						var sussy:Int = Math.round(songNotes[2] / Conductor.stepCrochet);
 
 						var swagNote:Note = new Note(daStrumTime, daNoteData, oldNote);
 						swagNote.mustPress = gottaHitNote;
-						swagNote.sustainLength = fixedSus * Conductor.stepCrochet;
+						swagNote.sustainLength = sussy * Conductor.stepCrochet;
 						swagNote.noteType = songNotes[3];
 						if(!Std.isOfType(songNotes[3], String)) swagNote.noteType = editors.ChartingState.noteTypeList[songNotes[3]]; //Backward compatibility + compatibility with Week 7 charts
 						swagNote.scrollFactor.set();
 
 						unspawnNotes.push(swagNote);
 
-						if(fixedSus > 0) {
-							for (susNote in 0...Math.floor(Math.max(fixedSus, 2)))
+						if(sussy > 0) {
+							for (susNote in 0...Math.floor(Math.max(sussy, 2)))
 							{
 								oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
 
@@ -302,6 +302,13 @@ class EditorPlayState extends MusicBeatState
 	public var noteKillOffset:Float = 350;
 	public var spawnTime:Float = 2000;
 	override function update(elapsed:Float) {
+		grpNoteSplashes.forEachDead(function(splash:NoteSplash) {
+			if (grpNoteSplashes.length > 1) {
+				grpNoteSplashes.remove(splash, true);
+				splash.destroy();
+			}
+		});
+
 		if (FlxG.keys.justPressed.ESCAPE)
 		{
 			destroyText();
@@ -528,7 +535,7 @@ class EditorPlayState extends MusicBeatState
 			{
 				//more accurate hit time for the ratings?
 				var lastTime:Float = Conductor.songPosition;
-				Conductor.songPosition = FlxG.sound.music.time;
+				if (FlxG.sound.music != null && FlxG.sound.music.playing && !startingSong) Conductor.songPosition = FlxG.sound.music.time;
 
 				var canMiss:Bool = !ClientPrefs.ghostTapping;
 
@@ -688,7 +695,9 @@ class EditorPlayState extends MusicBeatState
 	{
 		if (!note.wasGoodHit)
 		{
-			if (ClientPrefs.hitsoundVolume > 0 && !note.hitsoundDisabled) FlxG.sound.play(Paths.sound('hitsound'), ClientPrefs.hitsoundVolume);
+			if (ClientPrefs.hitsoundVolume > 0 && !note.hitsoundDisabled) {
+				FlxG.sound.play(Paths.sound('hitsound'), ClientPrefs.hitsoundVolume);
+			}
 
 			if(note.hitCausesMiss) {
 					noteMiss(note);

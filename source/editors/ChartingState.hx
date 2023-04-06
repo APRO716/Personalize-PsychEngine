@@ -374,7 +374,7 @@ class ChartingState extends MusicBeatState
 		add(zoomTxt);
 
 		errorDisplay = new ErrorDisplay();
-		errorDisplay.addDisplay(this);
+		errorDisplay.addDisplay();
 
 		updateGrid();
 		super.create();

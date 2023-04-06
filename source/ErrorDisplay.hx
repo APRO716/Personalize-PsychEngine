@@ -8,7 +8,7 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 
-class ErrorDisplay
+class ErrorDisplay // By Grape-Boy
 {
     public var text(default, set):String = 'Error!';
 
@@ -97,14 +97,12 @@ class ErrorDisplay
     }
 
     /**
-     * Add the display to the state (make it visible)
-     * Example: `myDisplay.addDisplay(this);`
-     * @param state Which state to add it to
-     */
-    public function addDisplay(state:FlxState)
+     * Adds the display (makes it visible)
+    */
+    public function addDisplay()
     {
-        state.add(this.errorBG);
-        state.add(this.errorText);
+        FlxG.state.add(this.errorBG);
+        FlxG.state.add(this.errorText);
     }
 
 	/**

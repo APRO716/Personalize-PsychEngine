@@ -404,8 +404,7 @@ class PlayState extends MusicBeatState
 		FlxG.cameras.setDefaultDrawTarget(camGame, true);
 		CustomFadeTransition.nextCamera = camOther;
 
-		persistentUpdate = true;
-		persistentDraw = true;
+		persistentUpdate = persistentDraw = true;
 
 		if (SONG == null)
 			SONG = Song.loadFromJson('tutorial');
@@ -1101,7 +1100,7 @@ class PlayState extends MusicBeatState
 		scoreTxt.visible = !ClientPrefs.hideHud;
 		add(scoreTxt);
 
-		botplayTxt = new FlxText(400, ClientPrefs.downScroll ? timeBarBG.y - 78 : timeBarBG.y + 55, FlxG.width - 800, "[BOTPLAY]", 32);
+		botplayTxt = new FlxText(400, ClientPrefs.downScroll ? timeBarBG.y - 78 : timeBarBG.y + 55, FlxG.width - 800, "BOTPLAY", 32);
 		botplayTxt.setFormat(Paths.font("font.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		botplayTxt.scrollFactor.set();
 		botplayTxt.borderSize = 1.25;
@@ -3209,8 +3208,7 @@ class PlayState extends MusicBeatState
 				vocals.stop();
 				FlxG.sound.music.stop();
 
-				persistentUpdate = false;
-				persistentDraw = false;
+				persistentUpdate = persistentDraw = false;
 				for (tween in modchartTweens) {
 					tween.active = true;
 				}

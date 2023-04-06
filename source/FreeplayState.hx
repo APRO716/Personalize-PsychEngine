@@ -44,7 +44,6 @@ class FreeplayState extends MusicBeatState
 	var lerpRating:Float = 0;
 	var intendedScore:Int = 0;
 	var intendedRating:Float = 0;
-
 	var accuracy:Float = 0;
 
 	private var grpSongs:FlxTypedGroup<Alphabet>;
@@ -131,7 +130,7 @@ class FreeplayState extends MusicBeatState
 		scoreBG.alpha = 0.6;
 		add(scoreBG);
 
-		diffText = new FlxText(scoreText.x, scoreText.y + 115, 0, "", 28);
+		diffText = new FlxText(scoreText.x, scoreText.y + 113, 0, "", 28);
 		diffText.font = scoreText.font;
 		add(diffText);
 
@@ -169,7 +168,7 @@ class FreeplayState extends MusicBeatState
 		add(text);
 
 		errorDisplay = new ErrorDisplay();
-		errorDisplay.addDisplay(this);
+		errorDisplay.addDisplay();
 
 		super.create();
 	}
@@ -584,10 +583,10 @@ class FreeplayState extends MusicBeatState
 		diffText.x -= diffText.width / 2;
 
 		if(accuracy / 100 >= 1)
-        {
+		{
             rank = PlayState.ratingStuff[PlayState.ratingStuff.length-1][0]; //Uses last string
         }
-        else
+		else
         {
             for (i in 0...PlayState.ratingStuff.length-1)
             {
