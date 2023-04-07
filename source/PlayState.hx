@@ -1896,7 +1896,7 @@ class PlayState extends MusicBeatState
 	public var countdownReady:FlxSprite;
 	public var countdownSet:FlxSprite;
 	public var countdownGo:FlxSprite;
-	public var endCountdown:Bool = false;
+	public static var endCountdown:Bool = false;
 	public static var startOnTime:Float = 0;
 
 	function cacheCountdown()

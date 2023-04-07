@@ -235,7 +235,7 @@ class PauseSubState extends MusicBeatSubstate
 				case "Resume":
 					stopspamming = true;
 					FlxG.mouse.visible = false;
-					if(PlayState.chartingMode || !PlayState.instance.endCountdown) close(); //fixed countdown 2 times when countdown loaded song
+					if(PlayState.chartingMode || !PlayState.endCountdown) close(); //fixed countdown 2 times when countdown loaded song
 					else
 					{
 						startedCountdown = true;
