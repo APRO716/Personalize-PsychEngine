@@ -71,10 +71,17 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		addOption(option);
 
 		var option:Option = new Option('Kade Engine Health System',
-			"If checked, Sustain notes hot heal\nBut Normal notes heal more.",
+			"If checked, Sustain notes not heal\nBut Normal notes heal more.",
 			'kadeHPmode',
 			'bool',
 			false);
+		addOption(option);
+
+		var option:Option = new Option('Loading Screen',
+			"If unchecked, The Funkay Loading Screen will be shown",
+			'loadingScreen',
+			'bool',
+			true);
 		addOption(option);
 
 		var option:Option = new Option('Hitsound Volume',

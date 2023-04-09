@@ -81,7 +81,7 @@ class EditorPlayState extends MusicBeatState
 			ClientPrefs.keyBinds.get('note_up').copy(),
 			ClientPrefs.keyBinds.get('note_right').copy()
 		];
-		
+
 		strumLine = new FlxSprite(ClientPrefs.middleScroll ? PlayState.STRUM_X_MIDDLESCROLL : PlayState.STRUM_X, (ClientPrefs.downScroll ? FlxG.height - 150 : 50)).makeGraphic(FlxG.width, 10);
 		strumLine.scrollFactor.set();
 
@@ -92,14 +92,14 @@ class EditorPlayState extends MusicBeatState
 
 		generateStaticArrows(0);
 		generateStaticArrows(1);
-		
+
 		grpNoteSplashes = new FlxTypedGroup<NoteSplash>();
 		add(grpNoteSplashes);
 
 		var splash:NoteSplash = new NoteSplash(100, 100, 0);
 		grpNoteSplashes.add(splash);
 		splash.alpha = 0.0;
-		
+
 		if (PlayState.SONG.needsVoices)
 			vocals = new FlxSound().loadEmbedded(Paths.voices(PlayState.SONG.song));
 		else
@@ -127,13 +127,13 @@ class EditorPlayState extends MusicBeatState
 		scoreTxt.borderSize = 1.25;
 		scoreTxt.visible = !ClientPrefs.hideHud;
 		add(scoreTxt);
-		
+
 		sectionTxt = new FlxText(10, ClientPrefs.downScroll ? 50 : 580, FlxG.width - 20, "Section: 0", 20);
 		sectionTxt.setFormat(Paths.font("font.ttf"), 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		sectionTxt.scrollFactor.set();
 		sectionTxt.borderSize = 1.25;
 		add(sectionTxt);
-		
+
 		beatTxt = new FlxText(10, sectionTxt.y + 30, FlxG.width - 20, "Beat: 0", 20);
 		beatTxt.setFormat(Paths.font("font.ttf"), 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		beatTxt.scrollFactor.set();
@@ -177,7 +177,7 @@ class EditorPlayState extends MusicBeatState
 		
 		notes = new FlxTypedGroup<Note>();
 		insert(members.indexOf(strumLineNotes) + 1, notes);
-		
+
 		var noteData:Array<SwagSection>;
 
 		// NEW SHIT
@@ -288,7 +288,7 @@ class EditorPlayState extends MusicBeatState
 	}
 
 	private function endSong() {
-		MusicBeatState.switchState(new editors.ChartingState());
+		LoadingState.loadAndSwitchState(new editors.ChartingState());
 	}
 
 	function destroyText(){
@@ -314,7 +314,7 @@ class EditorPlayState extends MusicBeatState
 			destroyText();
 			FlxG.sound.music.pause();
 			vocals.pause();
-			MusicBeatState.switchState(new editors.ChartingState());
+			LoadingState.loadAndSwitchState(new editors.ChartingState());
 		}
 
 		if (startingSong) {
@@ -749,8 +749,7 @@ class EditorPlayState extends MusicBeatState
 		}
 	}
 
-	function noteMiss(daNote:Note):Void
-	{
+	function noteMiss(daNote:Note):Void {
 		notes.forEachAlive(function(note:Note) {
 			if (daNote != note && daNote.mustPress && daNote.noteData == note.noteData && daNote.isSustainNote == note.isSustainNote && Math.abs(daNote.strumTime - note.strumTime) < 1) {
 				note.kill();

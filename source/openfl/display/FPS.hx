@@ -1,10 +1,10 @@
 package openfl.display;
 
-import flixel.math.FlxMath;
 import haxe.Timer;
 import openfl.events.Event;
 import openfl.text.TextField;
 import openfl.text.TextFormat;
+import flixel.math.FlxMath;
 #if gl_stats
 import openfl.display._internal.stats.Context3DStats;
 import openfl.display._internal.stats.DrawCallContext;
@@ -31,8 +31,6 @@ class FPS extends TextField
 		The current frame rate, expressed using frames-per-second
 	**/
 	public var currentFPS(default, null):Int;
-	private var currentMem:Float;
-	private var highestMem:Float;
 
 	@:noCompletion private var cacheCount:Int;
 	@:noCompletion private var currentTime:Float;
@@ -85,6 +83,9 @@ class FPS extends TextField
 		if (currentCount != cacheCount)
 		{
 			text = "FPS: " + currentFPS;
+			var currentMem:Float = 0;
+			var highestMem:Float = 0;
+
 			#if openfl
 			currentMem = Math.abs(FlxMath.roundDecimal(System.totalMemory / 1000000, 1));
 			if(currentMem > highestMem)
@@ -93,11 +94,11 @@ class FPS extends TextField
 			text += "\nMem Peak: " + highestMem + " MB";
 			#end
 
-			if (text != null || text != '')
-			{
-				if (Main.fpsVar != null)
-					Main.fpsVar.visible = true;
-			}
+			#if (gl_stats && !disable_cffi && (!html5 || !canvas))
+			text += "\ntotalDC: " + Context3DStats.totalDrawCalls();
+			text += "\nstageDC: " + Context3DStats.contextDrawCalls(DrawCallContext.STAGE);
+			text += "\nstage3DDC: " + Context3DStats.contextDrawCalls(DrawCallContext.STAGE3D);
+			#end
 
 			text += "\n";
 		}

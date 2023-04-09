@@ -2146,7 +2146,7 @@ class PlayState extends MusicBeatState
 
 	public function updateScore(miss:Bool = false)
 	{
-		tempScore = 'Score: $songScore'; // Code From BeastlyGhost Again Lmao
+		tempScore = 'Score: $songScore'; //Credit : BeastlyGhost
 
 		if (displayRatings)
 		{
@@ -3847,11 +3847,11 @@ class PlayState extends MusicBeatState
 					if(winterHorrorlandNext) {
 						new FlxTimer().start(2, function(tmr:FlxTimer) {
 							cancelMusicFadeTween();
-							MusicBeatState.switchState(new ResultState());
+							LoadingState.loadAndSwitchState(new ResultState());
 						});
 					} else {
 						cancelMusicFadeTween();
-						MusicBeatState.switchState(new ResultState());
+						LoadingState.loadAndSwitchState(new ResultState());
 					}
 				}
 			}

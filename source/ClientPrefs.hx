@@ -34,6 +34,7 @@ class ClientPrefs {
 	public static var comboStacking:Bool = true;
 	public static var showCombo:Bool = true;
 	public static var kadeHPmode:Bool = false;
+	public static var loadingScreen:Bool = true;
 	public static var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
 		'scrolltype' => 'multiplicative', 
@@ -144,6 +145,7 @@ class ClientPrefs {
 		FlxG.save.data.comboStacking = comboStacking;
 		FlxG.save.data.showCombo = showCombo;
 		FlxG.save.data.kadeHPmode = kadeHPmode;
+		FlxG.save.data.loadingScreen = loadingScreen;
 	
 		FlxG.save.flush();
 
@@ -267,8 +269,11 @@ class ClientPrefs {
 		if (FlxG.save.data.showCombo != null){
 			showCombo = FlxG.save.data.showCombo;
 		}
-		if (FlxG.save.data.kadeHPmode != null)
+		if (FlxG.save.data.kadeHPmode != null){
 			kadeHPmode = FlxG.save.data.kadeHPmode;
+		}
+		if (FlxG.save.data.loadingScreen != null)
+			loadingScreen = FlxG.save.data.loadingScreen;
 
 		var save:FlxSave = new FlxSave();
 		save.bind('controls_v3', CoolUtil.getSavePath());

@@ -75,8 +75,8 @@ class ResultState extends MusicBeatState
                 }
             }else{
                 trace('WENT BACK TO FREEPLAY??');
-                FlxG.sound.playMusic(Paths.music('freakyMenu'));
                 MusicBeatState.switchState(new FreeplayState());
+                FlxG.sound.playMusic(Paths.music('freakyMenu'));
             }
         }
 
