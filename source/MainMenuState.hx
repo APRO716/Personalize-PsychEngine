@@ -182,27 +182,6 @@ class MainMenuState extends MusicBeatState
 			if(FreeplayState.vocals != null) FreeplayState.vocals.volume += 0.5 * elapsed;
 		}
 
-		#if !mobile
-		if ((FlxG.mouse.getScreenPosition().x != oldPos.x || FlxG.mouse.getScreenPosition().y != oldPos.y) && !selectedSomethin)
-		{
-			oldPos = FlxG.mouse.getScreenPosition();
-			for (i in 0...menuItems.length)
-			{
-				if (FlxG.mouse.overlaps(menuItems.members[i]))
-				{
-					var pos = FlxG.mouse.getPositionInCameraView(FlxG.camera);
-					if (pos.y > i / menuItems.length * FlxG.height && pos.y < (i + 1) / menuItems.length * FlxG.height && curSelected != i)
-					{
-						curSelected = i;
-						FlxG.sound.play(Paths.sound('scrollMenu'));
-						changeItem();
-						break;
-					}
-				}
-			}
-		}
-		#end
-
 		var lerpVal:Float = CoolUtil.boundTo(elapsed * 7.5, 0, 1);
 		camFollowPos.setPosition(FlxMath.lerp(camFollowPos.x, camFollow.x, lerpVal), FlxMath.lerp(camFollowPos.y, camFollow.y, lerpVal));
 
