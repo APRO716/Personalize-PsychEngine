@@ -31,6 +31,8 @@ class FPS extends TextField
 		The current frame rate, expressed using frames-per-second
 	**/
 	public var currentFPS(default, null):Int;
+	private var currentMem:Float;
+	private var highestMem:Float;
 
 	@:noCompletion private var cacheCount:Int;
 	@:noCompletion private var currentTime:Float;
@@ -83,8 +85,6 @@ class FPS extends TextField
 		if (currentCount != cacheCount)
 		{
 			text = "FPS: " + currentFPS;
-			var currentMem:Float = 0;
-			var highestMem:Float = 0;
 
 			#if openfl
 			currentMem = Math.abs(FlxMath.roundDecimal(System.totalMemory / 1000000, 1));

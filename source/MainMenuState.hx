@@ -208,6 +208,27 @@ class MainMenuState extends MusicBeatState
 
 		if (!selectedSomethin)
 		{
+			#if !mobile
+			if ((FlxG.mouse.getScreenPosition().x != oldPos.x || FlxG.mouse.getScreenPosition().y != oldPos.y))
+			{
+				oldPos = FlxG.mouse.getScreenPosition();
+				for (i in 0...menuItems.length)
+				{
+					if (FlxG.mouse.overlaps(menuItems.members[i]))
+					{
+						var pos = FlxG.mouse.getPositionInCameraView(FlxG.camera);
+						if (pos.y > i / menuItems.length * FlxG.height && pos.y < (i + 1) / menuItems.length * FlxG.height && curSelected != i)
+						{
+							curSelected = i;
+							FlxG.sound.play(Paths.sound('scrollMenu'));
+							changeItem();
+							break;
+						}
+					}
+				}
+			}
+			#end
+
 			if (FlxG.mouse.wheel != 0)
 			{
 				FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);

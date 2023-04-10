@@ -125,7 +125,7 @@ class Song
 		return songJson;
 	}
 
-	public static function parseJSONshit(rawJson:String):SwagSong
+	inline public static function parseJSONshit(rawJson:String):SwagSong
 	{
 		return cast Json.parse(rawJson).song;
 	}

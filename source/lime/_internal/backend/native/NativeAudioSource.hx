@@ -102,34 +102,6 @@ class NativeAudioSource
 	}
 
 	public function play():Void {
-		/*var pitch:Float = AL.getSourcef (handle, AL.PITCH);
-			trace(pitch);
-			AL.sourcef (handle, AL.PITCH, pitch*0.9);
-			pitch = AL.getSourcef (handle, AL.PITCH);
-			trace(pitch); */
-		/*var pos = getPosition();
-			trace(AL.DISTANCE_MODEL);
-			AL.distanceModel(AL.INVERSE_DISTANCE);
-			trace(AL.DISTANCE_MODEL);
-			AL.sourcef(handle, AL.ROLLOFF_FACTOR, 5);
-			setPosition(new Vector4(10, 10, -100));
-			pos = getPosition();
-			trace(pos); */
-		/*var filter = AL.createFilter();
-			trace(AL.getErrorString());
-
-			AL.filteri(filter, AL.FILTER_TYPE, AL.FILTER_LOWPASS);
-			trace(AL.getErrorString());
-
-			AL.filterf(filter, AL.LOWPASS_GAIN, 0.5);
-			trace(AL.getErrorString());
-
-			AL.filterf(filter, AL.LOWPASS_GAINHF, 0.5);
-			trace(AL.getErrorString());
-
-			AL.sourcei(handle, AL.DIRECT_FILTER, filter);
-			trace(AL.getErrorString()); */
-
 		if (playing || handle == null)
 			return;
 
@@ -322,7 +294,6 @@ class NativeAudioSource
 
 				var time = Std.int(totalSeconds * ratio * 1000) - parent.offset;
 
-				// var time = Std.int (AL.getSourcef (handle, AL.SEC_OFFSET) * 1000) - parent.offset;
 				if (time < 0) return 0;
 				return time;
 			}
@@ -333,9 +304,6 @@ class NativeAudioSource
 
 	public function setCurrentTime(value:Int):Int {
 		// `setCurrentTime()` has side effects and is never safe to skip.
-		/* if (value == getCurrentTime())
-			return value;
-		*/
 
 		if (handle != null && parent != null && parent.buffer != null) {
 			if (stream) {
@@ -351,8 +319,6 @@ class NativeAudioSource
 			}
 			else {
 				AL.sourceRewind(handle);
-
-				// AL.sourcef (handle, AL.SEC_OFFSET, (value + parent.offset) / 1000);
 
 				var secondOffset = (value + parent.offset) / 1000;
 				var totalSeconds = samples / parent.buffer.sampleRate;

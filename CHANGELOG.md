@@ -1,3 +1,10 @@
+## [0.4.2] - Not much (10 April 2023)
+- Toggleable Loading Screen
+- Fixed can't hide FPS Option
+- Optimize gameplay & Song when choosed
+- Fix of 25 min music length cap CR https://github.com/ShadowMario/FNF-PsychEngine/pull/12226 Swag (D&B fan try to make 1 hour+ song be like)
+- Better Changelog
+
 ## [0.4.1] - Yoooooo (6 April 2023)
 - Fixed mouse still visible in StoryMode
 - Result Screen won't show Song name anymore
@@ -112,7 +119,7 @@ I'm Bad At Coding Lol
 - Cool Thing https://github.com/ShadowMario/FNF-PsychEngine/pull/11456
 
 ## [0.1.3] - 2023 Update (2 Jan 2023)
-- Update Psych Engine Engine to Build d3e95b9
+- Update Psych Engine to Build d3e95b9
 - Hold Note Animation Kind of Cleaner
 - Remove hold before note appear because It's Dumb
 - Optimize Some Code
@@ -146,6 +153,5 @@ I'm Bad At Coding Lol
 - Quick Option in PauseMenu
 - Hold Note Doesn't affect Accuracy At All
 - Pause Menu , Discord Show Current Playbackrate
-- Fixed Timebar for Playbackrate
 - Full Mouse Support
 - Press ESC in TitleState to Close Game (BeastlyGhost)

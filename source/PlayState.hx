@@ -1034,7 +1034,6 @@ class PlayState extends MusicBeatState
 		generateSong(SONG.song);
 
 		// After all characters being loaded, it makes then invisible 0.01s later so that the player won't freeze when you change characters
-		// add(strumLine);
 
 		camFollow = new FlxPoint();
 		camFollowPos = new FlxObject(0, 0, 1, 1);
@@ -1107,19 +1106,8 @@ class PlayState extends MusicBeatState
 		botplayTxt.visible = cpuControlled;
 		add(botplayTxt);
 
-		strumLineNotes.cameras = [camHUD];
-		grpNoteSplashes.cameras = [camHUD];
-		notes.cameras = [camHUD];
-		healthBar.cameras = [camHUD];
-		healthBarBG.cameras = [camHUD];
-		iconP1.cameras = [camHUD];
-		iconP2.cameras = [camHUD];
-		scoreTxt.cameras = [camHUD];
-		botplayTxt.cameras = [camHUD];
-		timeBar.cameras = [camHUD];
-		timeBarBG.cameras = [camHUD];
-		timeTxt.cameras = [camHUD];
-		doof.cameras = [camHUD];
+		for (objects in [strumLineNotes,grpNoteSplashes,notes,healthBar,healthBarBG,iconP1,iconP2,scoreTxt,botplayTxt,timeBar,timeBarBG,timeTxt,doof])
+			objects.cameras = [camHUD];
 
 		startingSong = true;
 		
@@ -1911,10 +1899,10 @@ class PlayState extends MusicBeatState
 		for (asset in introAlts)
 			Paths.image(asset);
 
-		Paths.sound('intro3' + introSoundsSuffix);
-		Paths.sound('intro2' + introSoundsSuffix);
-		Paths.sound('intro1' + introSoundsSuffix);
-		Paths.sound('introGo' + introSoundsSuffix);
+		var things:Array<String> = ['intro3', 'intro2', 'intro1', 'introGo'];
+
+		for (precaching in things)
+			Paths.sound(precaching + introSoundsSuffix);
 	}
 
 	public function startCountdown():Void
@@ -2291,7 +2279,6 @@ class PlayState extends MusicBeatState
 		// NEW SHIT
 		noteData = songData.notes;
 
-		var playerCounter:Int = 0;
 		var daBeats:Int = 0; // Not exactly representative of 'daBeats' lol, just how much it has looped
 		var file:String = Paths.json(songName + '/events');
 		#if MODS_ALLOWED
@@ -2898,15 +2885,8 @@ class PlayState extends MusicBeatState
 		if (health <= 0)
 			health = 0;
 
-		if (healthBar.percent < 20)
-			iconP1.animation.curAnim.curFrame = 1;
-		else
-			iconP1.animation.curAnim.curFrame = 0;
-
-		if (healthBar.percent >= 80)
-			iconP2.animation.curAnim.curFrame = 1;
-		else
-			iconP2.animation.curAnim.curFrame = 0;
+		iconP1.animation.curAnim.curFrame = (healthBar.percent < 20) ? 1 : 0;
+		iconP2.animation.curAnim.curFrame = (healthBar.percent >= 80) ? 1 : 0;
 
 		if (FlxG.keys.anyJustPressed(debugKeysCharacter) && !endingSong && !inCutscene) {
 			persistentUpdate = false;
@@ -3106,8 +3086,7 @@ class PlayState extends MusicBeatState
 							if (daNote.mustPress && !cpuControlled && !daNote.ignoreNote && !endingSong && (daNote.tooLate || !daNote.wasGoodHit) && Conductor.songPosition - elapsed > daNote.strumTime) {
 								if(daNote.isSustainNote) {
 									for (daNote in parent.tail){
-										daNote.active = false;
-										daNote.exists = false;//good bye note
+										daNote.active = daNote.exists = false;//good bye note
 									}
 								}
 								noteMiss(daNote);
@@ -3916,11 +3895,11 @@ class PlayState extends MusicBeatState
 			pixelShitPart2 = '-pixel';
 		}
 
-		Paths.image(pixelShitPart1 + "sick" + pixelShitPart2);
-		Paths.image(pixelShitPart1 + "good" + pixelShitPart2);
-		Paths.image(pixelShitPart1 + "bad" + pixelShitPart2);
-		Paths.image(pixelShitPart1 + "shit" + pixelShitPart2);
-		Paths.image(pixelShitPart1 + "combo" + pixelShitPart2);
+		var ratings:Array<String> = ['sick', 'good', 'bad', 'shit', 'combo'];
+
+		for (precaching in ratings){
+			Paths.image(pixelShitPart1 + precaching + pixelShitPart2);
+		}
 		
 		for (i in 0...10) {
 			Paths.image(pixelShitPart1 + 'num' + i + pixelShitPart2);
