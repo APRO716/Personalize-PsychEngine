@@ -291,14 +291,6 @@ class EditorPlayState extends MusicBeatState
 		LoadingState.loadAndSwitchState(new editors.ChartingState());
 	}
 
-	function destroyText(){
-		if (scoreTxt != null) scoreTxt.destroy();
-		sectionTxt.destroy();
-		beatTxt.destroy();
-		stepTxt.destroy();
-		tipText.destroy();
-	}
-
 	public var noteKillOffset:Float = 350;
 	public var spawnTime:Float = 2000;
 	override function update(elapsed:Float) {
@@ -311,7 +303,6 @@ class EditorPlayState extends MusicBeatState
 
 		if (FlxG.keys.justPressed.ESCAPE)
 		{
-			destroyText();
 			FlxG.sound.music.pause();
 			vocals.pause();
 			LoadingState.loadAndSwitchState(new editors.ChartingState());

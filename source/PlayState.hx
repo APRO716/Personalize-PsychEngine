@@ -1899,9 +1899,9 @@ class PlayState extends MusicBeatState
 		for (asset in introAlts)
 			Paths.image(asset);
 
-		var things:Array<String> = ['intro3', 'intro2', 'intro1', 'introGo'];
+		var intros:Array<String> = ['intro3', 'intro2', 'intro1', 'introGo'];
 
-		for (precaching in things)
+		for (precaching in intros)
 			Paths.sound(precaching + introSoundsSuffix);
 	}
 

@@ -31,7 +31,6 @@ class GameOverSubstate extends MusicBeatSubstate
 	public static var storyWeek:Int = 0;
 
 	public var scoreTxt:FlxText;
-	public var tempScore:String = '';
 	public var scoreSeparator:String = ' // ';
 	public var camHUD:FlxCamera;
 
@@ -53,7 +52,7 @@ class GameOverSubstate extends MusicBeatSubstate
 		camHUD.bgColor.alpha = 0;
 		FlxG.cameras.add(camHUD, false);
 
-		scoreTxt = new FlxText(0, (FlxG.height * 0.89) + 36, FlxG.width, "", 20);
+		scoreTxt = new FlxText(0, PlayState.instance.scoreTxt.y, FlxG.width, PlayState.instance.scoreTxt.text, 20);
 		scoreTxt.setFormat(Paths.font("font.ttf"), 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		scoreTxt.scrollFactor.set();
 		scoreTxt.borderSize = 1.25;
@@ -62,17 +61,6 @@ class GameOverSubstate extends MusicBeatSubstate
 		scoreTxt.cameras = [camHUD];
 
 		super.create();
-
-		tempScore = 'Score: ${PlayState.instance.songScore}'; // Code From BeastlyGhost Again Lmao
-
-		tempScore += scoreSeparator + 'Misses: ${PlayState.instance.songMisses}';
-		tempScore += scoreSeparator + 'Accuracy: ${Highscore.floorDecimal(PlayState.instance.ratingPercent * 100, 2)}%';
-		tempScore += scoreSeparator + PlayState.instance.ratingName;
-		tempScore += (PlayState.instance.ratingFC != null && PlayState.instance.ratingFC != '' ? ' [${PlayState.instance.ratingFC}]' : '');
-
-		tempScore += '\n';
-
-		scoreTxt.text = tempScore;
 	}
 
 	public function new(x:Float, y:Float, camX:Float, camY:Float)

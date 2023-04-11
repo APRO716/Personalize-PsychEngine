@@ -19,8 +19,8 @@ using StringTools;
 
 class ResultState extends MusicBeatState
 {
-    var rank:String = '${PlayState.instance.ratingName}';
-    var FC:String = '${PlayState.instance.ratingFC}';
+    var rank:String = PlayState.instance.ratingName;
+    var FC:String = PlayState.instance.ratingFC;
     var resultTxt:FlxText;
     var pressTxt:FlxText;
 
@@ -33,10 +33,20 @@ class ResultState extends MusicBeatState
 		resultTxt.setFormat(Paths.font("font.ttf"), 28, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(resultTxt);
 
-        pressTxt = new FlxText(15, FlxG.height - 44, 0, 'Press ENTER to Exit', 6);
+        pressTxt = new FlxText(15, FlxG.height - 44, 0, '', 6);
         pressTxt.scrollFactor.set();
 		pressTxt.setFormat(Paths.font("font.ttf"), 28, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(pressTxt);
+
+        resultTxt.text = 'Song Cleared!
+        \nScore : ${PlayState.instance.songScore}
+        \nAccuracy : ${Highscore.floorDecimal(PlayState.instance.ratingPercent * 100, 2)}%
+        \nMisses : ${PlayState.instance.songMisses}
+        \nRank : ${rank} [${FC}]
+        \nSicks = ${PlayState.instance.sicks}                        Goods = ${PlayState.instance.goods}
+        \nBads = ${PlayState.instance.bads}                           Shits = ${PlayState.instance.shits}';
+
+        pressTxt.text = (!PlayState.isStoryMode && PlayState.storyPlaylist.length <= 0) ? 'Press ENTER to Exit' : 'Press ENTER to Play Next Song';
 
         super.create();
     }
@@ -49,14 +59,6 @@ class ResultState extends MusicBeatState
 
     override function update(elapsed:Float)
     {
-        resultTxt.text = 'Song Cleared!
-        \nScore : ${PlayState.instance.songScore}
-        \nAccuracy : ${Highscore.floorDecimal(PlayState.instance.ratingPercent * 100, 2)}%
-        \nMisses : ${PlayState.instance.songMisses}
-        \nRank : ${rank} [${FC}]
-        \nSicks = ${PlayState.instance.sicks}                        Goods = ${PlayState.instance.goods}
-        \nBads = ${PlayState.instance.bads}                           Shits = ${PlayState.instance.shits}';
-
         if (controls.ACCEPT || FlxG.mouse.justPressed)
         {
             destroyText();
