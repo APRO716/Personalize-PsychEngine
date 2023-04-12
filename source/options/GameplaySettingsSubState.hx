@@ -78,7 +78,7 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		addOption(option);
 
 		var option:Option = new Option('Loading Screen',
-			"If unchecked, The Funkay Loading Screen will be shown",
+			"If unchecked, The Funkay Loading Screen won't shown",
 			'loadingScreen',
 			'bool',
 			true);
