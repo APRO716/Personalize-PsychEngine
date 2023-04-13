@@ -1110,7 +1110,7 @@ class PlayState extends MusicBeatState
 			objects.cameras = [camHUD];
 
 		startingSong = true;
-		
+
 		#if LUA_ALLOWED
 		for (notetype in noteTypeMap.keys())
 		{
@@ -1251,7 +1251,7 @@ class PlayState extends MusicBeatState
 		}
 
 		precacheList.set('alphabet', 'image');
-	
+
 		#if desktop
 		// Updating Discord Rich Presence.
 		DiscordClient.changePresence(detailsText, SONG.song + " " + playbackRate + "x (" + storyDifficultyText + ")", iconP2.getCharacter());

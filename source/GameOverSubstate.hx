@@ -31,7 +31,6 @@ class GameOverSubstate extends MusicBeatSubstate
 	public static var storyWeek:Int = 0;
 
 	public var scoreTxt:FlxText;
-	public var scoreSeparator:String = ' // ';
 	public var camHUD:FlxCamera;
 
 	public static var instance:GameOverSubstate;
