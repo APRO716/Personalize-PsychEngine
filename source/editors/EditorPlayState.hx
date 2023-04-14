@@ -434,21 +434,18 @@ class EditorPlayState extends MusicBeatState
 				}
 
 				var parent = daNote.parent;
-				if (Conductor.songPosition > (noteKillOffset / PlayState.SONG.speed) + daNote.strumTime)
+				if (Conductor.songPosition > noteKillOffset + daNote.strumTime)
 				{
-					if (daNote.mustPress && !daNote.ignoreNote && (daNote.tooLate || !daNote.wasGoodHit)) {
+					if (daNote.mustPress && !daNote.ignoreNote && (daNote.tooLate || !daNote.wasGoodHit) && Conductor.songPosition - elapsed > daNote.strumTime) {
 						if(daNote.isSustainNote) {
 							for (daNote in parent.tail){
-								daNote.active = false;
-								daNote.exists = false;//good bye note
+								daNote.active = daNote.exists = false;//good bye note
 							}
 						}
 						noteMiss(daNote);
-						vocals.volume = 0;
 					}
 
-					daNote.active = false;
-					daNote.visible = false;
+					daNote.active = daNote.visible = false;
 
 					daNote.kill();
 					notes.remove(daNote, true);
@@ -458,8 +455,7 @@ class EditorPlayState extends MusicBeatState
 		}else{
 			notes.forEachAlive(function(daNote:Note)
 			{
-				daNote.canBeHit = false;
-				daNote.wasGoodHit = false;
+				daNote.canBeHit = daNote.wasGoodHit = false;
 			});
 		}
 

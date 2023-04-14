@@ -3104,8 +3104,7 @@ class PlayState extends MusicBeatState
 				{
 					notes.forEachAlive(function(daNote:Note)
 					{
-						daNote.canBeHit = false;
-						daNote.wasGoodHit = false;
+						daNote.canBeHit = daNote.wasGoodHit = false;
 					});
 				}
 			}
@@ -4300,7 +4299,7 @@ class PlayState extends MusicBeatState
 
 		if(daNote.countMiss) {
 			if (combo != 0) combo = 0;
-			if(!practiceMode) songScore -= 10;
+			if (!practiceMode) songScore -= 10;
 			songMisses++;
 			totalPlayed++;
 			vocals.volume = 0;
@@ -4336,9 +4335,9 @@ class PlayState extends MusicBeatState
 			if (combo > 5 && gf != null && gf.animOffsets.exists('sad'))
 				gf.playAnim('sad');
 
-			if(combo != 0) combo = 0;
-			if(!practiceMode) songScore -= 10;
-			if(!endingSong) songMisses++;
+			if (combo != 0) combo = 0;
+			if (!practiceMode) songScore -= 10;
+			if (!endingSong) songMisses++;
 
 			totalPlayed++;
 			RecalculateRating(true);
