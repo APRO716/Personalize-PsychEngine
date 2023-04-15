@@ -4266,14 +4266,9 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	private function parseKeys(?suffix:String = ''):Array<Bool>
+	inline private function parseKeys(?suffix:String = ''):Array<Bool>
 	{
-		var ret:Array<Bool> = [];
-		for (i in 0...controlArray.length)
-		{
-			ret[i] = Reflect.getProperty(controls, controlArray[i] + suffix);
-		}
-		return ret;
+		return [for (i in 0...controlArray.length) Reflect.getProperty(controls, controlArray[i] + suffix)];
 	}
 
 	function noteMiss(daNote:Note):Void { //You didn't hit the key and let it go offscreen, also used by Hurt Notes

@@ -1,3 +1,13 @@
+## Unnamed (15 April 2023)
+- No more Version Number (Cringe :>)
+- Mouse Click to the current person in Credit menu will load website too
+- Softcoded Score Text in GameOver screen (For custom score text lua script)
+- Colored selected item in Pause, MasterEditor, GameplayChange Screen too
+- Fixed Loading Screen option wrong info
+- Fixed Next note miss null object reference (When)
+- Some changed in EditorPlayState
+- Changed Keoiki icon (Funni)
+
 ## [0.4.2] - Not much (10 April 2023)
 - Toggleable Loading Screen
 - Fixed can't hide FPS Option

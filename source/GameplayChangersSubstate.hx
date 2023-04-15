@@ -370,14 +370,18 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 			bullShit++;
 
 			item.alpha = 0.6;
+			item.color = 0x00FFFFFF;
 			if (item.targetY == 0) {
 				item.alpha = 1;
+				item.color = 0xFFCDCA44;
 			}
 		}
 		for (text in grpTexts) {
 			text.alpha = 0.6;
+			text.color = 0x00FFFFFF;
 			if(text.ID == curSelected) {
 				text.alpha = 1;
+				text.color = 0xFFCDCA44;
 			}
 		}
 		curOption = optionsArray[curSelected]; //shorter lol

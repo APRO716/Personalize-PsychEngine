@@ -353,10 +353,12 @@ class PauseSubState extends MusicBeatSubstate
 			bullShit++;
 
 			item.alpha = 0.6;
+			item.color = 0x00FFFFFF;
 
 			if (item.targetY == 0)
 			{
 				item.alpha = 1;
+				item.color = 0xFFCDCA44;
 
 				if(item == skipTimeTracker)
 				{

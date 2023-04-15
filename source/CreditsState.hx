@@ -84,10 +84,10 @@ class CreditsState extends MusicBeatState
 			['Psych Engine Team'],
 			['Shadow Mario',		'shadowmario',		'Main Programmer of Psych Engine',								'https://twitter.com/Shadow_Mario_',	'444444'],
 			['RiverOaken',			'river',			'Main Artist/Animator of Psych Engine',							'https://twitter.com/RiverOaken',		'B42F71'],
-			['shubs',				'shubs',			'Additional Programmer of Psych Engine',						'https://twitter.com/yoshubs',			'5E99DF'],
 			[''],
 			['Former Engine Members'],
 			['bb-panzu',			'bb',				'Ex-Programmer of Psych Engine',								'https://twitter.com/bbsub3',			'3E813A'],
+			['shubs',				'shubs',			'Ex-Programmer of Psych Engine',								'https://twitter.com/yoshubs',			'5E99DF'],
 			[''],
 			['Engine Contributors'],
 			['iFlicky',				'flicky',			'Composer of Psync and Tea Time\nMade the Dialogue Sounds',		'https://twitter.com/flicky_i',			'9E29CF'],
@@ -128,7 +128,6 @@ class CreditsState extends MusicBeatState
 
 				var str:String = 'credits/missing_icon';
 				if (Paths.image('credits/' + creditsStuff[i][1]) != null) str = 'credits/' + creditsStuff[i][1];
-
 				var icon:AttachedSprite = new AttachedSprite(str);
 				icon.xAdd = optionText.width + 10;
 				icon.sprTracker = optionText;
@@ -216,7 +215,7 @@ class CreditsState extends MusicBeatState
 				}
 			}
 
-			if(controls.ACCEPT && (creditsStuff[curSelected][3] == null || creditsStuff[curSelected][3].length > 4)) {
+			if((controls.ACCEPT || FlxG.mouse.justPressed) && (creditsStuff[curSelected][3] == null || creditsStuff[curSelected][3].length > 4)) {
 				CoolUtil.browserLoad(creditsStuff[curSelected][3]);
 			}
 			if (controls.BACK)
