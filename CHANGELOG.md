@@ -4,7 +4,7 @@
 - Softcoded Score Text in GameOver screen (For custom score text lua script)
 - Colored selected item in Pause, MasterEditor, GameplayChange Screen too
 - Fixed Loading Screen option wrong info
-- Fixed Next note miss null object reference (When)
+- Fixed Next note miss null object reference (When miss Parent note then miss normal note)
 - Some changed in EditorPlayState
 - Changed Keoiki icon (Funni)
 
