@@ -140,9 +140,9 @@ class CharacterEditorState extends MusicBeatState
 		camFollow.screenCenter();
 		add(camFollow);
 
-		var tipTextArray:Array<String> = "SCROLLMOUSE - Camera Zoom In/Out
+		var tipTextArray:Array<String> = "SCROLLMOUSE or E/Q - Camera Zoom In/Out
 		\nR - Reset Camera Zoom
-		\nRMOUSE - Move Camera
+		\nRMOUSE or JKLI - Move Camera
 		\nW/S - Previous/Next Animation
 		\nSpace - Play Animation
 		\nArrow Keys - Move Character Offset
