@@ -38,7 +38,7 @@ class ErrorDisplay // By Grape-Boy
      */
     public function new(?errorMessage:String = 'Error!')
     {
-        this.errorBG = new FlxSprite().makeGraphic(FlxG.width, 160, 0x0);
+        this.errorBG = new FlxSprite().makeGraphic(FlxG.width, 160, 0xFF000000);
 		this.errorBG.scrollFactor.set();
 		this.errorBG.alpha = 0;
 		this.errorBG.screenCenter();
