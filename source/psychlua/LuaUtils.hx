@@ -214,6 +214,7 @@ class LuaUtils
 	}
 
 	public static function resetTextTag(tag:String) {
+		#if LUA_ALLOWED
 		if(!PlayState.instance.modchartTexts.exists(tag)) {
 			return;
 		}
@@ -225,9 +226,11 @@ class LuaUtils
 		}
 		target.destroy();
 		PlayState.instance.modchartTexts.remove(tag);
+		#end
 	}
 
 	public static function resetSpriteTag(tag:String) {
+		#if LUA_ALLOWED
 		if(!PlayState.instance.modchartSprites.exists(tag)) {
 			return;
 		}
@@ -239,14 +242,17 @@ class LuaUtils
 		}
 		target.destroy();
 		PlayState.instance.modchartSprites.remove(tag);
+		#end
 	}
 
 	public static function cancelTween(tag:String) {
+		#if LUA_ALLOWED
 		if(PlayState.instance.modchartTweens.exists(tag)) {
 			PlayState.instance.modchartTweens.get(tag).cancel();
 			PlayState.instance.modchartTweens.get(tag).destroy();
 			PlayState.instance.modchartTweens.remove(tag);
 		}
+		#end
 	}
 
 	public static function tweenPrepare(tag:String, vars:String) {
@@ -258,12 +264,14 @@ class LuaUtils
 	}
 
 	public static function cancelTimer(tag:String) {
+		#if LUA_ALLOWED
 		if(PlayState.instance.modchartTimers.exists(tag)) {
 			var theTimer:FlxTimer = PlayState.instance.modchartTimers.get(tag);
 			theTimer.cancel();
 			theTimer.destroy();
 			PlayState.instance.modchartTimers.remove(tag);
 		}
+		#end
 	}
 
 	public static function getColorByString(?color:String = '') {

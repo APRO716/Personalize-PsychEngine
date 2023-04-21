@@ -1251,11 +1251,7 @@ class PlayState extends MusicBeatState
 		}
 
 		precacheList.set('alphabet', 'image');
-
-		#if desktop
-		// Updating Discord Rich Presence.
-		DiscordClient.changePresence(detailsText, SONG.song + " " + playbackRate + "x (" + storyDifficultyText + ")", iconP2.getCharacter());
-		#end
+		resetRPC();
 
 		if(!controls.controllerMode)
 		{
@@ -2581,17 +2577,7 @@ class PlayState extends MusicBeatState
 
 			paused = false;
 			callOnLuas('onResume', []);
-
-			#if desktop
-			if (startTimer != null && startTimer.finished)
-			{
-				DiscordClient.changePresence(detailsText, SONG.song + " " + playbackRate + "x (" + storyDifficultyText + ")", iconP2.getCharacter(), true, (songLength - Conductor.songPosition - ClientPrefs.noteOffset));
-			}
-			else
-			{
-				DiscordClient.changePresence(detailsText, SONG.song + " " + playbackRate + "x (" + storyDifficultyText + ")", iconP2.getCharacter());
-			}
-			#end
+			resetRPC(startTimer != null && startTimer.finished);
 		}
 
 		super.closeSubState();
@@ -2599,33 +2585,28 @@ class PlayState extends MusicBeatState
 
 	override public function onFocus():Void
 	{
-		#if desktop
-		if (displayedHealth > 0 && !paused)
-		{
-			if (Conductor.songPosition > 0.0)
-			{
-				DiscordClient.changePresence(detailsText, SONG.song + " " + playbackRate + "x (" + storyDifficultyText + ")", iconP2.getCharacter(), true, (songLength - Conductor.songPosition - ClientPrefs.noteOffset));
-			}
-			else
-			{
-				DiscordClient.changePresence(detailsText, SONG.song + " " + playbackRate + "x (" + storyDifficultyText + ")", iconP2.getCharacter());
-			}
-		}
-		#end
-
+		if (displayedHealth > 0 && !paused) resetRPC(Conductor.songPosition > 0.0);
 		super.onFocus();
 	}
 
 	override public function onFocusLost():Void
 	{
 		#if desktop
-		if (displayedHealth > 0 && !paused)
-		{
-			DiscordClient.changePresence(detailsPausedText, SONG.song + " " + playbackRate + "x (" + storyDifficultyText + ")", iconP2.getCharacter());
-		}
+		if (displayedHealth > 0 && !paused) DiscordClient.changePresence(detailsPausedText, SONG.song + " " + playbackRate + "x (" + storyDifficultyText + ")", iconP2.getCharacter());
 		#end
 
 		super.onFocusLost();
+	}
+
+	// Updating Discord Rich Presence.
+	function resetRPC(?cond:Bool = false)
+	{
+		#if desktop
+		if (cond)
+			DiscordClient.changePresence(detailsText, SONG.song + " " + playbackRate + "x (" + storyDifficultyText + ")", iconP2.getCharacter(), true, songLength - Conductor.songPosition - ClientPrefs.noteOffset);
+		else
+			DiscordClient.changePresence(detailsText, SONG.song + " " + playbackRate + "x (" + storyDifficultyText + ")", iconP2.getCharacter());
+		#end
 	}
 
 	function resyncVocals(resync:Bool = true):Void
@@ -2998,17 +2979,17 @@ class PlayState extends MusicBeatState
 						strumAlpha *= daNote.multAlpha;
 
 						if (strumScroll) //Downscroll
-						{
 							daNote.distance = (0.45 * (Conductor.songPosition - daNote.strumTime) * songSpeed * daNote.multSpeed);
-						}
 						else //Upscroll
-						{
 							daNote.distance = (-0.45 * (Conductor.songPosition - daNote.strumTime) * songSpeed * daNote.multSpeed);
-						}
 
 						var angleDir = strumDirection * Math.PI / 180;
-						if (daNote.copyAngle)
-							daNote.angle = strumDirection - 90 + strumAngle;
+						if (!daNote.isSustainNote) { //probably fixed sustain angel change modchart? -Apro
+							if (daNote.copyAngle)
+								daNote.angle = strumDirection - 90 + strumAngle;
+						} else {
+							daNote.angle = strumDirection - 90 + (daNote.copyAngle ? strumAngle : 0);
+						}
 
 						if(daNote.copyAlpha)
 							daNote.alpha = strumAlpha;
