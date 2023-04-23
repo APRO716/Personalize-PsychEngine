@@ -46,7 +46,7 @@ class ResultState extends MusicBeatState
         \nSicks = ${PlayState.instance.sicks}                        Goods = ${PlayState.instance.goods}
         \nBads = ${PlayState.instance.bads}                           Shits = ${PlayState.instance.shits}';
 
-        pressTxt.text = (!PlayState.isStoryMode && PlayState.storyPlaylist.length <= 0) ? 'Press ENTER to Exit' : 'Press ENTER to Play Next Song';
+        pressTxt.text = (!PlayState.isStoryMode || PlayState.storyPlaylist.length <= 0) ? 'Press ENTER to Exit' : 'Press ENTER to Play Next Song';
 
         super.create();
     }

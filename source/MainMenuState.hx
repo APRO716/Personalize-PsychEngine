@@ -173,6 +173,7 @@ class MainMenuState extends MusicBeatState
 	var oldPos = FlxG.mouse.getScreenPosition();
 	#end
 
+	var holdTime:Float = 0;
 	override function update(elapsed:Float)
 	{
 		if (FlxG.sound.music.volume < 0.8)
@@ -207,29 +208,37 @@ class MainMenuState extends MusicBeatState
 			}
 			#end
 
-			if (FlxG.mouse.wheel != 0)
+			if(FlxG.mouse.wheel != 0)
 			{
-				FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
-				#if desktop
+				FlxG.sound.play(Paths.sound('scrollMenu'));
 				changeItem(-FlxG.mouse.wheel);
-				#else
-				if (FlxG.mouse.wheel < 0)
-					changeItem(1);
-				else if (FlxG.mouse.wheel > 0)
-					changeItem(-1);
-				#end
 			}
 
 			if (controls.UI_UP_P)
 			{
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				changeItem(-1);
+				holdTime = 0;
 			}
 
 			if (controls.UI_DOWN_P)
 			{
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				changeItem(1);
+				holdTime = 0;
+			}
+
+			if (controls.UI_DOWN || controls.UI_UP)
+			{
+				var checkLastHold:Int = Math.floor((holdTime - 0.5) * 10);
+				holdTime += elapsed;
+				var checkNewHold:Int = Math.floor((holdTime - 0.5) * 10);
+
+				if (holdTime > 0.5 && checkNewHold - checkLastHold > 0)
+				{
+					FlxG.sound.play(Paths.sound('scrollMenu'));
+					changeItem((checkNewHold - checkLastHold) * (controls.UI_UP ? -1 : 1));
+				}
 			}
 
 			if (controls.BACK)

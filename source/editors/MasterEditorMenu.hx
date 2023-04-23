@@ -84,23 +84,39 @@ class MasterEditorMenu extends MusicBeatState
 		super.create();
 	}
 
+	var holdTime:Float = 0;
 	override function update(elapsed:Float)
 	{
 		var accepted = controls.ACCEPT;
 
+		var shiftMult:Int = 1;
+		if(FlxG.keys.pressed.SHIFT) shiftMult = 3;
+
 		if (controls.UI_UP_P)
 		{
-			changeSelection(-1);
+			changeSelection(-shiftMult);
+			holdTime = 0;
 		}
 		if (controls.UI_DOWN_P)
 		{
-			changeSelection(1);
+			changeSelection(shiftMult);
+			holdTime = 0;
 		}
 		if(FlxG.mouse.wheel != 0)
 		{
-			FlxG.sound.play(Paths.sound('scrollMenu'), 0.2);
-			changeSelection(-FlxG.mouse.wheel);
+			changeSelection(-FlxG.mouse.wheel * shiftMult);
 			changeDirectory();
+		}
+		if(controls.UI_DOWN || controls.UI_UP)
+		{
+			var checkLastHold:Int = Math.floor((holdTime - 0.5) * 10);
+			holdTime += elapsed;
+			var checkNewHold:Int = Math.floor((holdTime - 0.5) * 10);
+
+			if(holdTime > 0.5 && checkNewHold - checkLastHold > 0)
+			{
+				changeSelection((checkNewHold - checkLastHold) * (controls.UI_UP ? -shiftMult : shiftMult));
+			}
 		}
 		#if MODS_ALLOWED
 		if(controls.UI_LEFT_P)

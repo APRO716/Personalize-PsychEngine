@@ -132,26 +132,34 @@ class BaseOptionsMenu extends MusicBeatSubstate
 	var holdValue:Float = 0;
 	override function update(elapsed:Float)
 	{
-		if (controls.UI_UP_P)
-		{
-			changeSelection(-1);
+		var shiftMult:Int = 1;
+		if(FlxG.keys.pressed.SHIFT) shiftMult = 3;
+
+		if (controls.UI_UP_P) {
+			changeSelection(-shiftMult);
+			holdTime = 0;
 		}
-		if (controls.UI_DOWN_P)
-		{
-			changeSelection(1);
+		if (controls.UI_DOWN_P) {
+			changeSelection(shiftMult);
+			holdTime = 0;
 		}
 
-		#if !mobile
-		if (FlxG.mouse.wheel != 0)
-			#if desktop
-			changeSelection(-FlxG.mouse.wheel);
-			#else
-			if (FlxG.mouse.wheel < 0)
-				changeSelection(1);
-			if (FlxG.mouse.wheel > 0)
-				changeSelection(-1);
-			#end
-		#end
+		if (controls.UI_DOWN || controls.UI_UP)
+		{
+			var checkLastHold:Int = Math.floor((holdTime - 0.5) * 10);
+			holdTime += elapsed;
+			var checkNewHold:Int = Math.floor((holdTime - 0.5) * 10);
+
+			if (holdTime > 0.5 && checkNewHold - checkLastHold > 0)
+			{
+				FlxG.sound.play(Paths.sound('scrollMenu'));
+				changeSelection((checkNewHold - checkLastHold) * (controls.UI_UP ? -shiftMult : shiftMult));
+			}
+		}
+
+		if (FlxG.mouse.wheel != 0) {
+			changeSelection(-FlxG.mouse.wheel * shiftMult);
+		}
 
 		if (controls.BACK) {
 			close();
