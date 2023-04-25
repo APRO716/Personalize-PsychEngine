@@ -67,12 +67,6 @@ class StoryMenuState extends MusicBeatState
 		txtWeekTitle.setFormat(Paths.font("font.ttf"), 32, FlxColor.WHITE, RIGHT);
 		txtWeekTitle.alpha = 0.7;
 
-		var rankText:FlxText = new FlxText(0, 10);
-		rankText.text = 'RANK: GREAT';
-		rankText.setFormat(Paths.font("font.ttf"), 32);
-		rankText.size = scoreText.size;
-		rankText.screenCenter(X);
-
 		var ui_tex = Paths.getSparrowAtlas('campaign_menu_UI_assets');
 		var bgYellow:FlxSprite = new FlxSprite(0, 56).makeGraphic(FlxG.width, 386, 0xFFF9CF51);
 		bgSprite = new FlxSprite(0, 56);
@@ -175,7 +169,7 @@ class StoryMenuState extends MusicBeatState
 
 		txtTracklist = new FlxText(FlxG.width * 0.05, tracksSprite.y + 60, 0, "", 32);
 		txtTracklist.alignment = CENTER;
-		txtTracklist.font = rankText.font;
+		txtTracklist.font = scoreText.font;
 		txtTracklist.color = 0xFFe55777;
 		add(txtTracklist);
 		add(scoreText);
@@ -467,7 +461,7 @@ class StoryMenuState extends MusicBeatState
 		return (!leWeek.startUnlocked && leWeek.weekBefore.length > 0 && (!weekCompleted.exists(leWeek.weekBefore) || !weekCompleted.get(leWeek.weekBefore)));
 	}
 
-	function updateText()
+	inline function updateText()
 	{
 		var weekArray:Array<String> = loadedWeeks[curWeek].weekCharacters;
 		for (i in 0...grpWeekCharacters.length) {
