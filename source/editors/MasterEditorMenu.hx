@@ -90,7 +90,7 @@ class MasterEditorMenu extends MusicBeatState
 		var accepted = controls.ACCEPT;
 
 		var shiftMult:Int = 1;
-		if(FlxG.keys.pressed.SHIFT) shiftMult = 3;
+		if (FlxG.keys.pressed.SHIFT) shiftMult = 3;
 
 		if (controls.UI_UP_P)
 		{
@@ -102,12 +102,11 @@ class MasterEditorMenu extends MusicBeatState
 			changeSelection(shiftMult);
 			holdTime = 0;
 		}
-		if(FlxG.mouse.wheel != 0)
+		if (FlxG.mouse.wheel != 0)
 		{
 			changeSelection(-FlxG.mouse.wheel * shiftMult);
-			changeDirectory();
 		}
-		if(controls.UI_DOWN || controls.UI_UP)
+		if (controls.UI_DOWN || controls.UI_UP)
 		{
 			var checkLastHold:Int = Math.floor((holdTime - 0.5) * 10);
 			holdTime += elapsed;

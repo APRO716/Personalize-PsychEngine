@@ -1,7 +1,6 @@
 package;
 
 import flixel.FlxG;
-import flixel.FlxCamera;
 import flixel.FlxObject;
 import flixel.FlxSubState;
 import flixel.math.FlxMath;
@@ -11,7 +10,6 @@ import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
-
 
 class GameOverSubstate extends MusicBeatSubstate
 {
@@ -28,10 +26,7 @@ class GameOverSubstate extends MusicBeatSubstate
 	public static var loopSoundName:String = 'gameOver';
 	public static var endSoundName:String = 'gameOverEnd';
 
-	public static var storyWeek:Int = 0;
-
 	public var scoreTxt:FlxText;
-	public var camHUD:FlxCamera;
 
 	public static var instance:GameOverSubstate;
 
@@ -47,17 +42,15 @@ class GameOverSubstate extends MusicBeatSubstate
 		instance = this;
 		PlayState.instance.callOnLuas('onGameOverStart', []);
 
-		camHUD = new FlxCamera();
-		camHUD.bgColor.alpha = 0;
-		FlxG.cameras.add(camHUD, false);
-
 		scoreTxt = new FlxText(0, PlayState.instance.scoreTxt.y, FlxG.width, PlayState.instance.scoreTxt.text, 20);
 		scoreTxt.setFormat(Paths.font("font.ttf"), 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		scoreTxt.scrollFactor.set();
 		scoreTxt.borderSize = 1.25;
 		scoreTxt.visible = !ClientPrefs.hideHud;
 		add(scoreTxt);
-		scoreTxt.cameras = [camHUD];
+		scoreTxt.cameras = [PlayState.instance.camHUD];
+
+		saveLastScore();
 
 		super.create();
 	}
@@ -101,15 +94,6 @@ class GameOverSubstate extends MusicBeatSubstate
 
 		if (controls.ACCEPT || FlxG.mouse.justPressed)
 		{
-			#if !switch
-			if (!PlayState.instance.practiceMode && !PlayState.instance.cpuControlled) //Get Last Score Before You Died
-				Highscore.saveScore(PlayState.SONG.song, PlayState.instance.songScore, PlayState.storyDifficulty, PlayState.instance.ratingPercent);
-			#end
-			if (PlayState.isStoryMode){
-				if (!PlayState.instance.practiceMode && !PlayState.instance.cpuControlled)
-					Highscore.saveWeekScore(WeekData.getWeekFileName(), PlayState.campaignScore, PlayState.storyDifficulty);
-			}
-
 			endBullshit();
 		}
 
@@ -122,22 +106,10 @@ class GameOverSubstate extends MusicBeatSubstate
 			PlayState.chartingMode = false;
 
 			WeekData.loadTheFirstEnabledMod();
-			#if !switch
-			if (!PlayState.instance.practiceMode && !PlayState.instance.cpuControlled)
-				Highscore.saveScore(PlayState.SONG.song, PlayState.instance.songScore, PlayState.storyDifficulty, PlayState.instance.ratingPercent);
-			#end
-			if (PlayState.isStoryMode){ //Get Last Score Before You Died
+			if (PlayState.isStoryMode)
 				MusicBeatState.switchState(new StoryMenuState());
-				StoryMenuState.weekCompleted.set(WeekData.weeksList[storyWeek], true);
-
-				if (!PlayState.instance.practiceMode && !PlayState.instance.cpuControlled)
-					Highscore.saveWeekScore(WeekData.getWeekFileName(), PlayState.campaignScore, PlayState.storyDifficulty);
-
-				FlxG.save.data.weekCompleted = StoryMenuState.weekCompleted;
-				FlxG.save.flush();
-			}else{
+			else
 				MusicBeatState.switchState(new FreeplayState());
-			}
 
 			FlxG.sound.playMusic(Paths.music('freakyMenu'));
 			PlayState.instance.callOnLuas('onGameOverConfirm', [false]);
@@ -181,6 +153,18 @@ class GameOverSubstate extends MusicBeatSubstate
 			Conductor.songPosition = FlxG.sound.music.time;
 		}
 		PlayState.instance.callOnLuas('onUpdatePost', [elapsed]);
+	}
+
+	function saveLastScore():Void
+	{
+		#if !switch
+		if (!PlayState.instance.practiceMode && !PlayState.instance.cpuControlled) //Get Last Score Before You Died
+			Highscore.saveScore(PlayState.SONG.song, PlayState.instance.songScore, PlayState.storyDifficulty, PlayState.instance.ratingPercent);
+		#end
+		if (PlayState.isStoryMode){
+			if (!PlayState.instance.practiceMode && !PlayState.instance.cpuControlled)
+				Highscore.saveWeekScore(WeekData.getWeekFileName(), PlayState.campaignScore, PlayState.storyDifficulty);
+		}
 	}
 
 	var isEnding:Bool = false;

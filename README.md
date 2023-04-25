@@ -10,6 +10,7 @@ Based on Psych Engine 0.6.3 & Fix Somebug
 ---------------------------------------------------------------------------
 Feature:
 * No HTML Support :P
+* Game Over save last score before ded oof (Inspirated by some mobile rhythm game i forgor the name :skull:)
 * Pretty Smooth Healthbar
 * Countdown Pause Menu
 * SAY GEX /j

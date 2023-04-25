@@ -103,7 +103,6 @@ class Paths
 		for (key in currentTrackedSounds.keys()) {
 			if (!localTrackedAssets.contains(key)
 			&& !dumpExclusions.contains(key) && key != null) {
-				//trace('test: ' + dumpExclusions, key);
 				Assets.cache.clear(key);
 				currentTrackedSounds.remove(key);
 			}

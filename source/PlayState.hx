@@ -4701,6 +4701,7 @@ class PlayState extends MusicBeatState
 		if (Std.isOfType(FlxG.game._requestedState, PlayState)) {
 			if (FlxG.sound.music != null) FlxG.sound.music.destroy();
 		}else{
+			Paths.clearStoredMemory();
 			if (FlxG.sound.music != null) {
 				FlxG.sound.music.onComplete = null;
 				FlxG.sound.music.pitch = 1;
@@ -4814,7 +4815,7 @@ class PlayState extends MusicBeatState
 		}
 		lastBeatHit = curBeat;
 
-		setOnLuas('curBeat', curBeat);
+		setOnLuas('curBeat', curBeat); //DAWGG?????
 		callOnLuas('onBeatHit', []);
 	}
 

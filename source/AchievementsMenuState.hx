@@ -74,26 +74,34 @@ class AchievementsMenuState extends MusicBeatState
 		super.create();
 	}
 
+	var holdTime:Float = 0;
 	override function update(elapsed:Float) {
 		super.update(elapsed);
 
+		var shiftMult:Int = 1;
+		if(FlxG.keys.pressed.SHIFT) shiftMult = 3;
+
 		if (controls.UI_UP_P) {
-			changeSelection(-1);
+			changeSelection(-shiftMult);
+			holdTime = 0;
 		}
 		if (controls.UI_DOWN_P) {
-			changeSelection(1);
+			changeSelection(shiftMult);
+			holdTime = 0;
 		}
-		#if !mobile
-		if (FlxG.mouse.wheel != 0)
-			#if desktop
+		if(controls.UI_DOWN || controls.UI_UP) {
+			var checkLastHold:Int = Math.floor((holdTime - 0.5) * 10);
+			holdTime += elapsed;
+			var checkNewHold:Int = Math.floor((holdTime - 0.5) * 10);
+
+			if(holdTime > 0.5 && checkNewHold - checkLastHold > 0)
+			{
+				changeSelection((checkNewHold - checkLastHold) * (controls.UI_UP ? -shiftMult : shiftMult));
+			}
+		}
+		if (FlxG.mouse.wheel != 0) {
 			changeSelection(-FlxG.mouse.wheel);
-			#else
-			if (FlxG.mouse.wheel < 0)
-				changeSelection(1);
-			if (FlxG.mouse.wheel > 0)
-				changeSelection(-1);
-			#end
-		#end
+		}
 		if (controls.BACK) {
 			FlxG.sound.play(Paths.sound('cancelMenu'));
 			MusicBeatState.switchState(new MainMenuState());

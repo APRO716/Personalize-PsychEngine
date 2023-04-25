@@ -144,15 +144,13 @@ class BaseOptionsMenu extends MusicBeatSubstate
 			holdTime = 0;
 		}
 
-		if (controls.UI_DOWN || controls.UI_UP)
-		{
+		if (controls.UI_DOWN || controls.UI_UP) {
 			var checkLastHold:Int = Math.floor((holdTime - 0.5) * 10);
 			holdTime += elapsed;
 			var checkNewHold:Int = Math.floor((holdTime - 0.5) * 10);
 
 			if (holdTime > 0.5 && checkNewHold - checkLastHold > 0)
 			{
-				FlxG.sound.play(Paths.sound('scrollMenu'));
 				changeSelection((checkNewHold - checkLastHold) * (controls.UI_UP ? -shiftMult : shiftMult));
 			}
 		}

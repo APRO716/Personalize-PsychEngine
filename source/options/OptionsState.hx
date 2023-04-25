@@ -110,8 +110,7 @@ class OptionsState extends MusicBeatState
 			holdTime = 0;
 		}
 
-		if (controls.UI_DOWN || controls.UI_UP)
-		{
+		if (controls.UI_DOWN || controls.UI_UP) {
 			var checkLastHold:Int = Math.floor((holdTime - 0.5) * 10);
 			holdTime += elapsed;
 			var checkNewHold:Int = Math.floor((holdTime - 0.5) * 10);
