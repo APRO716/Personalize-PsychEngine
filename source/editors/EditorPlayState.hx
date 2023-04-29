@@ -76,10 +76,10 @@ class EditorPlayState extends MusicBeatState
 		add(bg);
 
 		keysArray = [
-			ClientPrefs.keyBinds.get('note_left').copy(),
-			ClientPrefs.keyBinds.get('note_down').copy(),
-			ClientPrefs.keyBinds.get('note_up').copy(),
-			ClientPrefs.keyBinds.get('note_right').copy()
+			'note_left',
+			'note_down',
+			'note_up',
+			'note_right'
 		];
 
 		strumLine = new FlxSprite(ClientPrefs.middleScroll ? PlayState.STRUM_X_MIDDLESCROLL : PlayState.STRUM_X, (ClientPrefs.downScroll ? FlxG.height - 150 : 50)).makeGraphic(FlxG.width, 10);
@@ -153,11 +153,8 @@ class EditorPlayState extends MusicBeatState
 		add(tipText);
 		FlxG.mouse.visible = false;
 
-		if(!controls.controllerMode)
-		{
-			FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
-			FlxG.stage.addEventListener(KeyboardEvent.KEY_UP, onKeyRelease);
-		}
+		FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
+		FlxG.stage.addEventListener(KeyboardEvent.KEY_UP, onKeyRelease);
 		super.create();
 	}
 
@@ -516,7 +513,12 @@ class EditorPlayState extends MusicBeatState
 		var eventKey:FlxKey = event.keyCode;
 		var key:Int = getKeyFromEvent(eventKey);
 
-		if (key > -1 && (FlxG.keys.checkStatus(eventKey, JUST_PRESSED) || controls.controllerMode))
+		if (!controls.controllerMode && FlxG.keys.checkStatus(eventKey, JUST_PRESSED)) keyPressed(key);
+	}
+
+	private function keyPressed(key:Int)
+	{
+		if (key > -1)
 		{
 			if(generatedMusic)
 			{
@@ -598,14 +600,17 @@ class EditorPlayState extends MusicBeatState
 	{
 		var eventKey:FlxKey = event.keyCode;
 		var key:Int = getKeyFromEvent(eventKey);
-		if(key > -1)
+
+		if(!controls.controllerMode && key > -1) keyReleased(key);
+	}
+
+	private function keyReleased(key:Int)
+	{
+		var spr:StrumNote = playerStrums.members[key];
+		if(spr != null)
 		{
-			var spr:StrumNote = playerStrums.members[key];
-			if(spr != null)
-			{
-				spr.playAnim('static');
-				spr.resetAnim = 0;
-			}
+			spr.playAnim('static');
+			spr.resetAnim = 0;
 		}
 	}
 
@@ -615,12 +620,11 @@ class EditorPlayState extends MusicBeatState
 		{
 			for (i in 0...keysArray.length)
 			{
-				for (j in 0...keysArray[i].length)
+				var note:Array<Dynamic> = controls.keyboardBinds[keysArray[i]];
+				for (noteKey in note)
 				{
-					if(key == keysArray[i][j])
-					{
+					if(key == noteKey)
 						return i;
-					}
 				}
 			}
 		}
@@ -630,23 +634,23 @@ class EditorPlayState extends MusicBeatState
 	private function keyShit():Void
 	{
 		// HOLDING
-		var up = controls.NOTE_UP;
-		var right = controls.NOTE_RIGHT;
-		var down = controls.NOTE_DOWN;
-		var left = controls.NOTE_LEFT;
-		var controlHoldArray:Array<Bool> = [left, down, up, right];
+		var holdArray:Array<Bool> = [];
+		var pressArray:Array<Bool> = [];
+		var releaseArray:Array<Bool> = [];
+		for (key in keysArray)
+		{
+			holdArray.push(controls.pressed(key));
+			pressArray.push(controls.justPressed(key));
+			releaseArray.push(controls.justReleased(key));
+		}
 
 		// TO DO: Find a better way to handle controller inputs, this should work for now
-		if(controls.controllerMode)
+		if(controls.controllerMode && pressArray.contains(true))
 		{
-			var controlArray:Array<Bool> = [controls.NOTE_LEFT_P, controls.NOTE_DOWN_P, controls.NOTE_UP_P, controls.NOTE_RIGHT_P];
-			if(controlArray.contains(true))
+			for (i in 0...pressArray.length)
 			{
-				for (i in 0...controlArray.length)
-				{
-					if(controlArray[i])
-						onKeyPress(new KeyboardEvent(KeyboardEvent.KEY_DOWN, true, true, -1, keysArray[i][0]));
-				}
+				if(pressArray[i] && strumsBlocked[i] != true)
+					keyPressed(i);
 			}
 		}
 
@@ -655,9 +659,9 @@ class EditorPlayState extends MusicBeatState
 			// rewritten inputs???
 			notes.forEachAlive(function(daNote:Note)
 			{
-				// hold note functions
+				// osu!mania hold note functions
 				if (strumsBlocked[daNote.noteData] != true && daNote.isSustainNote && (daNote.parent == null
-					|| daNote.parent.wasGoodHit) && controlHoldArray[daNote.noteData] && daNote.canBeHit
+					|| daNote.parent.wasGoodHit) && holdArray[daNote.noteData] && daNote.canBeHit
 					&& daNote.mustPress && !daNote.tooLate && !daNote.wasGoodHit && !daNote.blockHit) {
 					goodNoteHit(daNote);
 				}
@@ -665,16 +669,12 @@ class EditorPlayState extends MusicBeatState
 		}
 
 		// TO DO: Find a better way to handle controller inputs, this should work for now
-		if(controls.controllerMode || strumsBlocked.contains(true))
+		if((controls.controllerMode || strumsBlocked.contains(true)) && releaseArray.contains(true))
 		{
-			var controlArray:Array<Bool> = [controls.NOTE_LEFT_R, controls.NOTE_DOWN_R, controls.NOTE_UP_R, controls.NOTE_RIGHT_R];
-			if(controlArray.contains(true))
+			for (i in 0...releaseArray.length)
 			{
-				for (i in 0...controlArray.length)
-				{
-					if(controlArray[i] || strumsBlocked[i] == true)
-						onKeyRelease(new KeyboardEvent(KeyboardEvent.KEY_UP, true, true, -1, keysArray[i][0]));
-				}
+				if(releaseArray[i] || strumsBlocked[i] == true)
+					keyReleased(i);
 			}
 		}
 	}
@@ -1023,11 +1023,8 @@ class EditorPlayState extends MusicBeatState
 		vocals.stop();
 		vocals.destroy();
 
-		if(!controls.controllerMode)
-		{
-			FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
-			FlxG.stage.removeEventListener(KeyboardEvent.KEY_UP, onKeyRelease);
-		}
+		FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
+		FlxG.stage.removeEventListener(KeyboardEvent.KEY_UP, onKeyRelease);
 		super.destroy();
 	}
 }

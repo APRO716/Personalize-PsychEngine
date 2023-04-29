@@ -92,19 +92,14 @@ class MasterEditorMenu extends MusicBeatState
 		var shiftMult:Int = 1;
 		if (FlxG.keys.pressed.SHIFT) shiftMult = 3;
 
-		if (controls.UI_UP_P)
-		{
-			changeSelection(-shiftMult);
-			holdTime = 0;
-		}
-		if (controls.UI_DOWN_P)
-		{
-			changeSelection(shiftMult);
-			holdTime = 0;
-		}
 		if (FlxG.mouse.wheel != 0)
 		{
 			changeSelection(-FlxG.mouse.wheel * shiftMult);
+		}
+		if (controls.UI_DOWN_P || controls.UI_UP_P)
+		{
+			changeSelection(controls.UI_UP_P ? -shiftMult : shiftMult);
+			holdTime = 0;
 		}
 		if (controls.UI_DOWN || controls.UI_UP)
 		{

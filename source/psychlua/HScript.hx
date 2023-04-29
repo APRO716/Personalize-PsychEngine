@@ -1,10 +1,20 @@
 package psychlua;
 
 #if hscript
+import flixel.util.FlxColor;
 import hscript.Parser;
 import hscript.Interp;
 import hscript.Expr;
 #end
+
+#if LUA_ALLOWED
+import llua.Lua;
+import llua.LuaL;
+import llua.State;
+import llua.Convert;
+#end
+
+import haxe.Exception;
 
 class HScript
 {
@@ -73,12 +83,93 @@ class HScript
 		});
 	}
 
-	public function execute(codeToRun:String):Dynamic
+	public function execute(codeToRun:String, ?funcToRun:String = null, ?funcArgs:Array<Dynamic>):Dynamic
 	{
 		@:privateAccess
-		HScript.parser.line = 1;
-		HScript.parser.allowTypes = true;
-		return interp.execute(HScript.parser.parseString(codeToRun));
+		parser.line = 1;
+		parser.allowTypes = true;
+		var expr:Expr = parser.parseString(codeToRun);
+		try {
+			var value:Dynamic = interp.execute(parser.parseString(codeToRun));
+			return (funcToRun != null) ? executeFunction(funcToRun, funcArgs) : value;
+		}
+		catch(e:Exception)
+		{
+			trace(e);
+			return null;
+		}
+	}
+
+	public function executeFunction(funcToRun:String = null, funcArgs:Array<Dynamic>)
+	{
+		if(funcToRun != null)
+		{
+			if(interp.variables.exists(funcToRun))
+			{
+				if(funcArgs == null) funcArgs = [];
+				return Reflect.callMethod(null, interp.variables.get(funcToRun), funcArgs);
+			}
+		}
+		return null;
+	}
+
+	#if LUA_ALLOWED
+	public static function implement(funk:FunkinLua)
+	{
+		var lua:State = funk.lua;
+		Lua_helper.add_callback(lua, "runHaxeCode", function(codeToRun:String, ?varsToBring:Any = null, ?funcToRun:String = null, ?funcArgs:Array<Dynamic> = null) {
+			var retVal:Dynamic = null;
+
+			#if hscript
+			initHaxeModule();
+			try {
+				if(varsToBring != null)
+				{
+					for (key in Reflect.fields(varsToBring))
+					{
+						FunkinLua.hscript.interp.variables.set(key, Reflect.field(varsToBring, key));
+					}
+				}
+				retVal = FunkinLua.hscript.execute(codeToRun, funcToRun, funcArgs);
+			}
+			catch (e:Dynamic) {
+				funk.luaTrace(funk.scriptName + ":" + funk.lastCalledFunction + " - " + e, false, false, FlxColor.RED);
+			}
+			#else
+			funk.luaTrace("runHaxeCode: HScript isn't supported on this platform!", false, false, FlxColor.RED);
+			#end
+
+			if(retVal != null && !LuaUtils.isOfTypes(retVal, [Bool, Int, Float, String, Array])) retVal = null;
+			return retVal;
+		});
+
+		Lua_helper.add_callback(lua, "runHaxeFunction", function(funcToRun:String, ?funcArgs:Array<Dynamic> = null) {
+			try {
+				return FunkinLua.hscript.executeFunction(funcToRun, funcArgs);
+			}
+			catch(e:Exception)
+			{
+				funk.luaTrace(Std.string(e));
+				return null;
+			}
+		});
+
+		Lua_helper.add_callback(lua, "addHaxeLibrary", function(libName:String, ?libPackage:String = '') {
+			#if hscript
+			initHaxeModule();
+			try {
+				var str:String = '';
+				if(libPackage.length > 0)
+					str = libPackage + '.';
+
+				FunkinLua.hscript.variables.set(libName, Type.resolveClass(str + libName));
+			}
+			catch (e:Dynamic) {
+				funk.luaTrace(funk.scriptName + ":" + funk.lastCalledFunction + " - " + e, false, false, FlxColor.RED);
+			}
+			#end
+		});
+		#end
 	}
 	#end
 }

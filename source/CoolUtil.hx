@@ -33,8 +33,13 @@ class CoolUtil
 		trace(snap);
 		return (m / snap);
 	}
-	
-	public static function getDifficultyFilePath(num:Null<Int> = null)
+
+	inline public static function capitalize(text:String)
+	{
+		return text.charAt(0).toUpperCase() + text.substr(1).toLowerCase();
+	}
+
+	inline public static function getDifficultyFilePath(num:Null<Int> = null)
 	{
 		if(num == null) num = PlayState.storyDifficulty;
 
@@ -55,11 +60,7 @@ class CoolUtil
 		return difficulties[PlayState.storyDifficulty].toUpperCase();
 	}
 
-	inline public static function boundTo(value:Float, min:Float, max:Float):Float {
-		return Math.max(min, Math.min(max, value));
-	}
-
-	public static function coolTextFile(path:String):Array<String>
+	inline public static function coolTextFile(path:String):Array<String>
 	{
 		#if sys
 		if(FileSystem.exists(path)) return [for (i in File.getContent(path).trim().split('\n')) i.trim()];
@@ -73,7 +74,8 @@ class CoolUtil
 	{
 		return [for (i in string.trim().split('\n')) i.trim()];
 	}
-	public static function dominantColor(sprite:flixel.FlxSprite):Int{
+
+	inline public static function dominantColor(sprite:flixel.FlxSprite):Int{
 		var countByColor:Map<Int, Int> = [];
 		for(col in 0...sprite.frameWidth){
 			for(row in 0...sprite.frameHeight){
@@ -105,11 +107,11 @@ class CoolUtil
 	}
 
 	//uhhhh does this even work at all? i'm starting to doubt
-	public static function precacheSound(sound:String, ?library:String = null):Void {
+	inline public static function precacheSound(sound:String, ?library:String = null):Void {
 		Paths.sound(sound, library);
 	}
 
-	public static function precacheMusic(sound:String, ?library:String = null):Void {
+	inline public static function precacheMusic(sound:String, ?library:String = null):Void {
 		Paths.music(sound, library);
 	}
 
@@ -126,7 +128,7 @@ class CoolUtil
 		so Base Psych saves won't conflict with yours
 		@BeastlyGabi
 	**/
-	public static function getSavePath(folder:String = 'Apro716'):String {
+	inline public static function getSavePath(folder:String = 'Apro716'):String {
 		@:privateAccess
 		return #if (flixel < "5.0.0") folder #else FlxG.stage.application.meta.get('company')
 			+ '/'

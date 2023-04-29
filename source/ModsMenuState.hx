@@ -429,14 +429,9 @@ class ModsMenuState extends MusicBeatState
 			}
 		}
 
-		if(controls.UI_UP_P && !noModsTxt.visible) // Thanks God https://github.com/ShadowMario/FNF-PsychEngine/pull/9587
+		if((controls.UI_DOWN_P || controls.UI_UP_P) && !noModsTxt.visible) // Thanks God https://github.com/ShadowMario/FNF-PsychEngine/pull/9587
 		{
-			changeSelection(-1);
-			FlxG.sound.play(Paths.sound('scrollMenu'));
-		}
-		if(controls.UI_DOWN_P && !noModsTxt.visible)
-		{
-			changeSelection(1);
+			changeSelection(controls.UI_UP_P ? -1 : 1);
 			FlxG.sound.play(Paths.sound('scrollMenu'));
 		}
 		if(FlxG.mouse.wheel != 0 && !noModsTxt.visible)
@@ -533,7 +528,7 @@ class ModsMenuState extends MusicBeatState
 			}
 			else
 			{
-				mod.alphabet.y = FlxMath.lerp(mod.alphabet.y, intendedPos, CoolUtil.boundTo(elapsed * 12, 0, 1));
+				mod.alphabet.y = FlxMath.lerp(mod.alphabet.y, intendedPos, FlxMath.bound(elapsed * 12, 0, 1));
 			}
 
 			if(i == curSelected)

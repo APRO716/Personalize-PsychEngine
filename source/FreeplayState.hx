@@ -107,11 +107,7 @@ class FreeplayState extends MusicBeatState
 			songText.targetY = i - curSelected;
 			grpSongs.add(songText);
 
-			var maxWidth = 980;
-			if (songText.width > maxWidth)
-			{
-				songText.scaleX = maxWidth / songText.width;
-			}
+			songText.scaleX = Math.min(1, 980 / songText.width);
 			songText.snapToPosition();
 
 			Paths.currentModDirectory = songs[i].folder;
@@ -198,8 +194,8 @@ class FreeplayState extends MusicBeatState
 		{
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
 		}
-		lerpScore = Math.floor(FlxMath.lerp(lerpScore, intendedScore, CoolUtil.boundTo(elapsed * 24, 0, 1)));
-		lerpRating = FlxMath.lerp(lerpRating, intendedRating, CoolUtil.boundTo(elapsed * 12, 0, 1));
+		lerpScore = Math.floor(FlxMath.lerp(lerpScore, intendedScore, FlxMath.bound(elapsed * 24, 0, 1)));
+		lerpRating = FlxMath.lerp(lerpRating, intendedRating, FlxMath.bound(elapsed * 12, 0, 1));
 
 		if (Math.abs(lerpScore - intendedScore) <= 10)
 			lerpScore = intendedScore;
@@ -217,24 +213,28 @@ class FreeplayState extends MusicBeatState
 		accuracy = Std.parseFloat(ratingSplit.join('.'));
 		scoreText.text = 'PERSONAL BEST: $lerpScore\nACCURACY : ${accuracy}%\nRANK : $rank';
 		positionHighscore();
-
-		var upP = controls.UI_UP_P;
-		var downP = controls.UI_DOWN_P;
 		var accepted = controls.ACCEPT;
 		var space = FlxG.keys.justPressed.SPACE;
-		var ctrl = FlxG.keys.justPressed.CONTROL;
 
 		var shiftMult:Int = 1;
 		if(FlxG.keys.pressed.SHIFT) shiftMult = 3;
 
 		if(songs.length > 1)
 		{
-			if (upP) {
-				changeSelection(-shiftMult);
-				holdTime = 0;
+			if(FlxG.keys.justPressed.HOME)
+			{
+				curSelected = 0;
+				changeSelection();
+				holdTime = 0;	
 			}
-			if (downP) {
-				changeSelection(shiftMult);
+			else if(FlxG.keys.justPressed.END)
+			{
+				curSelected = songs.length - 1;
+				changeSelection();
+				holdTime = 0;	
+			}
+			if (controls.UI_DOWN_P || controls.UI_UP_P) {
+				changeSelection(controls.UI_UP_P ? -shiftMult : shiftMult);
 				holdTime = 0;
 			}
 
@@ -317,7 +317,7 @@ class FreeplayState extends MusicBeatState
 			changeDiff(-1);
 		else if (controls.UI_RIGHT_P)
 			changeDiff(1);
-		else if (upP || downP) changeDiff();
+		else if (controls.UI_DOWN_P || controls.UI_UP_P) changeDiff();
 
 		if (controls.BACK)
 		{
@@ -329,7 +329,7 @@ class FreeplayState extends MusicBeatState
 			MusicBeatState.switchState(new MainMenuState());
 		}
 
-		if(ctrl)
+		if(FlxG.keys.justPressed.CONTROL)
 		{
 			persistentUpdate = false;
 			openSubState(new GameplayChangersSubstate());

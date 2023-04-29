@@ -1604,9 +1604,7 @@ class ChartingState extends MusicBeatState
 		var blockInput:Bool = false;
 		for (inputText in blockPressWhileTypingOn) {
 			if(inputText.hasFocus) {
-				FlxG.sound.muteKeys = [];
-				FlxG.sound.volumeDownKeys = [];
-				FlxG.sound.volumeUpKeys = [];
+				ClientPrefs.toggleVolumeKeys(false);
 				blockInput = true;
 				break;
 			}
@@ -1618,9 +1616,7 @@ class ChartingState extends MusicBeatState
 				var leText:Dynamic = stepper.text_field;
 				var leText:FlxUIInputText = leText;
 				if(leText.hasFocus) {
-					FlxG.sound.muteKeys = [];
-					FlxG.sound.volumeDownKeys = [];
-					FlxG.sound.volumeUpKeys = [];
+					ClientPrefs.toggleVolumeKeys(true);
 					blockInput = true;
 					break;
 				}
@@ -1628,9 +1624,7 @@ class ChartingState extends MusicBeatState
 		}
 
 		if(!blockInput) {
-			FlxG.sound.muteKeys = TitleState.muteKeys;
-			FlxG.sound.volumeDownKeys = TitleState.volumeDownKeys;
-			FlxG.sound.volumeUpKeys = TitleState.volumeUpKeys;
+			ClientPrefs.toggleVolumeKeys(true);
 			for (dropDownMenu in blockPressWhileScrolling) {
 				if(dropDownMenu.dropPanel.visible) {
 					blockInput = true;

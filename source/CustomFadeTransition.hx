@@ -5,6 +5,7 @@ import flixel.FlxG;
 import flixel.addons.ui.FlxUIState;
 import flixel.math.FlxRect;
 import flixel.util.FlxTimer;
+import flixel.math.FlxMath;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
@@ -26,7 +27,7 @@ class CustomFadeTransition extends MusicBeatSubstate {
 		super();
 
 		this.isTransIn = isTransIn;
-		var zoom:Float = CoolUtil.boundTo(FlxG.camera.zoom, 0.05, 1);
+		var zoom:Float = FlxMath.bound(FlxG.camera.zoom, 0.05, 1);
 		var width:Int = Std.int(FlxG.width / zoom);
 		var height:Int = Std.int(FlxG.height / zoom);
 		transGradient = FlxGradient.createGradientFlxSprite(1, height, (isTransIn ? [0x0, FlxColor.BLACK] : [FlxColor.BLACK, 0x0]));

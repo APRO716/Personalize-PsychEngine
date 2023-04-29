@@ -25,7 +25,6 @@ class PauseSubState extends MusicBeatSubstate
 	var curSelected:Int = 0;
 
 	var startedCountdown:Bool = false;
-	var stopspamming:Bool = false;
 
 	var pauseMusic:FlxSound;
 
@@ -156,17 +155,11 @@ class PauseSubState extends MusicBeatSubstate
 		super.update(elapsed);
 		updateSkipTextStuff();
 
-		var upP = controls.UI_UP_P;
-		var downP = controls.UI_DOWN_P;
 		var accepted = controls.ACCEPT || FlxG.mouse.justPressed;
 
-		if (upP && !startedCountdown)
+		if ((controls.UI_DOWN_P || controls.UI_UP_P) && !startedCountdown)
 		{
-			changeSelection(-1);
-		}
-		if (downP && !startedCountdown)
-		{
-			changeSelection(1);
+			changeSelection(controls.UI_UP_P ? -1 : 1 );
 		}
 		if (FlxG.mouse.wheel != 0 && !startedCountdown)
 		{
@@ -204,7 +197,7 @@ class PauseSubState extends MusicBeatSubstate
 				}
 		}
 
-		if (accepted && (cantUnpause <= 0 || !controls.controllerMode) && !stopspamming)
+		if (accepted && (cantUnpause <= 0 || !controls.controllerMode) && !startedCountdown)
 		{
 			if (menuItems == difficultyChoices)
 			{
@@ -228,7 +221,6 @@ class PauseSubState extends MusicBeatSubstate
 			switch (daSelected)
 			{
 				case "Resume":
-					stopspamming = true;
 					FlxG.mouse.visible = false;
 					if(PlayState.chartingMode || !PlayState.endCountdown) close(); //fixed countdown 2 times when countdown loaded song
 					else

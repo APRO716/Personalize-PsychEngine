@@ -178,22 +178,10 @@ class CreditsState extends MusicBeatState
 				var shiftMult:Int = 1;
 				if(FlxG.keys.pressed.SHIFT) shiftMult = 3;
 
-				var upP = controls.UI_UP_P;
-				var downP = controls.UI_DOWN_P;
-
-				if (upP)
+				if (controls.UI_DOWN_P || controls.UI_UP_P)
 				{
-					changeSelection(-shiftMult);
+					changeSelection(controls.UI_UP_P ? -shiftMult : shiftMult);
 					holdTime = 0;
-				}
-				if (downP)
-				{
-					changeSelection(shiftMult);
-					holdTime = 0;
-				}
-				if (FlxG.mouse.wheel != 0)
-				{
-					changeSelection(-FlxG.mouse.wheel * shiftMult);
 				}
 				if(controls.UI_DOWN || controls.UI_UP)
 				{
@@ -205,6 +193,10 @@ class CreditsState extends MusicBeatState
 					{
 						changeSelection((checkNewHold - checkLastHold) * (controls.UI_UP ? -shiftMult : shiftMult));
 					}
+				}
+				if (FlxG.mouse.wheel != 0)
+				{
+					changeSelection(-FlxG.mouse.wheel * shiftMult);
 				}
 			}
 
@@ -226,7 +218,7 @@ class CreditsState extends MusicBeatState
 		{
 			if(!item.bold)
 			{
-				var lerpVal:Float = CoolUtil.boundTo(elapsed * 12, 0, 1);
+				var lerpVal:Float = FlxMath.bound(elapsed * 12, 0, 1);
 				if(item.targetY == 0)
 				{
 					var lastX:Float = item.x;

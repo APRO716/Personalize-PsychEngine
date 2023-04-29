@@ -429,9 +429,7 @@ class WeekEditorState extends MusicBeatState
 		var blockInput:Bool = false;
 		for (inputText in blockPressWhileTypingOn) {
 			if(inputText.hasFocus) {
-				FlxG.sound.muteKeys = [];
-				FlxG.sound.volumeDownKeys = [];
-				FlxG.sound.volumeUpKeys = [];
+				ClientPrefs.toggleVolumeKeys(false);
 				blockInput = true;
 
 				if(FlxG.keys.justPressed.ENTER) inputText.hasFocus = false;
@@ -440,9 +438,7 @@ class WeekEditorState extends MusicBeatState
 		}
 
 		if(!blockInput) {
-			FlxG.sound.muteKeys = TitleState.muteKeys;
-			FlxG.sound.volumeDownKeys = TitleState.volumeDownKeys;
-			FlxG.sound.volumeUpKeys = TitleState.volumeUpKeys;
+			ClientPrefs.toggleVolumeKeys(true);
 			if(FlxG.keys.justPressed.ESCAPE) {
 				MusicBeatState.switchState(new editors.MasterEditorMenu());
 				FlxG.sound.playMusic(Paths.music('freakyMenu'));
@@ -790,23 +786,20 @@ class WeekEditorFreeplayState extends MusicBeatState
 		}
 		
 		if(iconInputText.hasFocus) {
-			FlxG.sound.muteKeys = [];
-			FlxG.sound.volumeDownKeys = [];
-			FlxG.sound.volumeUpKeys = [];
+			ClientPrefs.toggleVolumeKeys(false);
 			if(FlxG.keys.justPressed.ENTER) {
 				iconInputText.hasFocus = false;
 			}
 		} else {
-			FlxG.sound.muteKeys = TitleState.muteKeys;
-			FlxG.sound.volumeDownKeys = TitleState.volumeDownKeys;
-			FlxG.sound.volumeUpKeys = TitleState.volumeUpKeys;
+			ClientPrefs.toggleVolumeKeys(true);
 			if(FlxG.keys.justPressed.ESCAPE) {
 				MusicBeatState.switchState(new editors.MasterEditorMenu());
 				FlxG.sound.playMusic(Paths.music('freakyMenu'));
 			}
 
-			if(controls.UI_UP_P) changeSelection(-1);
-			if(controls.UI_DOWN_P) changeSelection(1);
+			if(controls.UI_DOWN_P || controls.UI_UP_P) changeSelection(controls.UI_UP_P ? -1 : 1);
+			
+			if(FlxG.mouse.wheel != 0) changeSelection(-FlxG.mouse.wheel);
 		}
 		super.update(elapsed);
 	}

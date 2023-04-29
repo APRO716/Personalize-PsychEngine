@@ -16,6 +16,7 @@ import flixel.graphics.FlxGraphic;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import flixel.math.FlxPoint;
+import flixel.math.FlxMath;
 import flixel.addons.ui.FlxInputText;
 import flixel.addons.ui.FlxUI9SliceSprite;
 import flixel.addons.ui.FlxUI;
@@ -1027,16 +1028,12 @@ class CharacterEditorState extends MusicBeatState
 		var inputTexts:Array<FlxUIInputText> = [animationInputText, imageInputText, healthIconInputText, animationNameInputText, animationIndicesInputText];
 		for (i in 0...inputTexts.length) {
 			if(inputTexts[i].hasFocus) {
-				FlxG.sound.muteKeys = [];
-				FlxG.sound.volumeDownKeys = [];
-				FlxG.sound.volumeUpKeys = [];
+				ClientPrefs.toggleVolumeKeys(false);
 				super.update(elapsed);
 				return;
 			}
 		}
-		FlxG.sound.muteKeys = TitleState.muteKeys;
-		FlxG.sound.volumeDownKeys = TitleState.volumeDownKeys;
-		FlxG.sound.volumeUpKeys = TitleState.volumeUpKeys;
+		ClientPrefs.toggleVolumeKeys(true);
 
 		if(!charDropDown.dropPanel.visible) {
 			if (FlxG.keys.justPressed.ESCAPE) {
@@ -1146,8 +1143,8 @@ class CharacterEditorState extends MusicBeatState
 
 		if (FlxG.mouse.justPressedRight)
 		{
-			lastPosition.set(CoolUtil.boundTo(FlxG.mouse.getScreenPosition().x, 0, FlxG.width), 
-			CoolUtil.boundTo(FlxG.mouse.getScreenPosition().y, 0, FlxG.height));
+			lastPosition.set(FlxMath.bound(FlxG.mouse.getScreenPosition().x, 0, FlxG.width), 
+			FlxMath.bound(FlxG.mouse.getScreenPosition().y, 0, FlxG.height));
 		}
 	
 		if (FlxG.mouse.pressedRight) // draggable camera with mouse movement
@@ -1161,11 +1158,11 @@ class CharacterEditorState extends MusicBeatState
 				if (FlxG.keys.pressed.SHIFT)
 					mult = 4;
 					
-				camFollow.x = camFollow.x - -CoolUtil.boundTo(mouseDiff.x, -FlxG.width, FlxG.width) * mult;
-				camFollow.y = camFollow.y - -CoolUtil.boundTo(mouseDiff.y, -FlxG.height, FlxG.height) * mult;
+				camFollow.x = camFollow.x - -FlxMath.bound(mouseDiff.x, -FlxG.width, FlxG.width) * mult;
+				camFollow.y = camFollow.y - -FlxMath.bound(mouseDiff.y, -FlxG.height, FlxG.height) * mult;
 	
-				lastPosition.set(CoolUtil.boundTo(FlxG.mouse.getScreenPosition().x, 0, FlxG.width), 
-				CoolUtil.boundTo(FlxG.mouse.getScreenPosition().y, 0, FlxG.height));
+				lastPosition.set(FlxMath.bound(FlxG.mouse.getScreenPosition().x, 0, FlxG.width), 
+				FlxMath.bound(FlxG.mouse.getScreenPosition().y, 0, FlxG.height));
 			}
 		}
 

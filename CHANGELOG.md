@@ -1,4 +1,14 @@
-## Unnamed (15 April 2023)
+## [Update2] - Ligma Balls (29 April 2023)
+- Fixed character editor mouse not shown when enter via playstate
+- Update some codebase to 0.7b
+- Ayooo Optimize code in many file (30 files+) & Lil but Smoother Gameplay
+- Fixed storymode end show wrong press text
+- Fully support Hold up & down selection (except in storymenu because of lag)
+- Optimize(?) mouse scroll & shorten up down press code
+- Fixed Haxe 4.3.0 compiling CR https://github.com/ShadowMario/FNF-PsychEngine/pull/12305
+- GO TOUCH GRASS & EXERCISE EVERYDAY NOW FATASS!!!
+
+## [Update1] - Unnamed (15 April 2023)
 - No more Version Number (Cringe :>)
 - Mouse Click to the current person in Credit menu will load website too
 - Softcoded Score Text in GameOver screen (For custom score text lua script)

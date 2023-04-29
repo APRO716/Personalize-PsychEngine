@@ -192,7 +192,7 @@ class StoryMenuState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
-		lerpScore = Math.floor(FlxMath.lerp(lerpScore, intendedScore, CoolUtil.boundTo(elapsed * 30, 0, 1)));
+		lerpScore = Math.floor(FlxMath.lerp(lerpScore, intendedScore, FlxMath.bound(elapsed * 30, 0, 1)));
 		if(Math.abs(intendedScore - lerpScore) < 10) lerpScore = intendedScore;
 
 		scoreText.text = "WEEK SCORE:" + lerpScore;
@@ -201,17 +201,9 @@ class StoryMenuState extends MusicBeatState
 
 		if (!movedBack && !selectedWeek)
 		{
-			var upP = controls.UI_UP_P;
-			var downP = controls.UI_DOWN_P;
-			if (upP)
+			if (controls.UI_UP_P || controls.UI_DOWN_P)
 			{
-				changeWeek(-1);
-				FlxG.sound.play(Paths.sound('scrollMenu'));
-			}
-
-			if (downP)
-			{
-				changeWeek(1);
+				changeWeek(controls.UI_UP_P ? -1 : 1);
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 			}
 

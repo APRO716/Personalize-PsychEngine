@@ -11,6 +11,13 @@ class Controls
 	//Keeping same use cases on stuff for it to be easier to understand/use
 	//I'd have removed it but this makes it a lot less annoying to use in my opinion
 
+	//You do NOT have to create these variables/getters for adding new keys,
+	//but you will instead have to use:
+	//   controls.justPressed("ui_up")   instead of   controls.UI_UP
+
+	//Dumb but easily usable code, or Smart but complicated? Your choice.
+	//Also idk how to use macros they're weird as fuck lol
+
 	// Pressed buttons (directions)
 	public var UI_UP_P(get, never):Bool;
 	public var UI_DOWN_P(get, never):Bool;
@@ -150,18 +157,11 @@ class Controls
 		return false;
 	}
 
-
 	// IGNORE THESE
 	public static var instance:Controls;
 	public function new()
 	{
-		//nothing, haxe just wants it
-	}
-	
-	public static function init()
-	{
-		instance = new Controls();
-		instance.keyboardBinds = ClientPrefs.keyBinds;
-		instance.gamepadBinds = ClientPrefs.gamepadBinds;
+		keyboardBinds = ClientPrefs.keyBinds;
+		gamepadBinds = ClientPrefs.gamepadBinds;
 	}
 }
