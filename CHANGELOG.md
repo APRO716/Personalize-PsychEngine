@@ -1,7 +1,11 @@
+## [Update2Hotfix] - (30 April 2023)
+- Temporary Fixed for Sound Flixel 5.3.0 (Not Completely fixed with other libraries)
+- GitHub action is works now
+
 ## [Update2] - Ligma Balls (29 April 2023)
 - Fixed character editor mouse not shown when enter via playstate
 - Update some codebase to 0.7b
-- Ayooo Optimize code in many file (30 files+) & Lil but Smoother Gameplay
+- Ayooo Optimize code in many file (30 files+) & Lil bit Smoother Gameplay
 - Fixed storymode end show wrong press text
 - Fully support Hold up & down selection (except in storymenu because of lag)
 - Optimize(?) mouse scroll & shorten up down press code

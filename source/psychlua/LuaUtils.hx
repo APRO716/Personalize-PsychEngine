@@ -13,7 +13,6 @@ import flixel.util.FlxTimer;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
 
-
 #if LUA_ALLOWED
 import llua.Lua;
 import llua.LuaL;

@@ -1,5 +1,5 @@
-#if (flixel < "5.3.0")
-package flixel.system;
+#if (flixel >= "5.3.0")
+package flixel.sound;
 
 import flash.events.IEventDispatcher;
 import flash.events.Event;
