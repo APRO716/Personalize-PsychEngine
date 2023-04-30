@@ -268,11 +268,13 @@ class ControlsSubState extends MusicBeatSubstate {
 			if(FlxG.keys.justPressed.UP || FlxG.gamepads.anyJustPressed(DPAD_UP) || FlxG.gamepads.anyJustPressed(LEFT_STICK_DIGITAL_UP)) updateText(-1);
 			else if(FlxG.keys.justPressed.DOWN || FlxG.gamepads.anyJustPressed(DPAD_DOWN) || FlxG.gamepads.anyJustPressed(LEFT_STICK_DIGITAL_DOWN)) updateText(1);
 
+			if (FlxG.mouse.wheel != 0) updateText(-FlxG.mouse.wheel);
+
 			if(FlxG.keys.justPressed.ENTER || FlxG.gamepads.anyJustPressed(START) || FlxG.gamepads.anyJustPressed(A))
 			{
 				if(options[curOptions[curSelected]][1] != defaultKey)
 				{
-					bindingBlack = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, /*FlxColor.BLACK*/ FlxColor.WHITE);
+					bindingBlack = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.WHITE);
 					bindingBlack.alpha = 0;
 					FlxTween.tween(bindingBlack, {alpha: 0.6}, 0.35, {ease: FlxEase.linear});
 					add(bindingBlack);
@@ -463,6 +465,7 @@ class ControlsSubState extends MusicBeatSubstate {
 		{
 			item.targetY = item.ID - num - addNum;
 			item.alpha = (item.ID - num == 0) ? 1 : 0.6;
+			item.color = (item.ID - num == 0) ? 0xFFCDCA44 : 0xFFFFFFFF;
 		});
 		grpBinds.forEachAlive(function(item:Alphabet)
 		{
