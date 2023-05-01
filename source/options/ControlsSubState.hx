@@ -237,7 +237,7 @@ class ControlsSubState extends MusicBeatSubstate {
 	}
 
 	var binding:Bool = false;
-	var holdingEsc:Float = 0;
+	var holdTime:Float = 0;
 	var bindingBlack:FlxSprite;
 	var bindingText:Alphabet;
 	var bindingText2:Alphabet;
@@ -265,12 +265,31 @@ class ControlsSubState extends MusicBeatSubstate {
 			if(FlxG.keys.justPressed.LEFT || FlxG.keys.justPressed.RIGHT || FlxG.gamepads.anyJustPressed(DPAD_LEFT) || FlxG.gamepads.anyJustPressed(DPAD_RIGHT) ||
 				FlxG.gamepads.anyJustPressed(LEFT_STICK_DIGITAL_LEFT) || FlxG.gamepads.anyJustPressed(LEFT_STICK_DIGITAL_RIGHT)) updateAlt(true);
 
-			if(FlxG.keys.justPressed.UP || FlxG.gamepads.anyJustPressed(DPAD_UP) || FlxG.gamepads.anyJustPressed(LEFT_STICK_DIGITAL_UP)) updateText(-1);
-			else if(FlxG.keys.justPressed.DOWN || FlxG.gamepads.anyJustPressed(DPAD_DOWN) || FlxG.gamepads.anyJustPressed(LEFT_STICK_DIGITAL_DOWN)) updateText(1);
+			if(FlxG.keys.justPressed.UP || FlxG.gamepads.anyJustPressed(DPAD_UP) || FlxG.gamepads.anyJustPressed(LEFT_STICK_DIGITAL_UP)){
+				updateText(-1);
+				holdTime = 0;
+			}
+			else if(FlxG.keys.justPressed.DOWN || FlxG.gamepads.anyJustPressed(DPAD_DOWN) || FlxG.gamepads.anyJustPressed(LEFT_STICK_DIGITAL_DOWN)){
+				updateText(1);
+				holdTime = 0;
+			}
+
+			if(FlxG.keys.pressed.UP || FlxG.gamepads.anyPressed(DPAD_UP) || FlxG.gamepads.anyPressed(LEFT_STICK_DIGITAL_UP)){
+				var checkLastHold:Int = Math.floor((holdTime - 0.5) * 10);
+				holdTime += elapsed;
+				var checkNewHold:Int = Math.floor((holdTime - 0.5) * 10);
+				if (holdTime > 0.5 && checkNewHold - checkLastHold > 0) updateText(-(checkNewHold - checkLastHold));
+			}
+			else if(FlxG.keys.pressed.DOWN || FlxG.gamepads.anyPressed(DPAD_DOWN) || FlxG.gamepads.anyPressed(LEFT_STICK_DIGITAL_DOWN)){
+				var checkLastHold:Int = Math.floor((holdTime - 0.5) * 10);
+				holdTime += elapsed;
+				var checkNewHold:Int = Math.floor((holdTime - 0.5) * 10);
+				if (holdTime > 0.5 && checkNewHold - checkLastHold > 0) updateText(checkNewHold - checkLastHold);
+			}
 
 			if (FlxG.mouse.wheel != 0) updateText(-FlxG.mouse.wheel);
 
-			if(FlxG.keys.justPressed.ENTER || FlxG.gamepads.anyJustPressed(START) || FlxG.gamepads.anyJustPressed(A))
+			if(FlxG.keys.justPressed.ENTER || FlxG.gamepads.anyJustPressed(START) || FlxG.gamepads.anyJustPressed(A) || FlxG.mouse.justPressed)
 			{
 				if(options[curOptions[curSelected]][1] != defaultKey)
 				{
@@ -288,7 +307,7 @@ class ControlsSubState extends MusicBeatSubstate {
 					add(bindingText2);
 
 					binding = true;
-					holdingEsc = 0;
+					holdTime = 0;
 					ClientPrefs.toggleVolumeKeys(false);
 					FlxG.sound.play(Paths.sound('scrollMenu'));
 				}
@@ -311,8 +330,8 @@ class ControlsSubState extends MusicBeatSubstate {
 			var curOption:Array<Dynamic> = options[curOptions[curSelected]];
 			if(FlxG.keys.pressed.ESCAPE || FlxG.gamepads.anyPressed(B))
 			{
-				holdingEsc += elapsed;
-				if(holdingEsc > 0.5)
+				holdTime += elapsed;
+				if(holdTime > 0.5)
 				{
 					FlxG.sound.play(Paths.sound('cancelMenu'));
 					closeBinding();
@@ -320,8 +339,8 @@ class ControlsSubState extends MusicBeatSubstate {
 			}
 			else if (FlxG.keys.pressed.BACKSPACE || FlxG.gamepads.anyPressed(BACK))
 			{
-				holdingEsc += elapsed;
-				if(holdingEsc > 0.5)
+				holdTime += elapsed;
+				if(holdTime > 0.5)
 				{
 					ClientPrefs.keyBinds.get(curOption[2])[altNum] = NONE;
 					ClientPrefs.clearInvalidKeys(curOption[2]);
@@ -332,7 +351,7 @@ class ControlsSubState extends MusicBeatSubstate {
 			}
 			else
 			{
-				holdingEsc = 0;
+				holdTime = 0;
 				var changed:Bool = false;
 				var curKeys:Array<FlxKey> = ClientPrefs.keyBinds.get(curOption[2]);
 				var curButtons:Array<FlxGamepadInputID> = ClientPrefs.gamepadBinds.get(curOption[2]);

@@ -13,7 +13,7 @@ import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 
-//"Static access to instance field (varible) is not allowed" mean you stupid go read kade version lol -hiro
+//"Static access to instance field (varible) is not allowed" mean you stupid go read kade version lol -hiro not hilo
 
 using StringTools;
 
