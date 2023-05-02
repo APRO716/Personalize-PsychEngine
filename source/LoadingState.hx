@@ -159,7 +159,7 @@ class LoadingState extends MusicBeatState
 		}
 		#end
 
-		if (ClientPrefs.loadingScreen && !loaded)
+		if (ClientPrefs.loadingScreen && !loaded) //shit! it's actually work with #if NO_PRELOAD_ALL wow :O
 			return new LoadingState(target, stopMusic, directory);
 		if (stopMusic && FlxG.sound.music != null)
 			FlxG.sound.music.stop();

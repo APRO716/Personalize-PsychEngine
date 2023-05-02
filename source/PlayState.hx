@@ -318,8 +318,8 @@ class PlayState extends MusicBeatState
 
 	// Lua shit
 	public static var instance:PlayState = null;
-	public var luaArray:Array<FunkinLua> = [];
 	#if LUA_ALLOWED
+	public var luaArray:Array<FunkinLua> = [];
 	private var luaDebugGroup:FlxTypedGroup<DebugLuaText>;
 	#end
 	public var introSoundsSuffix:String = '';
@@ -4666,13 +4666,13 @@ class PlayState extends MusicBeatState
 	}
 
 	override function destroy() {
+		#if LUA_ALLOWED
 		for (lua in luaArray) {
 			lua.call('onDestroy', []);
 			lua.stop();
 		}
 		luaArray = [];
 
-		#if LUA_ALLOWED
 		Lua_helper.callbacks.clear();
 		#end
 
