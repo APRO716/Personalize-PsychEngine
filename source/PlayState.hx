@@ -28,7 +28,7 @@ import flixel.math.FlxPoint;
 import flixel.math.FlxRect;
 #if (flixel >= "5.3.0")
 import flixel.sound.FlxSound;
-#else
+#else 
 import flixel.system.FlxSound;
 #end
 import flixel.text.FlxText;
@@ -4067,10 +4067,9 @@ class PlayState extends MusicBeatState
 				sortedNotesList.sort(sortHitNotes);
 
 				if (sortedNotesList.length > 0) {
-					for (epicNote in sortedNotesList)
-					{
+					for (epicNote in sortedNotesList) {
 						for (doubleNote in pressNotes) {
-							if (Math.abs(doubleNote.strumTime - epicNote.strumTime) < 1) {
+							if (!doubleNote.isSustainNote && Math.abs(doubleNote.strumTime - epicNote.strumTime) < 2) {
 								doubleNote.kill();
 								notes.remove(doubleNote, true);
 								doubleNote.destroy();
@@ -4247,7 +4246,7 @@ class PlayState extends MusicBeatState
 			songMisses++;
 			totalPlayed++;
 			vocals.volume = 0;
-			health -= (daNote.nextNote != null || daNote.nextNote.countMiss ? daNote.missHealth : 0) * healthLoss; // More Accurate lol
+			health -= (daNote.nextNote != null ? daNote.missHealth : 0) * healthLoss; // More Accurate lol (Completely Fixed?)
 			RecalculateRating(true);
 
 			var char:Character = boyfriend;

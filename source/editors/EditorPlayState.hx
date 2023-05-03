@@ -551,10 +551,9 @@ class EditorPlayState extends MusicBeatState
 				sortedNotesList.sort(sortHitNotes);
 
 				if (sortedNotesList.length > 0) {
-					for (epicNote in sortedNotesList)
-					{
+					for (epicNote in sortedNotesList) {
 						for (doubleNote in pressNotes) {
-							if (Math.abs(doubleNote.strumTime - epicNote.strumTime) < 1) {
+							if (!doubleNote.isSustainNote && Math.abs(doubleNote.strumTime - epicNote.strumTime) < 2) {
 								doubleNote.kill();
 								notes.remove(doubleNote, true);
 								doubleNote.destroy();
@@ -572,10 +571,9 @@ class EditorPlayState extends MusicBeatState
 							goodNoteHit(epicNote);
 						}
 					}
+				} else if (canMiss) {
+					noteMissPress();
 				}
-				else if (canMiss) {
-						noteMissPress();
-					}
 
 				//more accurate hit time for the ratings? part 2 (Now that the calculations are done, go back to the time it was before for not causing a note stutter)
 				Conductor.songPosition = lastTime;
