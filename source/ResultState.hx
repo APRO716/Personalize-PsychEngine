@@ -64,6 +64,7 @@ class ResultState extends MusicBeatState
             destroyText();
             if (PlayState.isStoryMode){
                 if(PlayState.storyPlaylist.length <= 0){
+                    FlxG.mouse.visible = true;
                     FlxG.sound.playMusic(Paths.music('freakyMenu'));
                     MusicBeatState.switchState(new StoryMenuState());
                 }else{
@@ -77,6 +78,7 @@ class ResultState extends MusicBeatState
                 }
             }else{
                 trace('WENT BACK TO FREEPLAY??');
+                FlxG.mouse.visible = true;
                 MusicBeatState.switchState(new FreeplayState());
                 FlxG.sound.playMusic(Paths.music('freakyMenu'));
             }

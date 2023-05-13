@@ -1667,20 +1667,17 @@ class ChartingState extends MusicBeatState
 				}
 			}
 
-
 			if (FlxG.keys.justPressed.BACKSPACE) {
 				autosaveSong();
 				PlayState.chartingMode = false;
 				MusicBeatState.switchState(new editors.MasterEditorMenu());
 				FlxG.sound.playMusic(Paths.music('freakyMenu'));
-				FlxG.mouse.visible = false;
 				return;
 			}
 
 			if(FlxG.keys.justPressed.Z && FlxG.keys.pressed.CONTROL) {
 				undo();
 			}
-
 
 
 			if(FlxG.keys.justPressed.Z && curZoom > 0 && !FlxG.keys.pressed.CONTROL) {
@@ -2119,7 +2116,7 @@ class ChartingState extends MusicBeatState
 
 		if (FlxG.save.data.chart_waveformInst) {
 			var sound:FlxSound = FlxG.sound.music;
-			if (sound.buffer != null) {
+			if (sound != null && sound.buffer != null) {
 				var bytes:Bytes = sound.buffer.data.toBytes();
 
 				wavData = waveformData(

@@ -28,7 +28,7 @@ import flixel.math.FlxPoint;
 import flixel.math.FlxRect;
 #if (flixel >= "5.3.0")
 import flixel.sound.FlxSound;
-#else 
+#else
 import flixel.system.FlxSound;
 #end
 import flixel.text.FlxText;
@@ -194,7 +194,7 @@ class PlayState extends MusicBeatState
 	public var health:Float = 1;
 	public var combo:Int = 0;
 
-	var displayedHealth:Float = 0;
+	public var displayedHealth:Float = 0;
 	private var healthBarBG:AttachedSprite;
 	public var healthBar:FlxBar;
 	var songPercent:Float = 0;
@@ -1427,7 +1427,7 @@ class PlayState extends MusicBeatState
 		#end
 	}
 
-	function startAndEnd()
+	inline function startAndEnd()
 	{
 		if(endingSong)
 			endSong();
@@ -3040,7 +3040,6 @@ class PlayState extends MusicBeatState
 								}
 								noteMiss(daNote);
 							}
-
 							daNote.active = daNote.visible = false;
 
 							daNote.kill();
@@ -3664,8 +3663,6 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		FlxG.mouse.visible = true;
-
 		timeBarBG.visible = timeBar.visible = timeTxt.visible = false;
 		canPause = false;
 		endingSong = true;
@@ -4069,7 +4066,7 @@ class PlayState extends MusicBeatState
 				if (sortedNotesList.length > 0) {
 					for (epicNote in sortedNotesList) {
 						for (doubleNote in pressNotes) {
-							if (!doubleNote.isSustainNote && Math.abs(doubleNote.strumTime - epicNote.strumTime) < 2) {
+							if (Math.abs(doubleNote.strumTime - epicNote.strumTime) < 2) {
 								doubleNote.kill();
 								notes.remove(doubleNote, true);
 								doubleNote.destroy();

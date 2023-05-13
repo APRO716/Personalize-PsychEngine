@@ -347,9 +347,9 @@ class TitleState extends MusicBeatState
 		var pressedEnter:Bool = FlxG.keys.justPressed.ENTER || controls.ACCEPT || FlxG.mouse.justPressed;
 
 		#if desktop
-		if (FlxG.keys.justPressed.ESCAPE && initialized && !pressedEnter && !stopplz) // THANK YOU BeastlyGhost idk i write correct
+		if (FlxG.keys.justPressed.ESCAPE && initialized && !pressedEnter && !stopplz) // THANK YOU BeastlyGhost
 		{
-			stopplz = true;
+			stopplz = true; // prevent spam cancelmenu sound lol
 			FlxG.sound.play(Paths.sound("cancelMenu"), 0.8);
 			FlxG.sound.music.fadeOut(0.3);
 			FlxG.camera.fade(FlxColor.BLACK, 0.5, false, function()
@@ -409,7 +409,7 @@ class TitleState extends MusicBeatState
 					titleText.color = FlxColor.WHITE;
 					titleText.alpha = 1;
 					titleText.animation.play('press');
-				};
+				}
 
 				FlxG.camera.flash(ClientPrefs.flashing ? FlxColor.WHITE : 0x4CFFFFFF, 1);
 				FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
